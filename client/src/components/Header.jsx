@@ -18,7 +18,7 @@ export default function Header() {
         </form>
         <ul className="flex gap-5">
           <Link to="/">
-            <li className="text-primary-color font-semibold hidden sm:inline">
+          <li className="text-primary-color font-semibold hidden  sm:inline">
               Home
             </li>
           </Link>
