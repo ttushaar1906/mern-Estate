@@ -1,4 +1,3 @@
-import exp from "constants";
 import mongoose from "mongoose";
 
 // we are creating schemas i.e rules for user modules
@@ -16,7 +15,6 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        
         require:true,
     }
 },{ timestamps : true});
