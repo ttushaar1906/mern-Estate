@@ -1,7 +1,9 @@
 import User from "../models/user.module.js";
 import bcryptjs from 'bcryptjs'
+import { errorHandler } from "../utils/error.js";
+import jwt from 'jsonwebtoken'
 
-export const signUp = async (req, res ,next) => {
+export const signUp = async (req, res, next) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcryptjs.hashSync(password, 10)  //10 is a salt number used for hashing password
     const newUser = new User({ username, email, password: hashedPassword });
@@ -15,3 +17,18 @@ export const signUp = async (req, res ,next) => {
         next(error);
     }
 };
+
+export const signIn = async (req, res, next) => {
+    const { email, password } = req.body;
+    try {
+        const userValid = await User.findOne({ email });
+        if (!userValid) return next(errorHandler(404, 'User not found!'))
+        const validPassword = bcryptjs.compareSync(password, userValid.password);
+        if (!validPassword) return next(errorHandler(404, "Incorrect Credentials"))
+        const token = jwt.sign({ id: userValid._id }, process.env.JWT_SECRET)
+        res.cookie('access_token', token, { http: true }).status(200).json(userValid)
+    }
+    catch (error) {
+        next(error);
+    }
+}
