@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate  } from "react-router-dom";
 import { useState } from "react";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -15,29 +16,30 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading state before the fetch call
     try {
-      const res = await fetch("/api/auth/signUp", {
-        method: "POST",
+      setLoading(true);
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
         headers: {
-          "Content-type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (!res.ok) {
+      console.log(data);
+      if (data.success === false) {
+        setLoading(false);
         setError(data.message);
-      } else {
-        console.log(data); // Handle successful response here
+        return;
       }
+      setLoading(false);
+      setError(null);
+      navigate('/sign-in');
     } catch (error) {
+      setLoading(false);
       setError(error.message);
-    } finally {
-      setLoading(false); // Reset loading state
-      
     }
   };
-
   return (
     <div className="max-w-lg m-auto p-4 shadow-lg bg-gray-200 mt-4">
       <h1 className="text-center py-8 font-bold text-3xl">Sign Up</h1>
