@@ -3,27 +3,43 @@ import { useState } from "react";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
-  const handleChange = (e)=>{
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]:e.target.value,
+      [e.target.id]: e.target.value,
     });
-  }
-  const handleSubmit = async(e)=>{
-    e.preventDefault()
-    const res = await fetch('/api/auth/signUp', {
-      method:"POST",
-      headers:{
-        'Content-type':'application/json',
-      },
-      body:JSON.stringify(formData),
-    });
-    const data = await res.json();
-    console.log(data)
-  }
-  console.log(formData)
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true); // Set loading state before the fetch call
+    try {
+      const res = await fetch("/api/auth/signUp", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.message);
+      } else {
+        console.log(data); // Handle successful response here
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false); // Reset loading state
+      
+    }
+  };
+
   return (
-    <div className="max-w-lg m-auto p-4 shadow-lg bg-grey mt-4">
+    <div className="max-w-lg m-auto p-4 shadow-lg bg-gray-200 mt-4">
       <h1 className="text-center py-8 font-bold text-3xl">Sign Up</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -47,13 +63,19 @@ export default function SignUp() {
           id="password"
           onChange={handleChange}
         />
-        <button className="p-2 border uppercase rounded-md font-bold bg-third-color text-primary-color hover:bg-secondary-color hover:text-white">
-          Sign Up
+        <button
+          disabled={loading}
+          className="p-2 border uppercase rounded-md font-bold bg-third-color text-primary-color hover:bg-secondary-color hover:text-white"
+        >
+          {loading ? "Loading...." : "Sign Up"}
         </button>
         <div className="flex gap-2">
           <p>Already have an account?</p>
-          <Link to="/sign-in"><span className="text-primary-color font-bold">Sign In</span></Link>
+          <Link to="/sign-in">
+            <span className="text-primary-color font-bold">Sign In</span>
+          </Link>
         </div>
+        {error && <p className="text-red mt-4">{error}</p>}
       </form>
     </div>
   );

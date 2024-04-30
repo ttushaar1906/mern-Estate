@@ -13,7 +13,9 @@ export default {
       'third-color':'#1C1C1C',
       'black':'#000',
       'white':'#fff',
-      'grey':'#fafafa'
+      'grey':'#fafafa',
+      'red':'#FF0000'
+
     }
     
   },

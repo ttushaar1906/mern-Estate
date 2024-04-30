@@ -1,8 +1,14 @@
 import { FaSearch } from "react-icons/fa";
-import { Link  } from "react-router-dom";
+import { Link , useLocation  } from "react-router-dom";
 export default function Header() {
+  const location = useLocation()
+  const checkedPath = [
+    '/sign-up'
+  ];
+  const unAbledNavbar = checkedPath.includes(location.pathname)
   return (
     <header className="bg-secondary-color shadow-md">
+      {!unAbledNavbar && (
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
           <span className="text-primary-color">Tushar </span>
@@ -32,6 +38,7 @@ export default function Header() {
           </Link>
         </ul>
       </div>
+      )}
     </header>
   );
 }
