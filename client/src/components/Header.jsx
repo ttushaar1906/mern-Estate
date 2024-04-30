@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link  } from "react-router-dom";
 export default function Header() {
   return (
     <header className="bg-secondary-color shadow-md">
