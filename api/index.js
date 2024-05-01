@@ -1,15 +1,14 @@
-// index.js (or main server file)
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/authRouter.js'; // Update the import path
 
-dotenv.config();
+dotenv.config({ path: "./.env", });
 
 mongoose
   .connect(
-    "mongodb+srv://ttushaar45:tushar1906@cluster0.dtjlqer.mongodb.net/estate_mern?retryWrites=true&w=majority&appName=Cluster0",
+    `${process.env.mdbC}`
   )
   .then(() => {
     console.log('Connected to database');
@@ -28,7 +27,7 @@ app.listen(3000, () => {
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 
-app.use((err, req, res, next)=>{
+app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
   return res.status(statusCode).json({
