@@ -11,8 +11,3 @@
     margin: auto;
     flex-wrap: wrap;
 }
-.img{
-    /* border: 2px solid; */
-    object-fit: cover;
-    mix-blend-mode: multiply;
-}

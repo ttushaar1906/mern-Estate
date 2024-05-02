@@ -3,7 +3,8 @@ import { Link , useLocation  } from "react-router-dom";
 export default function Header() {
   const location = useLocation()
   const checkedPath = [
-    '/sign-up'
+    '/sign-up',
+    '/sign-in'
   ];
   const unAbledNavbar = checkedPath.includes(location.pathname)
   return (
