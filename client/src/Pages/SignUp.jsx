@@ -41,7 +41,8 @@ export default function SignUp() {
     }
   };
   return (
-    <div className="max-w-lg m-auto p-4 shadow-lg bg-gray-200 mt-4">
+    <div className="test">
+    <div className="max-w-lg m-auto p-4 shadow-lg bg-gray-200">
       <h1 className="text-center py-8 font-bold text-3xl">Sign Up</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -79,6 +80,7 @@ export default function SignUp() {
         </div>
         {error && <p className="text-red mt-4">{error}</p>}
       </form>
+    </div>
     </div>
   );
 }
