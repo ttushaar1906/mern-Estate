@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -44,7 +45,7 @@ const {loading, error} = useSelector((state)=> state.user)
       <div className="w-1/2 order-1 sm:order-2 shadow-sm">
         <img src="../src/assets/loginImg.jpeg" alt="" className="w-full object-cover bg-no-repeat block m-auto" />
       </div>
-      <div className="max-w-lg p-2 bg-grey w-1/2 sm:order-1 shadow-md ">
+      <div className="max-w-lg p-2 bg-grey w-1/2 sm:order-1">
         <h1 className="text-center py-6 font-bold text-3xl">Sign In</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
           <input
@@ -67,6 +68,7 @@ const {loading, error} = useSelector((state)=> state.user)
           >
             {loading ? "Loading...." : "Sign In"}
           </button>
+          <OAuth />
           <div className="flex gap-2">
             <p>Don't have an account?</p>
             <Link to="/sign-up">
