@@ -16,7 +16,10 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         require:true,
-    }
+    },
+    avatar:{
+        type:String
+    },
 },{ timestamps : true});
 
 //timestamps is used to keep record of account created and account updated
