@@ -1,6 +1,9 @@
 import { FaSearch } from "react-icons/fa";
 import { Link , useLocation  } from "react-router-dom";
+import {useSelector} from 'react-redux'
+
 export default function Header() {
+  const {currentUser} = useSelector(state => state.user)
   const location = useLocation()
   const checkedPath = [
     '/sign-up',
@@ -35,8 +38,11 @@ export default function Header() {
             </li>
           </Link>
           <Link to="/sign-in">
+          {currentUser ? (
+            <img className="rounded-full h-8 w-8 object-cover" src={currentUser.avatar} alt="profile" />  
+          ):(
             <li className="text-primary-color font-semibold">Sign In</li>
-          </Link>
+          )}</Link>
         </ul>
       </div>
       )}

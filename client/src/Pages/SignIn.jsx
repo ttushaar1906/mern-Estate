@@ -41,7 +41,7 @@ const {loading, error} = useSelector((state)=> state.user)
     } 
   };
   return (
-    <div className="container flex-col mt-0 sm:flex-row sm:mt-24 shadow-lg">
+    <div className="container flex-col justify-center mt-0 sm:flex-row sm:mt-24 shadow-lg">
       <div className="w-1/2 order-1 sm:order-2 shadow-sm">
         <img src="../src/assets/loginImg.jpeg" alt="" className="w-full object-cover bg-no-repeat block m-auto" />
       </div>
@@ -79,5 +79,6 @@ const {loading, error} = useSelector((state)=> state.user)
         </form>
       </div>
     </div>
+    
   );
 }
