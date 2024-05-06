@@ -5,7 +5,7 @@ export default function Profile() {
   return (
     <div className="p-4 max-w-lg mx-auto">
       <h1 className="text-3xl font-bold py-7 text-center">Profile</h1>
-      <form className="flex flex-col border gap-4">
+      <form className="flex flex-col gap-4">
         <img  src={currentUser.avatar} alt="profilePic" className="h-24 object-cover w-24 rounded-full self-center mt-2" />
         <input type="text" className="p-4 border mt-4 rounded-lg" id="username" placeholder="username" />
         <input type="email" className="p-4 border mt-4 rounded-lg" id="email" placeholder="email" />
