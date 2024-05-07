@@ -5,7 +5,7 @@ export default function About() {
     <div>
       <div className="container justify-between flex-col sm:flex-row">
         <div className="w-full text-center sm:w-6/12 p-4 ">
-          <h1 className="text-2xl tracking-wider">Welcome to Tushar Estate</h1>
+          <h1 className="text-2xl tracking-wide">Welcome to Tushar Estate</h1>
           <h1 className="text-4xl font-bold text-secondary-color py-2">
             About Us
           </h1>
@@ -70,12 +70,13 @@ export default function About() {
       </div>
 
       {/* Why to choose us */}
+      <div>
       <h1 className="text-4xl font-bold text-center mt-4">
         Why Choose <span className="text-primary-color">Us</span>
       </h1>
 
-      <div className="container justify-evenly py-4">
-        <div className="border bg-primary-color h-32 w-60">
+      <div className="container gap-4 justify-evenly py-4">
+        <div className="border bg-primary-color w-60 ">
           <img
             src="../src/assets/Expertise.jpg"
             alt="Expertise"
@@ -91,7 +92,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="border bg-primary-color h-32 w-60">
+        <div className="border bg-primary-color w-60">
           <img
             src="../src/assets/commitedToResult.jpg"
             alt="commitedToResult"
@@ -107,7 +108,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="border bg-primary-color h-32 w-60">
+        <div className="border bg-primary-color w-60">
           <img
             src="../src/assets/MarketInsight.png"
             alt="MarketInsight"
@@ -123,7 +124,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="border bg-primary-color h-32 w-60">
+        <div className="border bg-primary-color w-60">
           <img
             src="../src/assets/PersonalizedService.jpg"
             alt="PersonalizedService"
@@ -139,7 +140,7 @@ export default function About() {
           </p>
         </div>
       </div>
-
+      </div>
     </div>
   );
 }
