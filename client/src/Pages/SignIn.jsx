@@ -1,12 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
-const {loading, error} = useSelector((state)=> state.user)
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -20,7 +24,7 @@ const {loading, error} = useSelector((state)=> state.user)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(signInStart())
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signIn", {
         method: "POST",
         headers: {
@@ -31,19 +35,23 @@ const {loading, error} = useSelector((state)=> state.user)
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-       dispatch(signInFailure(data.message))
+        dispatch(signInFailure(data.message));
         return;
       }
-      dispatch(signInSuccess(data))
+      dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.message));
-    } 
+    }
   };
   return (
     <div className="container flex-col justify-center mt-0 sm:flex-row sm:mt-24 shadow-lg">
       <div className="w-1/2 order-1 sm:order-2 shadow-sm">
-        <img src="../src/assets/loginImg.jpeg" alt="" className="w-full object-cover bg-no-repeat block m-auto" />
+        <img
+          src="../src/assets/loginImg.jpeg"
+          alt=""
+          className="w-full object-cover bg-no-repeat block m-auto"
+        />
       </div>
       <div className="max-w-lg p-2 bg-grey w-1/2 sm:order-1">
         <h1 className="text-center py-6 font-bold text-3xl">Sign In</h1>
@@ -79,6 +87,5 @@ const {loading, error} = useSelector((state)=> state.user)
         </form>
       </div>
     </div>
-    
   );
 }

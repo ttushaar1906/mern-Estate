@@ -56,7 +56,7 @@ export default function Footer() {
                 <Link to="about">About Us</Link>
               </div>
               <div className="font-semibold hover:opacity-90">
-                <Link to="contantUs">Contact Us</Link>
+                <Link to="contactUs">Contact Us</Link>
               </div>
             </div>
           </div>
@@ -94,14 +94,14 @@ export default function Footer() {
           <p className="mt-4">
             <span className="text-primary-color font-semibold text-xl">
               Tushar
-            </span>{" "}
+            </span>
             <span className="text-white">
               Estate &copy; 2024, All Rights Reserve
             </span>
           </p>
 
           <p className="mt-4 text-white font-semibold">
-            Design & code by{" "}
+            Design & code by
             <span className="text-primary-color font-bold">
               Tushar Tharwani
             </span>
