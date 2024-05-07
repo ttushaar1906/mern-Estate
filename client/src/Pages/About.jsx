@@ -3,13 +3,13 @@ import React from "react";
 export default function About() {
   return (
     <div>
-      <div className="container justify-between">
-        <div className="w-6/12 p-4 ">
+      <div className="container justify-between flex-col sm:flex-row">
+        <div className="w-full text-center sm:w-6/12 p-4 ">
           <h1 className="text-2xl tracking-wider">Welcome to Tushar Estate</h1>
           <h1 className="text-4xl font-bold text-secondary-color py-2">
             About Us
           </h1>
-          <p className="">
+          <p className="text-justify">
             At Tushar Estate, we are passionate about helping individuals and
             families find their dream homes, sell their properties, or rent the
             perfect space. Our team of dedicated professionals is committed to
@@ -17,28 +17,30 @@ export default function About() {
             estate journey.
           </p>
         </div>
-        <div className=" w-6/12">
+        <div className="w-full sm:w-6/12">
           <img
             className="h-full object-cover w-full"
-            src="../src/assets/aboutUs.png"
+            src="../src/assets/homeImg.png"
             alt="AboutUs"
           />
         </div>
       </div>
 
-      <div className="container justify-between border">
-        <div className=" w-6/12">
+      <div className="container justify-between flex-col sm:flex-row">
+        <div className="w-full order-2 sm:w-6/12">
           <img
             className="h-full object-cover w-full"
             src="../src/assets/aboutUs.png"
+
             alt="AboutUs"
           />
         </div>
-        <div className="w-6/12 p-4 border">
+
+        <div className="sm:w-6/12 p-4 sm:order-2">
           <h1 className="text-4xl font-bold text-secondary-color py-2">
             Our Mission
           </h1>
-          <p className="">
+          <p className="text-justify">
             Our mission is to simplify the process of buying, selling, or
             renting real estate by utilizing cutting-edge technology, in-depth
             market knowledge, and personalized attention to every client's
@@ -50,15 +52,15 @@ export default function About() {
               Plan your House
             </h2>
             <div className="flex">
-              <div className="mx-2">
+              <div className="mx-2 mt-4">
                 <h1 className="text-4xl font-extrabold p-2 ">264</h1>
                 <p className="text-xl font-medium px-2">Project Done</p>
               </div>
-              <div className="mx-2">
+              <div className="mx-2 mt-4">
                 <h1 className="text-4xl font-extrabold p-2 ">45</h1>
                 <p className="text-xl font-medium px-2">Active Project</p>
               </div>
-              <div className="mx-2">
+              <div className="mx-2 mt-4">
                 <h1 className="text-4xl font-extrabold p-2 ">121</h1>
                 <p className="text-xl font-medium px-2">Satisfied Client</p>
               </div>
@@ -66,6 +68,78 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      {/* Why to choose us */}
+      <h1 className="text-4xl font-bold text-center mt-4">
+        Why Choose <span className="text-primary-color">Us</span>
+      </h1>
+
+      <div className="container justify-evenly py-4">
+        <div className="border bg-primary-color h-32 w-60">
+          <img
+            src="../src/assets/Expertise.jpg"
+            alt="Expertise"
+            className="self-center object-cover w-24 h-24 mix-blend-multiply block m-auto my-4"
+          />
+          <p className="bg-white p-2 text-justify shadow-xl">
+            <h1 className="text-3xl font-bold text-primary-color pb-2">
+              Expertise
+            </h1>
+            Emphasize your team's extensive experience and expertise in the real
+            estate industry. Highlight any specializations, certifications, or
+            awards that demonstrate your knowledge and reliability.
+          </p>
+        </div>
+
+        <div className="border bg-primary-color h-32 w-60">
+          <img
+            src="../src/assets/commitedToResult.jpg"
+            alt="commitedToResult"
+            className="self-center object-cover w-24 h-24 mix-blend-multiply block m-auto my-4"
+          />
+          <p className="bg-white p-2 text-justify shadow-xl">
+            <h1 className="text-3xl font-bold text-primary-color pb-2">
+              Commited
+            </h1>
+            Communicate your strong commitment to delivering results for
+            clients. Whether it's finding the perfect home, selling quickly at
+            the best price, emphasize your track record of achieving success.
+          </p>
+        </div>
+
+        <div className="border bg-primary-color h-32 w-60">
+          <img
+            src="../src/assets/MarketInsight.png"
+            alt="MarketInsight"
+            className="self-center object-cover w-24 h-24 mix-blend-multiply block m-auto my-4"
+          />
+          <p className="bg-white p-2 text-justify shadow-xl">
+            <h1 className="text-3xl font-bold text-primary-color pb-2">
+              Market Insights
+            </h1>
+            Offer valuable market insights and analysis that help clients make
+            informed decisions. Show that you stay updated on market trends,
+            pricing dynamics, and investment opportunities.
+          </p>
+        </div>
+
+        <div className="border bg-primary-color h-32 w-60">
+          <img
+            src="../src/assets/PersonalizedService.jpg"
+            alt="PersonalizedService"
+            className="self-center object-cover w-24 h-24 mix-blend-multiply block m-auto my-4"
+          />
+          <p className="bg-white p-2 text-justify shadow-xl">
+            <h1 className="text-3xl font-bold text-primary-color pb-2">
+              Top Service
+            </h1>
+            Showcase your commitment to providing personalized and tailored
+            services to each client. Mention how you understand and cater to the
+            unique needs and preferences of every individual or family.
+          </p>
+        </div>
+      </div>
+
     </div>
   );
 }
