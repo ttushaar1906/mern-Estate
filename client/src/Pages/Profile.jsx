@@ -10,7 +10,6 @@ import { app } from "../firebase";
 
 export default function Profile() {
   const [file, setFile] = useState(undefined);
-  console.log(file);
   const fileRef = useRef(null);
   const { currentUser } = useSelector((state) => state.user);
   const [filePer, setFilePer] = useState(0);
