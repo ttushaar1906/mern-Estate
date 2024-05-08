@@ -16,7 +16,7 @@ export default {
       'grey':'#fafafa',
       'red':'#FF0000',
       'red700':'#D32F2F',
-
+      'green':'#008000'
     }
     
   },

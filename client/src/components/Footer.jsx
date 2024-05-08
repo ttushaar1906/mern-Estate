@@ -3,10 +3,11 @@ import {
   FaFacebook,
   FaInstagram,
   FaGoogle,
-  FaTwitter,
   FaMapMarkerAlt,
   FaWhatsapp,
   FaEnvelope,
+  FaLinkedinIn,
+  FaTwitter 
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 export default function Footer() {
@@ -31,13 +32,16 @@ export default function Footer() {
               <FaFacebook />
             </li>
             <li className="text-white p-2 m-auto sm:text-lg cursor-pointer">
-              <FaInstagram />
+              <Link to="https://www.instagram.com/_tushaar_19/"><FaInstagram /></Link>
             </li>
             <li className="text-white p-2 m-auto sm:text-lg cursor-pointer">
               <FaGoogle />
             </li>
             <li className="text-white p-2 m-auto sm:text-lg cursor-pointer">
-              <FaTwitter />
+              <Link to ="https://twitter.com/tushaar_19"><FaTwitter /></Link>
+            </li>
+            <li className="text-white p-2 m-auto sm:text-lg cursor-pointer">
+              <Link to="https://www.linkedin.com/in/tushar-tharwani-6527b5244/"><FaLinkedinIn /></Link>
             </li>
           </ul>
         </div>
