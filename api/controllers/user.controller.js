@@ -5,6 +5,7 @@ import { errorHandler } from '../utils/error.js';
 export const test = (req, res) => {
     res.send("Hello World!")
 }
+
 export const updateUser = async (req, res, next) => {
     if (req.user.id !== req.params.id)
         return next(errorHandler(401, 'You can only update your own account!'));
@@ -26,3 +27,15 @@ export const updateUser = async (req, res, next) => {
         next(error)
     }
 }
+
+export const deleteUser = async (req, res, next) => {
+    if (req.user.id !== req.params.id) return next(errorHandler('You can only delete account', 401));
+    try {
+        await User.findOneAndDelete({ _id: req.params.id });
+        res.clearCookie('access_token');
+        res.status(200).json('User has been deleted!');
+    } catch (error) {
+        next(error);
+    }
+
+} 
