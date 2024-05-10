@@ -1,12 +1,15 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRef, useState, useEffect } from "react";
+import { app } from "../firebase";
+import { Link } from "react-router-dom";
+
 import {
   getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { app } from "../firebase";
+
 import {
   updateUserStart,
   updateUserSuccess,
@@ -18,7 +21,8 @@ import {
   signOutUserStart,
   signOutUserSuccess,
 } from "../redux/user/userSlice";
-import { useDispatch } from "react-redux";
+
+
 export default function Profile() {
   const [file, setFile] = useState(undefined);
   const fileRef = useRef(null);
@@ -104,20 +108,20 @@ export default function Profile() {
     }
   };
 
-  const handleSignOut = async(e)=>{
+  const handleSignOut = async (e) => {
     try {
-      dispatch(signOutUserStart())
-      const res = await fetch('api/auth/signOut');
+      dispatch(signOutUserStart());
+      const res = await fetch("api/auth/signOut");
       const data = await res.json();
-      if(data.success === false){
-        dispatch(signOutUserFailure(data.message))
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
         return;
       }
-      dispatch(signOutUserSuccess(data))
+      dispatch(signOutUserSuccess(data));
     } catch (error) {
-      dispatch(signOutUserFailure())
+      dispatch(signOutUserFailure());
     }
-  }
+  };
   return (
     <div className="p-4 max-w-lg mx-auto">
       <h1 className="text-3xl font-bold py-7 text-center">Profile</h1>
@@ -179,6 +183,9 @@ export default function Profile() {
         >
           {loading ? "Loading...." : "Update"}
         </button>
+        <Link to='/createListing' className="bg-primary-color p-3 uppercase text-secondary-color text-center font-bold rounded-lg hover:opacity-90">
+          Create List
+        </Link>
       </form>
       <div className="flex justify-between p-2">
         <p
@@ -187,7 +194,12 @@ export default function Profile() {
         >
           Delete account
         </p>
-        <p onClick={handleSignOut} className="text-red font-medium cursor-pointer">Sign out</p>
+        <p
+          onClick={handleSignOut}
+          className="text-red font-medium cursor-pointer"
+        >
+          Sign out
+        </p>
       </div>
       {/* <p className="text-red700 mt-4">{error ? error : ""}</p> */}
       <p className="text-green">
