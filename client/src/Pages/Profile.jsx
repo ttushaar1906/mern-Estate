@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
+  list,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
@@ -22,7 +23,6 @@ import {
   signOutUserSuccess,
 } from "../redux/user/userSlice";
 
-
 export default function Profile() {
   const [file, setFile] = useState(undefined);
   const fileRef = useRef(null);
@@ -31,12 +31,29 @@ export default function Profile() {
   const [fileUploadErr, setFileUploadErr] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingErr, setShowListingErr] = useState(false);
+  const [userListing, setUserListing] = useState([]);
   console.log(formData);
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
     }
   }, [file]);
+
+  const handleShowListing = async () => {
+    try {
+      setShowListingErr(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingErr(true);
+        return;
+      }
+      setUserListing(data);
+    } catch (error) {
+      showListingErr(true);
+    }
+  };
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -183,7 +200,10 @@ export default function Profile() {
         >
           {loading ? "Loading...." : "Update"}
         </button>
-        <Link to='/createListing' className="bg-primary-color p-3 uppercase text-secondary-color text-center font-bold rounded-lg hover:opacity-90">
+        <Link
+          to="/createListing"
+          className="bg-primary-color p-3 uppercase text-secondary-color text-center font-bold rounded-lg hover:opacity-90"
+        >
           Create List
         </Link>
       </form>
@@ -205,6 +225,44 @@ export default function Profile() {
       <p className="text-green">
         {updateSuccess ? "User Updated Successfully!" : ""}
       </p>
+      <button
+        onClick={handleShowListing}
+        className="text-third-color w-full font-bold text-md"
+      >
+        Show Listing
+      </button>
+      <p className="text-red700">
+        {showListingErr ? "Error While Displaying List" : " "}
+      </p>
+
+      {userListing && userListing.length > 0 && (
+        <div>
+          <h1 className="font-extrabold text-center my-4 text-2xl text-primary-color">Your Listings</h1>
+          {userListing.map((listing) => (
+            <div
+              key={listing._id}
+              className="mt-2 gap-4 flex rounded-lg p-3 justify-between items-center shadow-lg"
+            >
+              {/* <Link to={`/listing/${listing._id}`}> */}
+              <img
+                src={listing.imageUrls[0]}
+                alt="listingCover"
+                className="h-20 w-20 object-contain"
+              />
+              <p className="flex-1 font-semibold truncate">{listing.name}</p>
+              <div className="flex flex-col">
+                <button className="uppercase p-2 text-green font-semibold text-center">
+                  edit
+                </button>
+                <button className="uppercase p-2 text-red700 font-semibold text-center">
+                  delete
+                </button>
+              </div>
+              {/* </Link> */}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
