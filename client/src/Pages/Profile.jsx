@@ -139,6 +139,22 @@ export default function Profile() {
       dispatch(signOutUserFailure());
     }
   };
+
+  const handledeleteListing = async (listingId) => {
+    try {
+      const res = await fetch(`api/listing/delete/${listingId}`, {
+        method: "DElETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setUserListing((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {}
+  };
   return (
     <div className="p-4 max-w-lg mx-auto">
       <h1 className="text-3xl font-bold py-7 text-center">Profile</h1>
@@ -237,7 +253,9 @@ export default function Profile() {
 
       {userListing && userListing.length > 0 && (
         <div>
-          <h1 className="font-extrabold text-center my-4 text-2xl text-primary-color">Your Listings</h1>
+          <h1 className="font-extrabold text-center my-4 text-2xl text-primary-color">
+            Your Listings
+          </h1>
           {userListing.map((listing) => (
             <div
               key={listing._id}
@@ -251,10 +269,12 @@ export default function Profile() {
               />
               <p className="flex-1 font-semibold truncate">{listing.name}</p>
               <div className="flex flex-col">
-                <button className="uppercase p-2 text-green font-semibold text-center">
+                <button
+                  className="uppercase p-2 text-green font-semibold text-center"
+                >
                   edit
                 </button>
-                <button className="uppercase p-2 text-red700 font-semibold text-center">
+                <button onClick={() => handledeleteListing(listing._id)} className="uppercase p-2 text-red700 font-semibold text-center">
                   delete
                 </button>
               </div>
