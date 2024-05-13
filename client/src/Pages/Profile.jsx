@@ -269,11 +269,13 @@ export default function Profile() {
               />
               <p className="flex-1 font-semibold truncate">{listing.name}</p>
               <div className="flex flex-col">
+                <Link to={`/updateListing/${listing._id}`}>
                 <button
                   className="uppercase p-2 text-green font-semibold text-center"
-                >
+                  >
                   edit
                 </button>
+                  </Link>
                 <button onClick={() => handledeleteListing(listing._id)} className="uppercase p-2 text-red700 font-semibold text-center">
                   delete
                 </button>
