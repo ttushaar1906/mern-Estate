@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .container{
     display: flex;
-    /* align-items: center; */
     max-width: 1200px;
     width: 90%;
     margin: auto;

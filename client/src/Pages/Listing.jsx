@@ -11,9 +11,9 @@ import {
   FaMapMarkerAlt,
   FaParking,
   FaShare,
-} from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import ContactUs from './ContactUs';
+} from "react-icons/fa";
+import { useSelector } from "react-redux";
+import ContactUs from "./ContactUs";
 
 export default function Listing() {
   const params = useParams();
@@ -64,84 +64,105 @@ export default function Listing() {
             <SwiperSlide key={url}>
               <div
                 className="h-[550px] w-full sm:h-[800px]"
-                style={{ background: `url(${url}) center no-repeat`,backgroundSize:"cover", objectFit:"cover" }}
+                style={{
+                  background: `url(${url}) center no-repeat`,
+                  backgroundSize: "cover",
+                  objectFit: "cover",
+                }}
               ></div>
             </SwiperSlide>
           ))}
         </Swiper>
       )}
+      <div className="fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer">
+        <FaShare
+          className="text-black"
+          onClick={() => {
+            navigator.clipboard.writeText(window.location.href);
+            setCopied(true);
+            setTimeout(() => {
+              setCopied(false);
+            }, 2000);
+          }}
+        />
+      </div>
+      {copied && (
+        <p className="fixed top-[23%] right-[5%] z-10 rounded-md bg-black p-2 text-primary-color">
+          Link copied!
+        </p>
+      )}
+
       {listing && !loading && !error && (
-      <div className="container flex-col">
-        <h1 className="capitalize text-3xl font-bold my-4 text-primary-color">{listing.name}</h1>
-        <p className="capitalize">{listing.description}</p>
-        <p className="capitalize">{listing.address}</p>
-        <FaBath className="bg-green text-white text-2xl"/>
-
-        <div className='fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
-            <FaShare
-              className='text-slate-500'
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                setCopied(true);
-                setTimeout(() => {
-                  setCopied(false);
-                }, 2000);
-              }}
-            />
-          </div>
-          {copied && (
-            <p className='fixed top-[23%] right-[5%] z-10 rounded-md bg-slate-100 p-2'>
-              Link copied!
+        <div className="container flex-col">
+          <div className=" flex mt-4 gap-2 text-secondary-color font-bold text-2xl">
+            <p className=" my-auto">
+              {listing.type === "rent" ? "For Rent" : "For Sale"}
             </p>
-          )}
-
-        <p className='text-2xl font-semibold'>
-              {listing.name} - ${' '}
-              {listing.offer
-                ? listing.discountedPrice.toLocaleString('en-US')
-                : listing.regularPrice.toLocaleString('en-US')}
-              {listing.type === 'rent' && ' / month'}
-            </p>
-            <p className='flex items-center mt-6 gap-2 text-slate-600  text-sm'>
-              <FaMapMarkerAlt className='text-green-700' />
-              {listing.address}
-            </p>
-            <div className='flex gap-4'>
-              <p className='border w-full max-w-[200px] rounded-md text-center items-center p-2'>
-                {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
-              </p>
-              {listing.offer && (
-                <p className='bg-green w-full max-w-[200px] text-white text-center rounded-md'>
-                  ${+listing.regularPrice - +listing.discountPrice} OFF
+            {listing.offer ? (
+              <div className="">
+                <p className="text-sm text-primary-color">Original Price: Rs {listing.regularPrice}</p>
+                <p>
+                After Discount: Rs {+listing.regularPrice - +listing.discountedPrice} 
                 </p>
-              )}
-               <p className='text-secondary-color'>
-              <span className='font-semibold text-black'>Description - </span>
-              {listing.description}
-            </p>
-            
-            <ul className='text-green font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6'>
-              <li className='flex items-center gap-1 whitespace-nowrap '>
-                <FaBed className='text-lg' />
+              </div>
+            ) : listing.type !== "rent" ? (
+              <p>Rs {listing.regularPrice}</p>
+            ) : (
+              <p>Rs {listing.regularPrice} /month</p>
+            )}
+          </div>
+          <div className="flex gap-2 items-center">
+          <FaMapMarkerAlt  className="text-secondary-color"/>
+            <p className="text-primary-color font-semibold">{listing.name}</p>
+          </div>
+        
+          <div className=" py-4">
+            <ul className="text-third-color text-lg font-bold flex flex-wrap items-center gap-4 sm:gap-8">
+              <li className="flex items-center gap-2  whitespace-nowrap ">
+                <FaBed className=" text-secondary-color" />
                 {listing.rooms > 1
-                  ? `${listing.rooms} beds `
-                  : `${listing.rooms} bed `}
+                  ? `${listing.rooms} bedrooms `
+                  : `${listing.rooms} bedroom `}
               </li>
-              <li className='flex items-center gap-1 whitespace-nowrap '>
-                <FaBath className='text-lg' />
+              <li className="flex items-center gap-1 whitespace-nowrap ">
+                <FaBath className=" text-secondary-color" />
                 {listing.bathroom > 1
-                  ? `${listing.bathroom} baths `
-                  : `${listing.bathroom} bath `}
+                  ? `${listing.bathroom} bathrooms `
+                  : `${listing.bathroom} bathroom `}
               </li>
-              <li className='flex items-center gap-1 whitespace-nowrap '>
-                <FaParking className='text-lg' />
-                {listing.parking ? 'Parking spot' : 'No Parking'}
+              <li className="flex items-center gap-1 whitespace-nowrap ">
+                <FaParking className=" text-secondary-color" />
+                {listing.parking ? "Parking spot" : "No Parking"}
               </li>
-              <li className='flex items-center gap-1 whitespace-nowrap '>
-                <FaChair className='text-lg' />
-                {listing.furnished ? 'Furnished' : 'Unfurnished'}
+              <li className="flex items-center gap-1 whitespace-nowrap ">
+                <FaChair className=" text-secondary-color" />
+                {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
+          </div>
+          <div className=" my-2">
+            <h1 className="font-bold text-2xl sm:text-4xl text-primary-color">
+              Description
+            </h1>
+            <p className=" py-2">{listing.description}</p>
+          </div>
+          <div className=" my-2">
+            <h1 className="font-bold text-4xl text-primary-color">Address</h1>
+            <p className="py-2">{listing.address}</p>
+          </div>
+
+          {/* {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button
+                onClick={() => setContact(true)}
+                className='bg-black text-white rounded-lg uppercase hover:opacity-95 p-3'
+              >
+                Contact landlord
+              </button>
+            )}
+            {contact && <ContactUs listing={listing} />} */}
+          {/* </div> */}
+
+          {/* 
             {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}
@@ -150,11 +171,9 @@ export default function Listing() {
                 Contact landlord
               </button>
             )}
-            {contact && <ContactUs listing={listing} />}
-            </div>
-
-      </div>
-      
+            {contact && <ContactUs listing={listing} />} */}
+          {/* </div> */}
+        </div>
       )}
       {/* <h1>{listing.name}</h1> */}
     </main>
