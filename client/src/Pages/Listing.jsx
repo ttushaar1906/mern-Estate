@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import ContactUs from "./ContactUs";
+import Contact from "../components/Contact";
 
 export default function Listing() {
   const params = useParams();
@@ -100,9 +101,12 @@ export default function Listing() {
             </p>
             {listing.offer ? (
               <div className="">
-                <p className="text-sm text-primary-color">Original Price: Rs {listing.regularPrice}</p>
+                <p className="text-sm text-primary-color">
+                  Original Price: Rs {listing.regularPrice}
+                </p>
                 <p>
-                After Discount: Rs {+listing.regularPrice - +listing.discountedPrice} 
+                  After Discount: Rs{" "}
+                  {+listing.regularPrice - +listing.discountedPrice}
                 </p>
               </div>
             ) : listing.type !== "rent" ? (
@@ -112,10 +116,10 @@ export default function Listing() {
             )}
           </div>
           <div className="flex gap-2 items-center">
-          <FaMapMarkerAlt  className="text-secondary-color"/>
+            <FaMapMarkerAlt className="text-secondary-color" />
             <p className="text-primary-color font-semibold">{listing.name}</p>
           </div>
-        
+
           <div className=" py-4">
             <ul className="text-third-color text-lg font-bold flex flex-wrap items-center gap-4 sm:gap-8">
               <li className="flex items-center gap-2  whitespace-nowrap ">
@@ -150,29 +154,24 @@ export default function Listing() {
             <h1 className="font-bold text-4xl text-primary-color">Address</h1>
             <p className="py-2">{listing.address}</p>
           </div>
-
+          {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button
+                onClick={() => setContact(true)}
+                className=' bg-primary-color text-white rounded-lg uppercase hover:opacity-95 p-3'
+              >
+                Contact landlord
+              </button>
+            )}
+            {contact && <Contact listing={listing} />}
           {/* {currentUser && listing.userRef !== currentUser._id && !contact && (
-              <button
-                onClick={() => setContact(true)}
-                className='bg-black text-white rounded-lg uppercase hover:opacity-95 p-3'
-              >
-                Contact landlord
-              </button>
-            )}
-            {contact && <ContactUs listing={listing} />} */}
-          {/* </div> */}
-
-          {/* 
-            {currentUser && listing.userRef !== currentUser._id && !contact && (
-              <button
-                onClick={() => setContact(true)}
-                className='bg-black text-white rounded-lg uppercase hover:opacity-95 p-3'
-              >
-                Contact landlord
-              </button>
-            )}
-            {contact && <ContactUs listing={listing} />} */}
-          {/* </div> */}
+            <button
+              onClick={() => setContact(true)}
+              className=" bg-primary-color text-secondary-color uppercase p-2 font-bold hover:bg-opacity-90 w-1/2 self-center mt-4 rounded-lg "
+            >
+              Contact Landlord
+            </button>
+          )}
+          {contact && <Contact listing={listing} />} */}
         </div>
       )}
       {/* <h1>{listing.name}</h1> */}
