@@ -21,7 +21,7 @@ export default function Footer() {
       {!unAbledFooter && (
         <>
           <img
-            src="../src/assets/footerBg.jpg"
+            src="../src/assets/footerBg.png"
             alt=""
             className="w-full h-full object-cover sm:h-4/5"
             style={{ position: "absolute" }}

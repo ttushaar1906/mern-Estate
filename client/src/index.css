@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+body{
+    background-color: rgb(241, 245, 241);
+}
 .container{
     display: flex;
     max-width: 1200px;
