@@ -13,7 +13,6 @@ import {
   FaShare,
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import ContactUs from "./ContactUs";
 import Contact from "../components/Contact";
 
 export default function Listing() {
@@ -157,24 +156,15 @@ export default function Listing() {
           {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}
-                className=' bg-primary-color text-white rounded-lg uppercase hover:opacity-95 p-3'
+                className='bg-secondary-color text-primary-color  rounded-lg uppercase hover:opacity-95 p-3'
               >
                 Contact landlord
               </button>
             )}
             {contact && <Contact listing={listing} />}
-          {/* {currentUser && listing.userRef !== currentUser._id && !contact && (
-            <button
-              onClick={() => setContact(true)}
-              className=" bg-primary-color text-secondary-color uppercase p-2 font-bold hover:bg-opacity-90 w-1/2 self-center mt-4 rounded-lg "
-            >
-              Contact Landlord
-            </button>
-          )}
-          {contact && <Contact listing={listing} />} */}
+      
         </div>
       )}
-      {/* <h1>{listing.name}</h1> */}
     </main>
   );
 }
