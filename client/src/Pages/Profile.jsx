@@ -267,7 +267,13 @@ export default function Profile() {
                 alt="listingCover"
                 className="h-20 w-20 object-contain"
               />
-              <p className="flex-1 font-semibold truncate">{listing.name}</p>
+              <Link
+                className='text-slate-700 font-semibold  hover:underline truncate flex-1'
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+              {/* <p className="flex-1 font-semibold truncate">{listing.name}</p> */}
               <div className="flex flex-col">
                 <Link to={`/updateListing/${listing._id}`}>
                 <button
