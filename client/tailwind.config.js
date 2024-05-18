@@ -17,8 +17,10 @@ export default {
       'red':'#FF0000',
       'red700':'#D32F2F',
       'green':'#008000'
-    }
-    
+    },
+    fontFamily: {
+      'roboto': ['Roboto', 'sans-serif'],
+    },
   },
   plugins: [],
 }

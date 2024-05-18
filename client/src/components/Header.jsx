@@ -49,7 +49,7 @@ export default function Header() {
               <FaSearch className="text-white" />
             </button>
           </form>
-          <ul className="flex gap-5">
+          <ul className="flex gap-5 items-center">
             <Link to="/">
               <li className="text-primary-color font-semibold hidden  sm:inline">
                 Home

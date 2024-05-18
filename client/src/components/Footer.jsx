@@ -23,10 +23,10 @@ export default function Footer() {
           <img
             src="../src/assets/footerBg.png"
             alt=""
-            className="w-full h-full object-cover sm:h-4/5"
+            className="w-full h-[770px] object-cover md:h-[90%]"
             style={{ position: "absolute" }}
           />
-          <div className="top-32 sm:top-36" style={{ position: "relative" }}>
+          <div className="top-36 sm:top-38 md:top-40" style={{ position: "relative" }}>
             <div className="container justify-between">
               <h1 className="block mx-auto sm:mx-0 text-base sm:text-3xl font-bold text-primary-color">
                 Tushar<span className="text-white">Estate</span>
