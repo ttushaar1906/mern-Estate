@@ -4,7 +4,8 @@ import ListingCard from "../components/ListingCard";
 
 export default function Search() {
   const navigate = useNavigate();
-  const [loading , setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showMore, SetShowMore] = useState(false);
   const [listings, setListings] = useState([]);
   const [sidebardata, setsidebardata] = useState({
     searchTerm: "",
@@ -15,48 +16,52 @@ export default function Search() {
     sort: "created_at",
     order: "desc",
   });
-console.log(listings)
-  useEffect(()=>{
-
+  useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    const typeFromUrl = urlParams.get('type');
-    const parkingFromUrl = urlParams.get('parking');
-    const furnishedFromUrl = urlParams.get('furnished');
-    const offerFromUrl = urlParams.get('offer');
-    const sortFromUrl = urlParams.get('sort');
-    const orderFromUrl = urlParams.get('order');
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    const typeFromUrl = urlParams.get("type");
+    const parkingFromUrl = urlParams.get("parking");
+    const furnishedFromUrl = urlParams.get("furnished");
+    const offerFromUrl = urlParams.get("offer");
+    const sortFromUrl = urlParams.get("sort");
+    const orderFromUrl = urlParams.get("order");
 
-    if(
-      searchTermFromUrl || 
-      typeFromUrl || 
-      parkingFromUrl || 
-      furnishedFromUrl || 
-      offerFromUrl || 
-      sortFromUrl || 
+    if (
+      searchTermFromUrl ||
+      typeFromUrl ||
+      parkingFromUrl ||
+      furnishedFromUrl ||
+      offerFromUrl ||
+      sortFromUrl ||
       orderFromUrl
-    ){
+    ) {
       setsidebardata({
-        searchTerm : searchTermFromUrl || '',
-        type : typeFromUrl || 'all',
-        parking : parkingFromUrl ==='true' ? true :false,
-        furnished : furnishedFromUrl === 'true' ? true : false,
-        offer : offerFromUrl === 'true' ? true : false,
-        sort : sortFromUrl || 'created_at',
-        order : orderFromUrl || 'desc'
-      })
+        searchTerm: searchTermFromUrl || "",
+        type: typeFromUrl || "all",
+        parking: parkingFromUrl === "true" ? true : false,
+        furnished: furnishedFromUrl === "true" ? true : false,
+        offer: offerFromUrl === "true" ? true : false,
+        sort: sortFromUrl || "created_at",
+        order: orderFromUrl || "desc",
+      });
     }
 
-    const fetchListing = async () =>{
+    const fetchListing = async () => {
       setLoading(true);
+      SetShowMore(false)
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/gets?${searchQuery}`);
       const data = await res.json();
+      if (data.length > 8) {
+        SetShowMore(true);
+      }else{
+        SetShowMore(false)
+      }
       setListings(data);
-      setLoading(false)
-    }
+      setLoading(false);
+    };
     fetchListing();
-  },[location.search])
+  }, [location.search]);
 
   const handleChange = (e) => {
     if (
@@ -83,10 +88,10 @@ console.log(listings)
       });
     }
 
-    if (e.target.id === 'sort_order') {
-      const sort = e.target.value.split('_')[0] || 'created_at';
+    if (e.target.id === "sort_order") {
+      const sort = e.target.value.split("_")[0] || "created_at";
 
-      const order = e.target.value.split('_')[1] || 'desc';
+      const order = e.target.value.split("_")[1] || "desc";
 
       setsidebardata({ ...sidebardata, sort, order });
     }
@@ -105,6 +110,19 @@ console.log(listings)
     urlParams.set("order", sidebardata.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+  const onShowMoreClick = async () => {
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 9) {
+      SetShowMore(false);
+    }
+    setListings([...listings, ...data]);
   };
 
   return (
@@ -197,7 +215,7 @@ console.log(listings)
             <select
               id="sort_order"
               onChange={handleChange}
-              defaultValue={'created_at_desc'}
+              defaultValue={"created_at_desc"}
               className="border p-2 rounded-lg"
             >
               <option value="regularPrice_desc">Price high to low</option>
@@ -217,15 +235,27 @@ console.log(listings)
           Listing Result
         </h1>
         <div className="flex flex-wrap gap-4 p-6">
-          {!loading && listings.length === 0 &&(
+          {!loading && listings.length === 0 && (
             <p className="text-red text-xl">No Listing Found</p>
           )}
-          {loading &&(
-            <p className="text-xl text-secondary-color w-full text-center">Loading....</p>
+          {loading && (
+            <p className="text-xl text-secondary-color w-full text-center">
+              Loading....
+            </p>
           )}
-          {!loading && listings &&listings.map((listing)=>(
-            <ListingCard key={listing._id} listing={listing}/>
-          )) }
+          {!loading &&
+            listings &&
+            listings.map((listing) => (
+              <ListingCard key={listing._id} listing={listing} />
+            ))}
+          {showMore && (
+            <button
+              className="text-green hover:underline transition-none duration-300 p-6"
+              onClick={onShowMoreClick()}
+              Show
+              More
+            ></button>
+          )}
         </div>
       </div>
     </div>

@@ -135,7 +135,7 @@ export default function Listing() {
               </li>
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaParking className=" text-secondary-color" />
-                {listing.parking ? "Parking spot" : "No Parking"}
+                {listing.parking ? "Parking" : "No Parking"}
               </li>
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaChair className=" text-secondary-color" />
