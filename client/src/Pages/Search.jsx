@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingCard from "../components/ListingCard";
 
 export default function Search() {
   const navigate = useNavigate();
   const [loading , setLoading] = useState(false);
-  const [listing, setListing] = useState([]);
+  const [listings, setListings] = useState([]);
   const [sidebardata, setsidebardata] = useState({
     searchTerm: "",
     type: "all",
@@ -14,7 +15,7 @@ export default function Search() {
     sort: "created_at",
     order: "desc",
   });
-console.log(listing)
+console.log(listings)
   useEffect(()=>{
 
     const urlParams = new URLSearchParams(location.search);
@@ -51,7 +52,7 @@ console.log(listing)
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/gets?${searchQuery}`);
       const data = await res.json();
-      setListing(data);
+      setListings(data);
       setLoading(false)
     }
     fetchListing();
@@ -61,7 +62,7 @@ console.log(listing)
     if (
       e.target.id === "all" ||
       e.target.id === "rent" ||
-      e.target.id === "sell"
+      e.target.id === "sale"
     ) {
       setsidebardata({ ...sidebardata, type: e.target.id });
     }
@@ -108,7 +109,7 @@ console.log(listing)
 
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="p-6 border-b sm:border-r md:min-h-screen">
+      <div className="p-6 shadow-md md:min-h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex gap-2 items-center">
             <label className="whitespace-nowrap font-semibold">
@@ -148,9 +149,9 @@ console.log(listing)
             <div className="flex gap-2">
               <input
                 type="checkbox"
-                id="sell"
+                id="sale"
                 onChange={handleChange}
-                checked={sidebardata.type === "sell"}
+                checked={sidebardata.type === "sale"}
                 className="w-4"
               />
               <span>Sell</span>
@@ -211,10 +212,21 @@ console.log(listing)
         </form>
       </div>
 
-      <div className="">
+      <div className="flex-1">
         <h1 className="font-semibold text-3xl p-2 text-secondary-color mt-4">
           Listing Result
         </h1>
+        <div className="flex flex-wrap gap-4 p-6">
+          {!loading && listings.length === 0 &&(
+            <p className="text-red text-xl">No Listing Found</p>
+          )}
+          {loading &&(
+            <p className="text-xl text-secondary-color w-full text-center">Loading....</p>
+          )}
+          {!loading && listings &&listings.map((listing)=>(
+            <ListingCard key={listing._id} listing={listing}/>
+          )) }
+        </div>
       </div>
     </div>
   );

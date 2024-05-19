@@ -31,6 +31,7 @@ export default function App() {
           <Route path="/createListing" element={<CreateListing />} />
           <Route path ="/updateListing/:listingId" element={<UpdateListing/>} />
         </Route>
+        
       </Routes>
       <Footer />
     </BrowserRouter>
