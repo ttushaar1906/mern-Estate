@@ -135,7 +135,7 @@ export default function Home() {
             </div>
 
             <div className="flex sm:justify-evenly flex-wrap gap-4 p-4">
-              {offerListing.map((listing) => (
+              {rentListing.map((listing) => (
                 <ListingCard listing={listing} key={listing._id} />
               ))}
             </div>

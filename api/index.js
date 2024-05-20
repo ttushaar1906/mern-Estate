@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/authRouter.js'; // Update the import path
 import listingRouter from './routes/listing.route.js'
-import ContactUsRouter from './routes/ContactUs.router.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config({ path: "./.env", });
