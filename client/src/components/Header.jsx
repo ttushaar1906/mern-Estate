@@ -13,14 +13,14 @@ export default function Header() {
   const submitSearch = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('searchTerm', searchTerm);
+    urlParams.set("searchTerm", searchTerm);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
+    const searchTermFromUrl = urlParams.get("searchTerm");
     if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl);
     }
@@ -30,10 +30,12 @@ export default function Header() {
     <header className="bg-secondary-color shadow-md">
       {!unAbledNavbar && (
         <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
-          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-primary-color">Tushar </span>
-            <span className="text-white">Estate</span>
-          </h1>
+          <Link to="/">
+            <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
+              <span className="text-primary-color">Tushar </span>
+              <span className="text-white">Estate</span>
+            </h1>
+          </Link>
           <form
             onSubmit={submitSearch}
             className="bg-third-color rounded-lg flex items-center p-2"

@@ -73,7 +73,7 @@ export default function Footer() {
                     <Link to="about">About Us</Link>
                   </div>
                   <div className="font-semibold hover:opacity-90">
-                    <Link to="contactUs">Contact Us</Link>
+                    <Link to="/">Contact Us</Link>
                   </div>
                 </div>
               </div>

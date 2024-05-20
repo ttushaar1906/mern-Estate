@@ -47,7 +47,7 @@ export default function Listing() {
   }, [params.listingId]);
 
   return (
-    <main>
+    <main className="">
       {loading && (
         <p className="text-center my-4 font-semibold text-2xl">Loading.....</p>
       )}
@@ -63,7 +63,7 @@ export default function Listing() {
           {listing.imageUrls.map((url) => (
             <SwiperSlide key={url}>
               <div
-                className="h-[550px] w-full sm:h-[800px]"
+                className="h-[220px] w-full sm:h-[1000px]"
                 style={{
                   background: `url(${url}) center no-repeat`,
                   backgroundSize: "cover",
@@ -94,7 +94,7 @@ export default function Listing() {
 
       {listing && !loading && !error && (
         <div className="container flex-col">
-          <div className=" flex mt-4 gap-2 text-secondary-color font-bold text-2xl">
+          <div className=" flex my-4 gap-8 sm:gap-2 text-secondary-color font-bold text-lg sm:text-2xl">
             <p className=" my-auto">
               {listing.type === "rent" ? "For Rent" : "For Sale"}
             </p>
@@ -114,12 +114,12 @@ export default function Listing() {
               <p>Rs {listing.regularPrice} /month</p>
             )}
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center capitalize">
             <FaMapMarkerAlt className="text-secondary-color" />
             <p className="text-primary-color font-semibold">{listing.name}</p>
           </div>
 
-          <div className=" py-4">
+          <div className=" py-4 capitalize">
             <ul className="text-third-color text-lg font-bold flex flex-wrap items-center gap-4 sm:gap-8">
               <li className="flex items-center gap-2  whitespace-nowrap ">
                 <FaBed className=" text-secondary-color" />
@@ -144,25 +144,26 @@ export default function Listing() {
             </ul>
           </div>
           <div className=" my-2">
-            <h1 className="font-bold text-2xl sm:text-4xl text-primary-color">
+            <h1 className="font-bold text-lg sm:text-4xl text-primary-color">
               Description
             </h1>
-            <p className=" py-2">{listing.description}</p>
+            <p className=" py-2 capitalize">{listing.description}</p>
           </div>
           <div className=" my-2">
-            <h1 className="font-bold text-4xl text-primary-color">Address</h1>
-            <p className="py-2">{listing.address}</p>
+            <h1 className="font-bold sm:text-4xl text-primary-color text-lg">
+              Address
+            </h1>
+            <p className="py-2 capitalize">{listing.address}</p>
           </div>
           {currentUser && listing.userRef !== currentUser._id && !contact && (
-              <button
-                onClick={() => setContact(true)}
-                className='bg-secondary-color text-primary-color rounded-lg uppercase hover:opacity-95 p-3'
-              >
-                Contact landlord
-              </button>
-            )}
-            {contact && <Contact listing={listing} />}
-      
+            <button
+              onClick={() => setContact(true)}
+              className="bg-secondary-color text-primary-color rounded-lg uppercase hover:opacity-95 p-3"
+            >
+              Contact landlord
+            </button>
+          )}
+          {contact && <Contact listing={listing} />}
         </div>
       )}
     </main>
