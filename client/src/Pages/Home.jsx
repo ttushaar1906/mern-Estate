@@ -70,7 +70,7 @@ export default function Home() {
         </div>
         <div className="w-1/2">
           <img
-            src="../src/assets/homePageImg.jpg"
+            src="https://i.postimg.cc/L8HKXXfv/image.png"
             alt=""
             className="w-full object-cover"
           />
