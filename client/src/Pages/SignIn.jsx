@@ -48,8 +48,8 @@ export default function SignUp() {
     <div className="container flex-col item-center mt-0 sm:flex-row sm:mt-24 shadow-lg">
       <div className="w-full sm:w-1/2 order-1 sm:order-2 shadow-sm">
         <img
-          src="../src/assets/loginImg.jpeg"
-          alt=""
+          src="https://i.postimg.cc/hG659PJk/image.png"
+          alt="loginImg"
           className="w-full object-cover bg-no-repeat block m-auto"
         />
       </div>

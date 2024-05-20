@@ -44,7 +44,7 @@ export default function SignUp() {
   return (
     <div className="container flex-col mt-0 sm:flex-row sm:mt-24 shadow-lg">
       <div className=" w-full sm:w-1/2 order-2 sm:order-1 shadow-sm">
-        <img src="../src/assets/loginImg.jpeg" alt="" className="w-full object-cover bg-no-repeat block m-auto" />
+        <img src="https://i.postimg.cc/hG659PJk/image.png" alt="signUpImg" className="w-full object-cover bg-no-repeat block m-auto" />
       </div>
       <div className="max-w-lg p-2 bg-grey w-full sm:w-1/2 sm:order-2 shadow-md ">
         <h1 className="text-center py-6 font-bold text-3xl">Sign Up</h1>

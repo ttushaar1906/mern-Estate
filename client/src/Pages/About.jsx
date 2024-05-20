@@ -20,7 +20,7 @@ export default function About() {
         <div className="w-full sm:w-6/12">
           <img
             className="h-full object-cover w-full"
-            src="../src/assets/homeImg.png"
+            src="https://i.postimg.cc/brX4jNpx/image.png"
             alt="AboutUs"
           />
         </div>
@@ -30,7 +30,7 @@ export default function About() {
         <div className="w-full order-2 sm:w-6/12">
           <img
             className="h-full object-cover w-full"
-            src="../src/assets/aboutUs.png"
+            src="https://i.postimg.cc/PJm9fs5B/image.png"
 
             alt="AboutUs"
           />
@@ -78,7 +78,7 @@ export default function About() {
       <div className="container gap-4 justify-evenly py-4">
         <div className="border bg-primary-color w-60 ">
           <img
-            src="../src/assets/Expertise.jpg"
+            src="https://i.postimg.cc/CMDWsDsm/image.png"
             alt="Expertise"
             className="self-center object-cover w-24 h-24 mix-blend-multiply block m-auto my-4"
           />
@@ -94,7 +94,7 @@ export default function About() {
 
         <div className="border bg-primary-color w-60">
           <img
-            src="../src/assets/commitedToResult.jpg"
+            src="https://i.postimg.cc/dVQpFfPx/image.png"
             alt="commitedToResult"
             className="self-center object-cover w-24 h-24 mix-blend-multiply block m-auto my-4"
           />
@@ -110,7 +110,7 @@ export default function About() {
 
         <div className="border bg-primary-color w-60">
           <img
-            src="../src/assets/MarketInsight.png"
+            src="https://i.postimg.cc/FHPqHxhs/image.png"
             alt="MarketInsight"
             className="self-center object-cover w-24 h-24 mix-blend-multiply block m-auto my-4"
           />
@@ -126,7 +126,7 @@ export default function About() {
 
         <div className="border bg-primary-color w-60">
           <img
-            src="../src/assets/PersonalizedService.jpg"
+            src="https://i.postimg.cc/SKJP2zKL/image.png"
             alt="PersonalizedService"
             className="self-center object-cover w-24 h-24 mix-blend-multiply block m-auto my-4"
           />
