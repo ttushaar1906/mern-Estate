@@ -76,7 +76,7 @@ export default function About() {
       </h1>
 
       <div className="container gap-4 justify-evenly py-4">
-        <div className="border bg-primary-color w-60 ">
+        <div className=" bg-primary-color w-60 ">
           <img
             src="https://i.postimg.cc/CMDWsDsm/image.png"
             alt="Expertise"
@@ -92,7 +92,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="border bg-primary-color w-60">
+        <div className=" bg-primary-color w-60">
           <img
             src="https://i.postimg.cc/dVQpFfPx/image.png"
             alt="commitedToResult"
@@ -108,7 +108,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="border bg-primary-color w-60">
+        <div className=" bg-primary-color w-60">
           <img
             src="https://i.postimg.cc/FHPqHxhs/image.png"
             alt="MarketInsight"
@@ -124,7 +124,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="border bg-primary-color w-60">
+        <div className=" bg-primary-color w-60">
           <img
             src="https://i.postimg.cc/SKJP2zKL/image.png"
             alt="PersonalizedService"

@@ -84,7 +84,7 @@ export default function Home() {
           offerListing.map((listing) => (
             <SwiperSlide className="mt-4">
               <div
-                className=" h-[300px] sm:h-[800px] w-[100%]"
+               className="h-[220px] w-full sm:h-[500px]"
                 style={{
                   background: `url(${listing.imageUrls[0]})center no-repeat`,
                   backgroundSize: "contain",
