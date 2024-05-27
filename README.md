@@ -1,8 +1,7 @@
-# TusharEstate
+# Tushar Estate
+![TusharEstate](https://github.com/ttushaar1906/mern-Estate/assets/129984282/0eb5729f-6039-4ef1-9453-2f91e2cbd891)
 
 ## Table of Contents
-- [Project Overview](#project-overview)
-- [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
