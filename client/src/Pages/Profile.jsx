@@ -33,7 +33,6 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingErr, setShowListingErr] = useState(false);
   const [userListing, setUserListing] = useState([]);
-  console.log(formData);
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -147,7 +146,6 @@ export default function Profile() {
       });
       const data = await res.json();
       if (data.success === false) {
-        console.log(data.message);
         return;
       }
       setUserListing((prev) =>
