@@ -6,19 +6,22 @@ import authRouter from './routes/authRouter.js'; // Update the import path
 import listingRouter from './routes/listing.route.js'
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import connectDB from './db/index.js';
 
 dotenv.config({ path: "./.env", });
 
-mongoose
-  .connect(
-    `${process.env.mdbC}`
-  )
-  .then(() => {
-    console.log('Connected to database');
-  })
-  .catch((err) => {
-    console.log('Error while connecting', err);
-  });
+let data = connectDB()
+
+// mongoose
+//   .connect(
+//     `${process.env.mdbC}`
+//   )
+//   .then(() => {
+//     console.log('Connected to database');
+//   })
+//   .catch((err) => {
+//     console.log('Error while connecting', err);
+//   });
 
 const __dirname = path.resolve()
 

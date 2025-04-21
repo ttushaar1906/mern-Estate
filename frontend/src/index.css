@@ -1,0 +1,44 @@
+/* Util: p-4   leading-6(line-height)
+
+                <h1 className="text-3xl text-center font-extrabold text-slate-700">
+
+
+*/
+
+
+@import "tailwindcss";
+
+.customerContainer{
+    max-width: 1400px;
+    width: 90%;
+    margin: auto;
+}
+
+body{
+    background-color: #F9F9F9;
+    /* background-color: #fdf8d1; */
+}
+
+.lgHeading{
+    @apply text-3xl text-center font-extrabold text-slate-700
+}
+
+.paraStyle{
+    @apply p-4 text-slate-600 leading-6
+}
+
+.mdHead{
+    @apply text-2xl text-center font-bold text-slate-700
+}
+
+.smStyle{
+    @apply text-sm text-center font-medium text-slate-700
+}
+
+.darkColor{
+    color: #2DA8BE;
+}
+
+.smallImg{
+    @apply w-15 sm:w-25 block m-auto
+}
