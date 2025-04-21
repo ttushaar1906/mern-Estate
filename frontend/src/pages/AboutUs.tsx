@@ -3,7 +3,7 @@ import AboutUsImage from "../images/AboutUs.jpg";
 
 export default function AboutUs() {
     return (
-        <div className="container customerContainer">
+        <div className="container customeContainer">
             <div className="block text-center sm:flex items-center justify-center p-4">
                 <div className="sm:w-1/3">
                     <h1 className="lgHeading">

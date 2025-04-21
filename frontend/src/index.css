@@ -8,7 +8,7 @@
 
 @import "tailwindcss";
 
-.customerContainer{
+.customeContainer{
     max-width: 1400px;
     width: 90%;
     margin: auto;
@@ -41,4 +41,16 @@ body{
 
 .smallImg{
     @apply w-15 sm:w-25 block m-auto
+}
+
+.inputFields{
+    @apply text-center rounded-3xl border p-1 
+}
+
+.buttonStyle{
+    @apply bg-slate-700 p-4 text-white rounded-xl block m-auto w-28
+}
+
+.buttonStyle2{
+    @apply border cursor-pointer p-2 font-semibold block m-auto mb-4
 }
