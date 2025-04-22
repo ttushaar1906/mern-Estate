@@ -1,5 +1,10 @@
 import { AboutUsInt, LeaderShipTeam, StoryInt } from "../interfaces/AboutUsInt";
 import TrustImg from "../images/Trust.png"
+import Innovation from "../images/innovation.png"
+import CustomerFirst from "../images/customer first.png"
+import Model1 from "../images/tushar.jpeg"
+import Model2 from "../images/sanket.jpeg"
+import Model3 from "../images/guru.jpeg"
 
 export const AboutConfig: AboutUsInt[] = [
   {
@@ -8,12 +13,12 @@ export const AboutConfig: AboutUsInt[] = [
     desc: "We believe in being completely transparent with our listings and services. Every property on our platform undergoes verification to ensure accuracy.",
   },
   {
-    img: "",
+    img: Innovation,
     heading: "Innovation",
     desc: "We continuously improve our platform with advanced search tools, virtual tours, and instant communication features that make property hunting efficient.",
   },
   {
-    img: "",
+    img: CustomerFirst,
     heading: "Customer-First",
     desc: "Our dedicated team of property experts is always available to provide personalized support throughout your property journey.",
   },
@@ -21,22 +26,22 @@ export const AboutConfig: AboutUsInt[] = [
 
 export const LeaderShipTeamConfig: LeaderShipTeam[] = [
   {
-    img: "",
-    name: "Lorem",
+    img: Model1,
+    name: "Tushar",
     position: "CEO & Founder",
-    desc: "With 15+ years in real estate, Sarah leads our vision for transforming property experiences.",
+    desc: "With 1+ years in real estate, Tushar leads our vision for transforming property experiences.",
   },
   {
-    img: "",
-    name: "Lorem",
+    img: Model3,
+    name: "Guru",
     position: "CTO",
-    desc: "Michael brings technical innovation to our platform, leading our development team.",
+    desc: "Guru brings technical innovation to our platform, leading our development team.",
   },
   {
-    img: "",
-    name: "Lorem",
+    img: Model2,
+    name: "Sanket",
     position: "Head of Customer Experience",
-    desc: "Amelia ensures every client receives exceptional service throughout their property journey.",
+    desc: "Sanket ensures every client receives exceptional service throughout their property journey.",
   },
 ];
 

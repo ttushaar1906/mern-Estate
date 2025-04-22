@@ -1,16 +1,13 @@
-import { Link } from "react-router-dom";
-import SignInImg from "../images/SignIn.jpeg"
-import { AiFillGoogleCircle } from "react-icons/ai";
+import { Link } from 'react-router-dom'
+import SignInImg from '../images/SignIn.jpeg'
+import { AiFillGoogleCircle } from 'react-icons/ai'
 
-export default function SignIn() {
-    const inputFields: string[] = ["email", "password"];
-
+export default function SignUp() {
+    const inputFields: string[] = ["username", "email", "password"]
     return (
-        <div className="container customeContainer pt-10 block sm:flex justify-center ">
-            <div className="w-full sm:w-1/2   ">
-                <img src={SignInImg} alt="SignIn" />
-            </div>
-            <div className="w-full sm:w-1/2 h-auto  ">
+        <div className="container customeContainer pt-10 flex justify-center flex-col-reverse sm:flex-row">
+
+            <div className="w-full sm:w-1/2 h-auto">
                 <h1 className="lgHeading p-4">Sign In</h1>
 
                 <form className=" ">
@@ -21,7 +18,7 @@ export default function SignIn() {
                             </label>
                             <input
                                 id={field}
-                                type={field === "password" ? "password" : "email"}
+                                type={field === "password" ? "password" : field === "email" ? "email" : "text"}
                                 name={field}
                                 className="inputFields w-[80%]"
                                 autoComplete="off"
@@ -29,15 +26,14 @@ export default function SignIn() {
                         </div>
                     ))}
                     <button type="submit" className="buttonStyle block mx-auto">
-                        Sign In
+                        Sign Up
                     </button>
-                    <p className="p-2 text-slate-600 text-center">Forgot Password ?</p>
 
                     <div className=" flex flex-col items-center">
-                        <p className="">
+                        <p className="pt-2">
                             OR
                         </p>
-                        <div className="flex border rounded-xl w-[80%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
+                        <div className="flex border w-[80%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md rounded-xl">
                             <AiFillGoogleCircle size={20} />
                             <p>
                                 Continue with Google
@@ -45,16 +41,21 @@ export default function SignIn() {
                         </div>
 
                         <div className="p-3">
-                            Don't have an Account ?
-                            <Link to="/signUp">
+                            Already have an account ?
+                            <Link to="/signIn">
                                 <span className="px-1 darkColor">
-                                    Create Now..
+                                    Sign In
                                 </span>
                             </Link>
                         </div>
                     </div>
+
                 </form>
             </div>
+
+            <div className="w-full sm:w-1/2">
+                <img src={SignInImg} alt="SignIn" />
+            </div>
         </div>
-    );
+    )
 }
