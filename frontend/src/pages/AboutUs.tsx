@@ -32,22 +32,22 @@ export default function AboutUs() {
                     <p className="paraStyle">{story.desc}</p>
                 ))}
 
-                <div className="block sm:flex justify-evenly items-center p-4 rounded-lg ">
+                <div className="block sm:flex justify-evenly items-center p-4 mt-10 rounded-lg shadow-sm sm:shadow-none ">
                     {AboutConfig.map((about) => (
                         <div className="">
                             <img src={about.img} alt={about.img} className="smallImg" />
-                            <h2 className="mdHead">{about.heading}</h2>
+                            <h2 className="mdHead text-center">{about.heading}</h2>
                             <p className="paraStyle">{about.desc}</p>
                         </div>
                     ))}
                 </div>
             </div>
 
-            <div className="">
-                <h1 className="lgHeading mt-8 p-2">
+            <div className=" rounded-lg shadow-sm sm:shadow-none p-6 my-16">
+                <h1 className="lgHeading ">
                     Meet Our Leadership Team
                 </h1>
-                <p className="smStyle">
+                <p className="smStyle my-6">
                     The passionate individuals who drive our mission forward.
                 </p>
 

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function ListProp() {
     return (
-        <div className=" p-2  customeContainer bg-white rounded-lg shadow-md">
+        <div className=" p-4 mt-12 rounded-lg">
             <h1 className="lgHeading">
                 Have a property to sell or rent?
             </h1>

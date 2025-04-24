@@ -5,64 +5,65 @@
 
 */
 
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 @import "tailwindcss";
 
-.customeContainer{
-    max-width: 1400px;
-    width: 90%;
-    margin: auto;
+.customeContainer {
+  max-width: 1400px;
+  width: 90%;
+  margin: auto;
+  font-family: 'Poppins', sans-serif;
 }
 
-body{
-    background-color: #F9F9F9;
+body {
+  background-color: #f9f9f9;
+  padding: 0;
+  margin: 0;
 }
 
-.lgHeading{
-    @apply text-3xl text-center font-extrabold text-slate-700
+.lgHeading {
+  @apply text-3xl text-center font-extrabold text-slate-700;
 }
 
-.paraStyle{
-    @apply p-4 text-slate-600 leading-6
+.paraStyle {
+  @apply p-4 text-slate-600 leading-6;
 }
 
-.mdHead{
-    @apply text-2xl text-center font-bold text-slate-700
+.mdHead {
+  @apply text-2xl font-bold text-slate-700;
 }
 
-.smStyle{
-    @apply text-sm text-center font-medium text-slate-700
+.smStyle {
+  @apply text-sm text-center font-medium text-slate-700;
 }
 
-.darkColor{
-    color: #2DA8BE;
+.darkColor {
+  color: #2da8be;
 }
 
-.smallImg{
-    @apply w-15 sm:w-25 block m-auto
+.smallImg {
+  @apply w-15 sm:w-25 block m-auto;
 }
 
-.inputFields{
-    @apply text-center rounded-3xl border p-1 
+.inputFields {
+  @apply text-center rounded-3xl border p-1 text-slate-600;
 }
 /* This is used for form input eg:listing, contact Us etc */
-.inputFieldInfo{
-    @apply w-full px-4 py-2 border border-gray-300 rounded-md 
+.inputFieldInfo {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-md text-slate-600;
 }
 
-.buttonStyle{
-    @apply bg-slate-700 py-2 px-6 text-white rounded-xl cursor-pointer 
+.buttonStyle {
+  @apply bg-slate-700 py-2 px-6 text-white rounded-xl cursor-pointer;
 }
-.buttonStyle:hover{
-    background: #475569;
-    /* color: #334155; */
-}
-
-
-.buttonStyle2{
-    @apply border cursor-pointer p-3 font-semibold block m-auto mb-4
+.buttonStyle:hover {
+  background: #475569;
 }
 
-.buttonStyle3{
-    @apply p-2 rounded-xl border m-4 cursor-pointer hover:shadow-md
+.buttonStyle2 {
+  @apply border cursor-pointer p-3 font-semibold block m-auto mb-4;
+}
+
+.buttonStyle3 {
+  @apply p-2 rounded-xl border m-4 cursor-pointer hover:shadow-md;
 }

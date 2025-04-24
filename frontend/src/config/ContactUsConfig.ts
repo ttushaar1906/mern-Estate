@@ -1,4 +1,4 @@
-import { ContactUsInt } from "../interfaces/ContactUs";
+import { ContactUsInt } from "../interfaces/ContactUsInt";
 
 export const freqAskQues: ContactUsInt[] = [
     {

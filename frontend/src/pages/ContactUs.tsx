@@ -95,7 +95,6 @@ export default function ContactUs() {
           <div className="bg-white p-6 rounded-lg shadow-md lg:col-span-2">
             <h2 className="mdHead mb-6">Send Us a Message</h2>
 
-
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>

@@ -1,5 +1,5 @@
-import {  Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import Home from "./components/Home";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import AboutUs from "./pages/AboutUs";
 import SignIn from "./pages/SignIn";
@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import NotAvailable from "./components/NotAvailable";
 import ContactUs from "./pages/ContactUs";
 import Properties from "./pages/Properties";
+import User from "./pages/User";
 
 export default function App() {
 
@@ -20,15 +21,12 @@ export default function App() {
         <Route path="notAvailable" element={<NotAvailable />} />
         <Route path="contactUs" element={<ContactUs />} />
         <Route path="properties" element={<Properties />} />
-
-
-        {/* <Route path="user/:userId" element={<User />} /> */}
-        {/* <Route path="github" element={<Github />} loader={gitHubLoader} /> */}
+        <Route path="user" element={<User />} />
       </Route>
     ))
-   
+
 
   return (
-       <RouterProvider router={router} />
+    <RouterProvider router={router} />
   )
 }

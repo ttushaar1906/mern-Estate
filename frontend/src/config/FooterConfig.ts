@@ -1,4 +1,4 @@
-import { Footer1Int, SocailMediaInt } from "../interfaces/Footer";
+import { Footer1Int, SocailMediaInt } from "../interfaces/FooterInt";
 import Insta from "../images/insta.png"
 import Face from "../images/facebook.png"
 import Twitter from "../images/twitter.png"

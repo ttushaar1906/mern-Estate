@@ -1,12 +1,14 @@
 import ADBanner from "../components/ADBanner";
+import HowItWorks from "../components/HowItWorks";
 import ListProp from "../components/ListProp";
 
 
 export default function Home() {
   return (
-    <div>Home
-        <ADBanner />
-        <ListProp />
+    <div className="customeContainer">
+      <ADBanner />
+      <HowItWorks />
+      <ListProp />
     </div>
   )
 }
