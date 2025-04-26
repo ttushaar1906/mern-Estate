@@ -7,7 +7,7 @@ import listingRouter from './routes/listing.route.js'
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import connectDB from './db/index.js';
-
+import cors from "cors";
 dotenv.config({ path: "./.env", });
 
 let data = connectDB()
@@ -28,6 +28,8 @@ const __dirname = path.resolve()
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use(cookieParser())
 

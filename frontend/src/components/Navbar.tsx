@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import Logo from "../images/logo.png";
+import Logo from "../images/logo.jpg";
 import { useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 

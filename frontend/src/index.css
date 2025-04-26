@@ -48,6 +48,7 @@ body {
 .inputFields {
   @apply text-center rounded-3xl border p-1 text-slate-600;
 }
+
 /* This is used for form input eg:listing, contact Us etc */
 .inputFieldInfo {
   @apply w-full px-4 py-2 border border-gray-300 rounded-md text-slate-600;
@@ -56,6 +57,7 @@ body {
 .buttonStyle {
   @apply bg-slate-700 py-2 px-6 text-white rounded-xl cursor-pointer;
 }
+
 .buttonStyle:hover {
   background: #475569;
 }
@@ -66,4 +68,8 @@ body {
 
 .buttonStyle3 {
   @apply p-2 rounded-xl border m-4 cursor-pointer hover:shadow-md;
+}
+
+.flexStyleBet{
+  @apply flex justify-between items-center
 }

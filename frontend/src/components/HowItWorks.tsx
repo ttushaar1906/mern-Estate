@@ -1,4 +1,5 @@
-import { AiOutlineSearch, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
+import { HowItWorksConf } from "../config/HowItWorkConfig";
+
 export default function HowItWorks() {
     return (
         <div>
@@ -11,37 +12,22 @@ export default function HowItWorks() {
                         Whether you're buying, selling, or renting, we make it easy to find your perfect place
                     </p>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-slate-800 darkColor rounded-full flex items-center justify-center mx-auto mb-4">
-                                <AiOutlineSearch size={28} />
-                            </div>
-                            <h3 className="text-xl font-bold mb-2 text-slate-600">Search Properties</h3>
-                            <p className="text-gray-600">
-                                Browse thousands of listings with detailed filters to find your ideal home
-                            </p>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
 
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-slate-800 darkColor rounded-full flex items-center justify-center mx-auto mb-4">
-                                <AiOutlineHome size={28} />
-                            </div>
-                            <h3 className="text-xl font-bold text-slate-600  mb-2">Tour Homes</h3>
-                            <p className="text-gray-600">
-                                Schedule viewings online and tour homes in-person or virtually
-                            </p>
-                        </div>
+                        {HowItWorksConf.map((item) => (
+                            <div className="text-center">
+                                <div className="w-16 h-16 bg-slate-800 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                                    {item.img}
+                                </div>
 
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-slate-800 darkColor rounded-full flex items-center justify-center mx-auto mb-4">
-                                <AiOutlineUser size={28} />
+                                <h3 className="text-xl font-bold mb-2 text-slate-600">{item.title}</h3>
+                                <p className="text-gray-600">
+                                    {item.desc}
+                                </p>
                             </div>
-                            <h3 className="text-xl font-bold mb-2 text-slate-600">Work With Agents</h3>
-                            <p className="text-slate-700">
-                                Connect with expert agents who will guide you through the entire process
-                            </p>
-                        </div>
+                        ))}
                     </div>
+
                 </div>
             </section>
         </div>
