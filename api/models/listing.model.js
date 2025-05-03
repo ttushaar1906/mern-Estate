@@ -1,58 +1,81 @@
 import mongoose from "mongoose";
 
+const addressSchema = new mongoose.Schema({
+    line1: String,
+    line2: String,
+    city: String,
+    state: String,
+    postalCode: String,
+})
+
+const ImageSchema = new mongoose.Schema({
+    url: String
+})
+
+const FeaturesSchema = new mongoose.Schema({
+    Features: {
+      parking: Boolean,
+      petFriendly: Boolean,
+      security: Boolean,
+      swimmingPool: Boolean,
+      playGround: Boolean,
+      garden: Boolean,
+      publicToilet: Boolean,
+      clubHouse: Boolean,
+      temple: Boolean,
+      balcony: Boolean,
+      cctv: Boolean,
+      lift: Boolean,
+      forSell : Boolean,  // use ! for rent 
+      noOfRooms: Number,
+      noOfRestRooms: Number,
+      noOfLivingRoom : Number,
+      sqFt: String,
+      propertyType: {
+        enum: ["residential", "commercial","industrial","land", "villas"]
+      },
+    }
+})
+
+const RulesSchema = new mongoose.Schema({
+    rulesRegulation: {
+        no: String,
+        rules: String,
+      }
+})
+
 const listingSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
     },
-    description: {
+    desc: {
         type: String,
         required: true,
     },
-    address: {
-        type: String,
-        required: true,
+    images: {
+        type: [ImageSchema]
     },
-    regularPrice: {
-        type: Number,
-        required: true,
+    address: addressSchema,
+    price:{
+        type:Number
     },
     discountedPrice: {
         type: Number,
-        required: true,
     },
-    bathroom: {
-        type: Number,
-        required: true,
+    features:{
+        type:FeaturesSchema
     },
-    rooms: {
-        type: Number,
-        required: true,
-    },
-    furnished: {
-        type: Boolean,
-        required: true,
-    },
-    parking: {
-        type: Boolean,
-        required: true,
-    },
-    type: {
-        type: String,
-        required: true,
-    },
-    offer: {
-        type: Boolean,
-        required: true,
-    },
-    imageUrls: {
-        type: Array,
-        required: true,
-    },
-    userRef: {
-        type: String,
-        required: true,
+    rules:{
+        type:RulesSchema
     }
+
+
+
+    // userRef: {
+    //     type: String,
+    //     required: true,
+    // }
 }, { timestamps: true });
 
 const Listing = mongoose.model('Listing', listingSchema);

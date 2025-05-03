@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
         unique:true,
         require:true,
     },
-    email:{
+    userEmail:{
         type:String,
         unique:true,
         require:true,
@@ -20,6 +20,12 @@ const userSchema = new mongoose.Schema({
     avatar:{
         type:String
     },
+    mobileNo:{
+        type:Number
+    },
+    refreshToken: {
+        type: String
+    }
 },{ timestamps : true});
 
 //timestamps is used to keep record of account created and account updated

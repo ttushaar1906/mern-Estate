@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { errorHandler } from "../utils/error.js";
+import { apiErrorHandler } from "../utils/error.js";
 
 const connectDB = async () => {
     try {
@@ -9,7 +9,7 @@ const connectDB = async () => {
         
     } catch (error) {
         console.log(`Error Connecting with DB ${error}`);
-        return (errorHandler(500, 'Internal Server Error'));
+        return (apiErrorHandler(500, 'Internal Server Error'));
 
     }
 }

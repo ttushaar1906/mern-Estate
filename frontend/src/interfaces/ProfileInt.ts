@@ -1,7 +1,7 @@
-// This data will come from api
+// This data will come from api and change img to avatar
 
 export interface ProfileIn{
-    img:string,
+    avatar:string,
     name: string,
     email:string,
     mobileNo : number, 

@@ -19,7 +19,8 @@ export enum PropertyType {
   Residential = "residential",
   Commercial = "commercial",
   Industrial = "industrial",
-  Land = "land"
+  Land = "land",
+  Villas = "villas"
 }
 
 interface Features {
@@ -47,9 +48,9 @@ export interface PropertyInt {
   name: string;
   desc: string;
   images: Image[];
-  address: Address[];
+  address: Address;
   price: number;
   discountedPrice: number;
-  features: Features[];
+  features: Features;
   rules: rulesRegulation[];
 }

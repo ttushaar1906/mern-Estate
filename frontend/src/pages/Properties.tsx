@@ -3,41 +3,82 @@ import { PropertyInt } from "../interfaces/PropertyInt";
 import { getPropertiesFn } from "../controllers/Property/getProperty";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import { AiOutlineEnvironment } from "react-icons/ai";
+import { AiOutlineEnvironment, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Modal } from "antd";
 
 export default function Properties() {
+  const [liked, setLiked] = useState<{ [key: number]: boolean }>({}); // Per-property like
 
   const { data, isLoading, isError } = useQuery<PropertyInt[]>({
-    queryKey: ["properties"],   // Unique key for caching
-    queryFn: getPropertiesFn,   // Function that fetches data
+    queryKey: ["properties"],
+    queryFn: getPropertiesFn,
   });
-
-  if (isLoading) return <div> <Loading /> </div>;
+  if (isLoading) return <div><Loading /></div>;
   if (isError) return <div><Error /></div>;
 
+  const toggleLike = (index: number) => {
+    setLiked(prev => ({ ...prev, [index]: !prev[index] }));
+  };
+
   return (
-    <div className="customeContainer border flex ">
+    <section className="customeContainer">
 
-      {data?.map((property, index) => (
-        <div key={index} className="border leading-6">
+      <div className="border flex items-center justify-evenly gap-4">
+        <input type="text" placeholder="Search. Find. Stay. " className=" " />
+        <button className="my-2 w-40 p-2 bg-slate-700 text-white rounded-lg hover:bg-gray-800">
+          Add Property
+        </button>
+      </div>
 
-          <div className="">
-            <img src={property.images[0].url} alt="homeImg" />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+        {data?.map((property, index) => (
+          <div
+            key={index}
+            className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white"
+          >
+            <img
+              src={property.images[0]?.url}
+              alt={property.name}
+              className="w-full h-52 object-cover bg-no-repeat"
+            />
+
+            <div className="p-4 space-y-2">
+              <div className="flexStyleBet">
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-700">{property.name}</h2>
+                  <p className="text-md text-slate-600 font-bold">₹ {property.price.toLocaleString()}</p>
+                </div>
+                {liked[index] ? (
+                  <AiFillHeart
+                    className="w-8 h-8 text-red-500 bg-red-100 p-1 rounded-full cursor-pointer border"
+                    onClick={() => toggleLike(index)}
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    className="w-8 h-8 text-slate-600 bg-white p-1 rounded-full cursor-pointer border"
+                    onClick={() => toggleLike(index)}
+                  />
+                )}
+              </div>
+
+              <div className="flex items-start gap-2 text-slate-600 text-sm pt-2">
+                <AiOutlineEnvironment className="text-xl mt-0.5 text-slate-700" />
+                <p>
+                  {property.address.line1}, {property.address.line2}, {property.address.city}, {property.address.state}
+                </p>
+              </div>
+              <Link to="/property">
+                <button className="mt-4 w-full py-2 bg-slate-700 text-white rounded-lg hover:bg-gray-800 hover:cursor-pointer">
+                  Explore Property
+                </button>
+              </Link>
+            </div>
           </div>
+        ))}
+      </div>
 
-          <div className="flexStyleBet">
-            <h3 className="mdHead">{property.name}</h3>
-            <h3 className="text-slate-600 font-semibold">₹ {property.price}</h3>
-          </div>
-          <h4>
-  <AiOutlineEnvironment />
-  {property.address && property.address.length > 0 ? property.address[0].line1 : "No Address Available"}
-</h4>
-
-          {/* <h4><AiOutlineEnvironment />{property.address[0].line1}</h4> */}
-          <p>{property.desc}</p>
-        </div>
-      ))}
-    </div>
-  )
+    </section>
+  );
 }

@@ -8,6 +8,7 @@ import NotAvailable from "./components/NotAvailable";
 import ContactUs from "./pages/ContactUs";
 import Properties from "./pages/Properties";
 import User from "./pages/User";
+import ViewProperty from "./components/ViewProperty";
 
 export default function App() {
 
@@ -21,6 +22,8 @@ export default function App() {
         <Route path="notAvailable" element={<NotAvailable />} />
         <Route path="contactUs" element={<ContactUs />} />
         <Route path="properties" element={<Properties />} />
+        <Route path="property" element={<ViewProperty />} />
+        
         <Route path="user" element={<User />} />
       </Route>
     ))

@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom'
 import SignInImg from '../images/SignIn.jpeg'
 import { AiFillGoogleCircle } from 'react-icons/ai'
 
+
+
 export default function SignUp() {
-    const inputFields: string[] = ["username", "email", "password"]
+    const inputFields: string[] = ["username", "email", "mobileNo", "password"]
     return (
         <div className="container customeContainer pt-10 flex justify-center flex-col-reverse sm:flex-row">
 
@@ -18,7 +20,7 @@ export default function SignUp() {
                             </label>
                             <input
                                 id={field}
-                                type={field === "password" ? "password" : field === "email" ? "email" : "text"}
+                                type={field === "password" ? "password" : field === "email" ? "email" : field === "mobileNo" ? "number" : "text"}
                                 name={field}
                                 className="inputFields w-[80%]"
                                 autoComplete="off"
@@ -33,12 +35,20 @@ export default function SignUp() {
                         <p className="pt-2">
                             OR
                         </p>
-                        <div className="flex border w-[80%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md rounded-xl">
+                        {/* <div className="flex border w-[80%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md rounded-xl">
                             <AiFillGoogleCircle size={20} />
                             <p>
                                 Continue with Google
                             </p>
-                        </div>
+                        </div> */}
+
+                        <button
+                            onClick={handleGoogleClick}
+                            type="button"
+                            className="p-2 border uppercase rounded-md font-bold bg-red700 text-white hover:bg-red hover:text-white"
+                        >
+                            Continue with google
+                        </button>
 
                         <div className="p-3">
                             Already have an account ?
