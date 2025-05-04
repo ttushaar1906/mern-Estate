@@ -1,7 +1,7 @@
 import User from "../models/user.module.js";
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { nameValidtion } from "../utils/validationFile.js";
+import { emailValidation, mobileNoValidation, nameValidtion } from "../utils/validationFile.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiErrorHandler } from "../utils/error.js";
 import { apiResponse } from "../utils/apiResponse.js";
@@ -22,29 +22,38 @@ const generateAccessTokenRefreshToken = async (userId) => {
     }
 }
 
-export const signUp = asyncHandler(async(req,res)=>{
-    const {username,userEmail,mobileNo,password} = req.body
+export const signUp = asyncHandler(async (req, res) => {
 
-    const existingUser = await User.find({
-        $or: [{ username },{ userEmail } , {mobileNo}]
-    })
+    const { userName, userEmail, mobileNo, password } = req.body;
+    emailValidation(userEmail)
+    // mobileNoValidation(mobileNo);
 
-    if (existingUser.length > 0) {
-        throw new apiErrorHandler(409, "User email or user name already exists !!")
+    const existingUser = await User.findOne({
+        $or: [
+          { userName },
+          { userEmail },
+          { mobileNo }
+        ]
+      });
+      
+
+    if(existingUser){
+        throw new apiErrorHandler(409,"User Already registered with some credentials")
     }
-    
     const hashedPassword = await bcryptjs.hash(password, 10);
 
     const user = await User.create({
-        username,
+        userName,
         userEmail,
         mobileNo,
-        password:hashedPassword,
-    })
+        password: hashedPassword,
+    });
 
-    const createdUser = await User.findById(user._id).select("-password -refreshToken")
-    return res.status(200).json( new apiResponse(200, createdUser, "User created"))
-})
+    // const createdUser = await User.findById(user._id).select("-password -refreshToken");
+
+    return res.status(200).json(new apiResponse(200, user, "User created"));
+});
+
 
 // export const signIn = async (req, res, next) => {
 //     const { email, password } = req.body;
@@ -102,3 +111,14 @@ export const signUp = asyncHandler(async(req,res)=>{
 //         next(error)
 //     }
 // }
+
+
+
+
+    // const existingUser = await User.find({
+    //     $or: [{ username }, { userEmail }, { mobileNo }]
+    // });
+
+    // if (existingUser.length > 0) {
+    //     throw new apiErrorHandler(409, "User email, username or mobile number already exists!");
+    // }

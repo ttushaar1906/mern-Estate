@@ -12,7 +12,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
     "@tanstack/react-query": "^5.74.4",
-    "antd": "^5.24.8",
+    "antd": "^4.24.13",
     "axios": "^1.9.0",
     "firebase": "^11.6.1",
     "react": "^19.0.0",

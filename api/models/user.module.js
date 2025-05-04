@@ -3,14 +3,12 @@ import mongoose from "mongoose";
 // we are creating schemas i.e rules for user modules
 
 const userSchema = new mongoose.Schema({
-    username:{
+    userName:{
         type:String,
-        unique:true,
         require:true,
     },
     userEmail:{
         type:String,
-        unique:true,
         require:true,
     },
     password:{
