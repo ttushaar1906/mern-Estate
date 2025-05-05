@@ -1,39 +1,38 @@
 import React, { useState } from 'react';
 import { freqAskQues } from '../config/ContactUsConfig';
 import { AiOutlineArrowDown, AiOutlineArrowUp, AiOutlineMail, AiOutlinePhone, AiOutlineEnvironment } from "react-icons/ai";
+import { createInequery } from '../controllers/ContactUs/createInequery';
 
 export default function ContactUs() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [message, setMessage] = useState('');
-  const [propertyType, setPropertyType] = useState('');
-  const [interest, setInterest] = useState('');
+  const [formData, setFormData] = useState({
+    fullName:"",
+    email:"",
+    mobileNo:"",
+    propertyType:"",
+    inquiresType:"",
+    message:""
+  })
+
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
- // Handle form submission
- const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  // In a real app, you would send this data to your backend
-  console.log({ name, email, phone, message, propertyType, interest });
-  alert('Thank you for contacting us! We will get back to you soon.');
-  // Reset form
-  setName('');
-  setEmail('');
-  setPhone('');
-  setMessage('');
-  setPropertyType('');
-  setInterest('');
-};
   // Toggle FAQ item
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
+  const handleSubmit =  async(e: React.FormEvent)=>{
+    e.preventDefault()
+    try {
+      const response = await createInequery(formData)
+
+    } catch (error) {
+      console.log(`error ${error}`); 
+    }
+  }
+
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center mb-16">
           <h1 className="lgHeading">Contact Us</h1>
           <p className="paraStyle">

@@ -1,6 +1,6 @@
-import { ContactUsInt } from "../interfaces/ContactUsInt";
+import { freqAskQuesInt } from "../interfaces/ContactUsInt";
 
-export const freqAskQues: ContactUsInt[] = [
+export const freqAskQues: freqAskQuesInt[] = [
     {
         question: "What services do you offer?",
         answer: "We offer comprehensive real estate services including property listings for sale and rent, property management, real estate consultation, and market analysis. Our team specializes in residential, commercial, and investment properties."
