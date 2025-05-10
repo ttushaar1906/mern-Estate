@@ -4,7 +4,7 @@ import { AiFillGoogleCircle } from 'react-icons/ai'
 import { createUserFn } from '../controllers/Users/createUser'
 import { useState } from 'react'
 import { ProfileIn } from '../interfaces/ProfileInt'
-import { showNotification } from '../components/Notification'
+// import { showNotification } from '../components/Notification'
 
 export default function SignUp() {
     const [formData, setFormData] = useState<ProfileIn>({
@@ -30,11 +30,11 @@ export default function SignUp() {
             const response = await createUserFn(formData)
             console.log(response);
 
-            showNotification({
-                type:'success',
-                message:"User Created Successfully",
-                duration : 5
-            })
+            // showNotification({
+            //     type:'success',
+            //     message:"User Created Successfully",
+            //     duration : 5
+            // })
             setFormData({
                 name:"",
                 email:"",
@@ -50,11 +50,11 @@ export default function SignUp() {
                 error?.message || 
                 'Something went wrong';
         
-            showNotification({
-                type: 'error',
-                message: message,
-                duration: 5
-            });
+            // showNotification({
+            //     type: 'error',
+            //     message: message,
+            //     duration: 5
+            // });
 
             setErr(error.response.data.message)
             

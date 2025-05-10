@@ -4,13 +4,13 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { mobileNoValidation, nameValidtion } from "../utils/validationFile.js";
 
 export const contactUs = asyncHandler(async(req,res)=>{
-  const {userName, email, mobileNo,propertyType,inquiresType, message} = req.body
+  const {fullName, email, mobileNo,propertyType,inquiresType, message} = req.body
 
-  nameValidtion(userName)
+  nameValidtion(fullName)
   mobileNoValidation(mobileNo)
 
   const data = await ContactUs.create({
-    userName,
+    fullName,
     email,
     mobileNo,
     propertyType,

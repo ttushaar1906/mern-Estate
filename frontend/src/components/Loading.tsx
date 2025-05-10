@@ -1,5 +1,4 @@
-import { Skeleton  } from "antd";
-
+import Skeleton from '@mui/material/Skeleton';
 
 export default function Loading() {
     return (

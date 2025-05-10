@@ -1,34 +1,80 @@
 import React, { useState } from 'react';
 import { freqAskQues } from '../config/ContactUsConfig';
-import { AiOutlineArrowDown, AiOutlineArrowUp, AiOutlineMail, AiOutlinePhone, AiOutlineEnvironment } from "react-icons/ai";
+import {
+  AiOutlineArrowDown,
+  AiOutlineArrowUp,
+  AiOutlineMail,
+  AiOutlinePhone,
+  AiOutlineEnvironment,
+} from "react-icons/ai";
 import { createInequery } from '../controllers/ContactUs/createInequery';
+import { ContactUsInt } from '../interfaces/ContactUsInt';
+import CircularProgress from '@mui/material/CircularProgress';
+import Notification from '../components/Notification';
 
 export default function ContactUs() {
-  const [formData, setFormData] = useState({
-    fullName:"",
-    email:"",
-    mobileNo:"",
-    propertyType:"",
-    inquiresType:"",
-    message:""
-  })
-
+  const [formData, setFormData] = useState<ContactUsInt>({
+    fullName: "",
+    email: "",
+    mobileNo: "",
+    propertyType: "",
+    inquiresType: "",
+    message: ""
+  });
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [snackBar, setSnackBar] = useState({
+    open: false,
+    severity: "",
+    message: "",
+    autoHideDuration:3000
+  });
 
-  // Toggle FAQ item
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await createInequery(formData);
+      console.log("Response:", response);
+      setFormData({
+        fullName: "",
+        email: "",
+        mobileNo: "",
+        propertyType: "",
+        inquiresType: "",
+        message: ""
+      });
+      setSnackBar({
+        open: true,
+        severity: "success",
+        message: "Inquiry Sent Successfully",
+        autoHideDuration:3000
+      });
+    } catch (error) {
+      // console.error("Error:", error);
+      console.log(error.response.data.message);
+      
+      setSnackBar({
+        open: true,
+        severity: "error",
+        message: `${error.response.data.message}`,
+        autoHideDuration:3000
+      });
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  };
+
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
-
-  const handleSubmit =  async(e: React.FormEvent)=>{
-    e.preventDefault()
-    try {
-      const response = await createInequery(formData)
-
-    } catch (error) {
-      console.log(`error ${error}`); 
-    }
-  }
 
   return (
     <div className="min-h-screen">
@@ -40,46 +86,33 @@ export default function ContactUs() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Contact Information */}
+        {/* Contact Information */}
+        <div className="grid grid-cols-1 text-center lg:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="mdHead mb-6">Get In Touch</h2>
-
-            <div className="space-y-6">
-              <div className="flex items-start">
-                <div className="flex-shrink-0">
-                  <AiOutlinePhone className="h-6 w-6 text-slate-700" />
-                </div>
-                <div className="ml-4">
+            <div className="space-y-6 flex items-center justify-evenly gap-4 lg:block">
+              <div className="flex items-center">
+                <AiOutlinePhone className="h-6 w-6 text-slate-700" />
+                <div className="ml-4 text-left">
                   <p className="text-slate-700 font-medium">Phone</p>
                   <p className="text-slate-600">(+91) 9527921209</p>
                 </div>
               </div>
-
-              <div className="flex items-start">
-                <div className="flex-shrink-0">
-                  <AiOutlineMail className="h-6 w-6 text-slate-700" />
-                </div>
-                <div className="ml-4">
+              <div className="flex items-center">
+                <AiOutlineMail className="h-6 w-6 text-slate-700" />
+                <div className="ml-4 text-left">
                   <p className="text-slate-700 font-medium">Email</p>
                   <p className="text-slate-600">tharwanitushar@gmail.com</p>
                 </div>
               </div>
-
-              <div className="flex items-start">
-                <div className="flex-shrink-0">
-                  <AiOutlineEnvironment className="h-6 w-6 text-slate-700" />
-                </div>
-                <div className="ml-4">
+              <div className="flex items-center">
+                <AiOutlineEnvironment className="h-6 w-6 text-slate-700" />
+                <div className="ml-4 text-left">
                   <p className="text-slate-700 font-medium">Address</p>
-                  <p className="text-slate-600">
-                    123 Main Street, Suite 400<br />
-                    Pune, India
-                  </p>
+                  <p className="text-slate-600">123 Main Street, Suite 400<br />Pune, India</p>
                 </div>
               </div>
             </div>
-
             <div className="mt-8">
               <h3 className="text-lg font-medium text-gray-900 mb-3">Office Hours</h3>
               <div className="text-sm text-slate-600">
@@ -93,35 +126,29 @@ export default function ContactUs() {
           {/* Contact Form */}
           <div className="bg-white p-6 rounded-lg shadow-md lg:col-span-2">
             <h2 className="mdHead mb-6">Send Us a Message</h2>
-
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-600 mb-1">
-                    Full Name
-                  </label>
+                  <label className="labelStyleCont">Full Name</label>
                   <input
                     type="text"
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
                     className="inputFieldInfo"
-                    placeholder="John Doe"
+                    placeholder='Enter Full Name'
                     required
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-600 mb-1">
-                    Email Address
-                  </label>
+                  <label className="labelStyleCont">Email</label>
                   <input
                     type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="inputFieldInfo"
-                    placeholder="john@example.com"
+                    placeholder='Enter Email'
                     required
                   />
                 </div>
@@ -129,102 +156,61 @@ export default function ContactUs() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-slate-600 mb-1">
-                    Phone Number
-                  </label>
+                  <label className="labelStyleCont">Mobile No</label>
                   <input
-                    type="tel"
-                    id="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    type="number"
+                    name="mobileNo"
+                    value={formData.mobileNo}
+                    onChange={handleChange}
                     className="inputFieldInfo"
-                    placeholder="(123) 456-7890"
+                    placeholder='Enter Mobile No'
+                    required
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="propertyType" className="block text-sm font-medium text-slate-600 mb-1">
-                    Property Type
-                  </label>
+                  <label className="labelStyleCont">Property Type</label>
                   <select
                     id="propertyType"
-                    value={propertyType}
-                    onChange={(e) => setPropertyType(e.target.value)}
-                    className="inputFieldInfo"
+                    name="propertyType"
+                    value={formData.propertyType}
+                    onChange={handleChange}
+                    className="inputFieldInfo w-full"
                   >
                     <option value="" disabled>Select Property Type</option>
-                    <option value="residential">Residential</option>
-                    <option value="commercial">Commercial</option>
-                    <option value="industrial">Industrial</option>
-                    <option value="land">Land</option>
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Industrial">Industrial</option>
+                    <option value="Land">Land</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">
-                  I'm interested in:
-                </label>
+                <label className="labelStyleCont pb-1">Inquiry Type</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="interest"
-                      value="buying"
-                      checked={interest === 'buying'}
-                      onChange={() => setInterest('buying')}
-                      className="h-4 w-4"
-                    />
-                    <span className="ml-2 text-slate-600">Buying a property</span>
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="interest"
-                      value="selling"
-                      checked={interest === 'selling'}
-                      onChange={() => setInterest('selling')}
-                      className="h-4 w-4"
-                    />
-                    <span className="ml-2 text-slate-600">Selling a property</span>
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="interest"
-                      value="renting"
-                      checked={interest === 'renting'}
-                      onChange={() => setInterest('renting')}
-                      className="h-4 w-4"
-                    />
-                    <span className="ml-2 text-slate-600">Renting a property</span>
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="interest"
-                      value="other"
-                      checked={interest === 'other'}
-                      onChange={() => setInterest('other')}
-                      className="h-4 w-4"
-                    />
-                    <span className="ml-2 text-slate-600">Other inquiries</span>
-                  </label>
+                  {["Buying", "Selling", "Renting", "Other"].map((type) => (
+                    <label key={type} className="flex items-center">
+                      <input
+                        type="radio"
+                        name="inquiresType"
+                        value={type}
+                        checked={formData.inquiresType === type}
+                        onChange={handleChange}
+                        className="h-4 w-4"
+                      />
+                      <span className="ml-2 text-slate-600 capitalize">{type} a property</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-slate-600 mb-1">
-                  Message
-                </label>
+                <label className="labelStyleCont pb-1">Message</label>
                 <textarea
-                  id="message"
+                  name="message"
                   rows={4}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  value={formData.message}
+                  onChange={handleChange}
                   className="inputFieldInfo"
                   placeholder="How can we help you?"
                   required
@@ -232,12 +218,13 @@ export default function ContactUs() {
               </div>
 
               <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="buttonStyle"
-                >
-                  Send Message
-                </button>
+                {isLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <button type="submit" className="buttonStyle">
+                    Send Message
+                  </button>
+                )}
               </div>
             </form>
           </div>
@@ -246,7 +233,6 @@ export default function ContactUs() {
         {/* FAQ Section */}
         <div className="mt-8">
           <h2 className="lgHeading">Frequently Asked Questions</h2>
-
           <div className="max-w-3xl mx-auto">
             {freqAskQues.map((item, index) => (
               <div key={index} className="mb-4">
@@ -254,24 +240,32 @@ export default function ContactUs() {
                   onClick={() => toggleFAQ(index)}
                   className="flex justify-between items-center w-full px-6 py-4 text-left bg-white rounded-lg shadow-sm hover:shadow-md transition duration-200"
                 >
-                  <span className="text-lg font-medium text-slate-600 ">{item.question}</span>
+                  <span className="text-lg font-medium text-slate-600">{item.question}</span>
                   {openFAQ === index ? (
                     <AiOutlineArrowUp className="h-5 w-5 text-slate-600" />
                   ) : (
                     <AiOutlineArrowDown className="h-5 w-5 text-slate-600" />
                   )}
                 </button>
-
                 {openFAQ === index && (
-                  <div className="px-6 py-4 bg-gray-50 rounded-b-lg mt-1 text-slate-600 ">
-                    {item.answer}
-                  </div>
+                  <div className="px-6 py-4 text-slate-600">{item.answer}</div>
                 )}
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Show Notification */}
+      {snackBar.open && (
+        <Notification
+          open={snackBar.open}
+          severity={snackBar.severity}
+          message={snackBar.message}
+          onClose={() => setSnackBar({ ...snackBar, open: false })}
+          autoHideDuration={snackBar.autoHideDuration}
+        />
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import Error from "../components/Error";
 import { AiOutlineEnvironment, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Modal } from "antd";
+// import { Modal } from "antd";
 
 export default function Properties() {
   const [liked, setLiked] = useState<{ [key: number]: boolean }>({}); // Per-property like
