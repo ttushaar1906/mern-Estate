@@ -2,8 +2,8 @@
 
 export interface ProfileIn{
     avatar:string | "",
-    name: string,
-    email:string,
+    userName: string,
+    userEmail:string,
     mobileNo : number | null, 
     joinInDate: string | "", 
     password:string

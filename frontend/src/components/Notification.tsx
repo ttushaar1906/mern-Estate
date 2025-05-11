@@ -7,13 +7,13 @@ const Notification: React.FC<NotificationInt> = ({
   open,
   message,
   severity = 'info',
-  handleClose,
+  onClose, // changed from handleClose
   autoHideDuration = 3000,
 }) => {
   return (
-    <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={handleClose}>
+    <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={onClose}>
       <Alert
-        onClose={handleClose}
+        onClose={onClose}
         severity={severity}
         variant="filled"
         sx={{ width: '100%' }}

@@ -1,7 +1,8 @@
 export interface NotificationInt {
   open: boolean;
   message: string;
-  severity?: "" | "error" | "info" | "success" | "warning";
-  handleClose: () => void;
+  actionLabel?: string;
+  severity?:  "error" | "info" | "success" | "warning";
+  onClose: () => void;
   autoHideDuration?: number;
 }

@@ -3,8 +3,8 @@ import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { mobileNoValidation, nameValidtion } from "../utils/validationFile.js";
 
-export const contactUs = asyncHandler(async(req,res)=>{
-  const {fullName, email, mobileNo,propertyType,inquiresType, message} = req.body
+export const contactUs = asyncHandler(async (req, res) => {
+  const { fullName, email, mobileNo, propertyType, inquiresType, message } = req.body
 
   nameValidtion(fullName)
   mobileNoValidation(mobileNo)
@@ -18,5 +18,5 @@ export const contactUs = asyncHandler(async(req,res)=>{
     message
   })
 
-  return res.status(200).json(new apiResponse(200,data, "Inequiry send successfully !!"))
+  return res.status(200).json(new apiResponse(200, data, "Inequiry send successfully !!"))
 })

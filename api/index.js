@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+dotenv.config();
+// dotenv.config({ path: "./.env", });
 // import userRouter from './routes/user.route.js';
 import authRouter from './routes/authRouter.js'; // Update the import path
 import listingRouter from './routes/listing.route.js'
@@ -9,20 +11,15 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import connectDB from './db/index.js';
 import cors from "cors";
-dotenv.config({ path: "./.env", });
+
+console.log("Current Working Directory:", process.cwd());
+import fs from 'fs';
+
+console.log("🧪 .env exists:", fs.existsSync('.env'));
+console.log("🧪 JWT_SECRET:", process.env.JWT_SECRET);
+console.log("🧪 MONGODB_URL:", process.env.MONGODB_URL);
 
 let data = connectDB()
-
-// mongoose
-//   .connect(
-//     `${process.env.mdbC}`
-//   )
-//   .then(() => {
-//     console.log('Connected to database');
-//   })
-//   .catch((err) => {
-//     console.log('Error while connecting', err);
-//   });
 
 const __dirname = path.resolve()
 

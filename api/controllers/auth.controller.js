@@ -5,6 +5,8 @@ import { emailValidation, mobileNoValidation, nameValidtion } from "../utils/val
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiErrorHandler } from "../utils/error.js";
 import { apiResponse } from "../utils/apiResponse.js";
+import dotenv from 'dotenv';
+dotenv.config({ path: "../.env", });
 
 const generateAccessTokenRefreshToken = async (userId) => {
     try {
@@ -25,8 +27,9 @@ const generateAccessTokenRefreshToken = async (userId) => {
 export const signUp = asyncHandler(async (req, res) => {
 
     const { userName, userEmail, mobileNo, password } = req.body;
+    nameValidtion(userName)
     emailValidation(userEmail)
-    // mobileNoValidation(mobileNo);
+    mobileNoValidation(mobileNo)
 
     const existingUser = await User.findOne({
         $or: [
@@ -35,7 +38,6 @@ export const signUp = asyncHandler(async (req, res) => {
           { mobileNo }
         ]
       });
-      
 
     if(existingUser){
         throw new apiErrorHandler(409,"User Already registered with some credentials")
@@ -49,10 +51,24 @@ export const signUp = asyncHandler(async (req, res) => {
         password: hashedPassword,
     });
 
-    // const createdUser = await User.findById(user._id).select("-password -refreshToken");
-
     return res.status(200).json(new apiResponse(200, user, "User created"));
 });
+
+
+export const signIn = asyncHandler(async(req,res)=>{
+    const {userEmail, password} = req.body
+    const user = await User.findOne({userEmail})
+    if(!user) throw new apiErrorHandler(404,'User not found !!')
+
+    const validPassword = bcryptjs.compareSync(password, user.password);
+    if(!validPassword) throw new apiErrorHandler(400,'Password does not match')
+    
+    const secretKey = `${process.env.JWT_SECRET}`
+    console.log(secretKey);
+    
+    
+    return res.status(200).json(new apiResponse(200,user,'Logged In Successfully'))
+})
 
 
 // export const signIn = async (req, res, next) => {
@@ -60,11 +76,11 @@ export const signUp = asyncHandler(async (req, res) => {
 //     try {
 //         const userValid = await User.findOne({ email });
         
-//         if (!userValid) return next(apiErrorHandler(404, 'User not found!'))
+//         if (!userValid) throw new(apiErrorHandler(404, 'User not found!'))
 
 //         const validPassword = bcryptjs.compareSync(password, userValid.password);
 
-//         if (!validPassword) return next(apiErrorHandler(404, "Incorrect Credentials"))
+//         if (!validPassword) throw new(apiErrorHandler(404, "Incorrect Credentials"))
 //         const secretKey = `${process.env.JWT_SECRET}`
 
 //         const token = jwt.sign({ id: userValid._id }, secretKey)

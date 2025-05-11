@@ -25,7 +25,7 @@ export default function ContactUs() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [snackBar, setSnackBar] = useState({
     open: false,
-    severity: "",
+    severity: "info",
     message: "",
     autoHideDuration:3000
   });
@@ -39,8 +39,7 @@ export default function ContactUs() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await createInequery(formData);
-      console.log("Response:", response);
+       await createInequery(formData);
       setFormData({
         fullName: "",
         email: "",
@@ -55,10 +54,7 @@ export default function ContactUs() {
         message: "Inquiry Sent Successfully",
         autoHideDuration:3000
       });
-    } catch (error) {
-      // console.error("Error:", error);
-      console.log(error.response.data.message);
-      
+    } catch (error:object | any| unknown) {      
       setSnackBar({
         open: true,
         severity: "error",
@@ -219,7 +215,9 @@ export default function ContactUs() {
 
               <div className="flex justify-end">
                 {isLoading ? (
-                  <CircularProgress />
+                  <div className='buttonStyle w-25'>
+                    <CircularProgress color='white' />
+                  </div>
                 ) : (
                   <button type="submit" className="buttonStyle">
                     Send Message

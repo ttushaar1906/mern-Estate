@@ -4,67 +4,69 @@ import { AiFillGoogleCircle } from 'react-icons/ai'
 import { createUserFn } from '../controllers/Users/createUser'
 import { useState } from 'react'
 import { ProfileIn } from '../interfaces/ProfileInt'
-// import { showNotification } from '../components/Notification'
+import Notification from '../components/Notification'
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function SignUp() {
     const [formData, setFormData] = useState<ProfileIn>({
-        name: "",
-        email: "",
+        userName: "",
+        userEmail: "",
         mobileNo: null,
         password: "",
         joinInDate: "",
         avatar: ""
     })
 
-    const [err,setErr] = useState("")
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [snackBar, setSnackBar] = useState({
+        open: false,
+        severity: "info",
+        message: "",
+        autoHideDuration: 3000
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        setLoading(true);
         try {
-            const response = await createUserFn(formData)
-            console.log(response);
-
-            // showNotification({
-            //     type:'success',
-            //     message:"User Created Successfully",
-            //     duration : 5
-            // })
+            await createUserFn(formData)
             setFormData({
-                name:"",
-                email:"",
-                mobileNo:null,
-                password:"",
-                avatar:"",
-                joinInDate:""
+                userName: "",
+                userEmail: "",
+                mobileNo: null,
+                password: "",
+                avatar: "",
+                joinInDate: ""
             })
-        } catch (error) {
-          
-            const message =
-                error?.response?.data?.message || 
-                error?.message || 
-                'Something went wrong';
-        
-            // showNotification({
-            //     type: 'error',
-            //     message: message,
-            //     duration: 5
-            // });
-
-            setErr(error.response.data.message)
-            
-        }   
+            setSnackBar({
+                open: true,
+                message: "User Account Created Successfully",
+                severity: "success",
+                autoHideDuration: 3000
+            })
+        } catch (error: any) {
+            setSnackBar({
+                open: true,
+                message: `${error.response.data.message}`,
+                severity: "erro",
+                autoHideDuration: 3000
+            })
+        } finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
+        }
     }
 
 
     const inputFields = [
-        { label: "Username", name: "name", type: "text" },
-        { label: "Email", name: "email", type: "email" },
+        { label: "Username", name: "userName", type: "text" },
+        { label: "Email", name: "userEmail", type: "email" },
         { label: "Mobile No", name: "mobileNo", type: "number" },
         { label: "Password", name: "password", type: "password" }
     ];
@@ -93,17 +95,25 @@ export default function SignUp() {
                             />
                         </div>
                     ))}
- 
-                      <p>Error : {err}</p>  
 
-                    <button onClick={handleSubmit} className="buttonStyle block mx-auto">
-                        Sign Up
-                    </button>
+                    <div className='my-4 flex justify-center'>
+                        {isLoading ? (
+                            <div className='buttonStyle '>
+                                <CircularProgress color='white' size={18} />
+                            </div>
+
+                        ) : (
+                            <button onClick={handleSubmit} className="buttonStyle ">
+                                Sign Up
+                            </button>
+                        )}
+                    </div>
+
 
                     <div className=" flex flex-col items-center">
-                        <p className="pt-2">
+                        <span>
                             OR
-                        </p>
+                        </span>
 
                         <div className="flex border rounded-xl w-[80%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
                             <AiFillGoogleCircle size={20} />
@@ -128,6 +138,17 @@ export default function SignUp() {
             <div className="w-full sm:w-1/2">
                 <img src={SignInImg} alt="SignIn" />
             </div>
+
+            {/* Show Notification */}
+            {snackBar.open && (
+                <Notification
+                    open={snackBar.open}
+                    severity={snackBar.severity}
+                    message={snackBar.message}
+                    onClose={() => setSnackBar({ ...snackBar, open: false })}
+                    autoHideDuration={snackBar.autoHideDuration}
+                />
+            )}
         </div>
     )
 }

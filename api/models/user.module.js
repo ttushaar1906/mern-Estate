@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-// we are creating schemas i.e rules for user modules
-
 const userSchema = new mongoose.Schema({
     userName:{
         type:String,
