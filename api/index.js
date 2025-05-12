@@ -12,13 +12,6 @@ import path from 'path';
 import connectDB from './db/index.js';
 import cors from "cors";
 
-console.log("Current Working Directory:", process.cwd());
-import fs from 'fs';
-
-console.log("🧪 .env exists:", fs.existsSync('.env'));
-console.log("🧪 JWT_SECRET:", process.env.JWT_SECRET);
-console.log("🧪 MONGODB_URL:", process.env.MONGODB_URL);
-
 let data = connectDB()
 
 const __dirname = path.resolve()
@@ -44,6 +37,19 @@ app.use(express.static(path.join(__dirname,'/client/dist')));
 app.get('*',(req,res)=>{
   res.sendFile(path.join(__dirname,'client','dist','index.html'))
 })
+
+app.use((req, res) => {
+  res.status(503).send(`
+    <html>
+      <head><title>Maintenance</title></head>
+      <body style="text-align:center;padding-top:50px;">
+        <h1>This website is currently unavailable.</h1>
+        <p>We'll be back soon. Thank you for your patience.</p>
+      </body>
+    </html>
+  `);
+});
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
