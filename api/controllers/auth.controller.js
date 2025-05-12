@@ -7,12 +7,19 @@ import { apiErrorHandler } from "../utils/error.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import dotenv from 'dotenv';
 dotenv.config({ path: "../.env", });
+import {generateAccessToken, generateRefreshToken} from "../utils/token.js"
 
-const generateAccessTokenRefreshToken = async (userId) => {
+const generateAccessTokenRefreshToken = async (id) => {
     try {
-        const user = await User.findById(userId)
-        const accessToken = user.generateAccessToken()
-        const refreshToken = user.generateRefreshToken()
+        const user = await User.findById(id)
+        console.log(user.id);
+        
+        const payload = {
+            id: user._id,
+            userEmail: user.userEmail
+        }
+        const accessToken =await generateAccessToken(payload, process.env.ACCESS_TOKEN_EXPIRY)
+        const refreshToken =await generateRefreshToken(payload,process.env.REFRESH_TOKEN_EXPIRY)
         
         user.refreshToken = refreshToken        
         await user.save({ ValidateBeforeSave: false })
@@ -20,12 +27,11 @@ const generateAccessTokenRefreshToken = async (userId) => {
 
     } catch (error) {
         console.log(error);
-        throw new apiErrorHandler(500, "Something went wrong !!")
+        throw new apiErrorHandler(500, `Something went wrong !! ${error}`)
     }
 }
 
 export const signUp = asyncHandler(async (req, res) => {
-
     const { userName, userEmail, mobileNo, password } = req.body;
     nameValidtion(userName)
     emailValidation(userEmail)
@@ -63,34 +69,27 @@ export const signIn = asyncHandler(async(req,res)=>{
     const validPassword = bcryptjs.compareSync(password, user.password);
     if(!validPassword) throw new apiErrorHandler(400,'Password does not match')
     
-    const secretKey = `${process.env.JWT_SECRET}`
-    console.log(secretKey);
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToekn")
+
+    const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
     
-    
-    return res.status(200).json(new apiResponse(200,user,'Logged In Successfully'))
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res.status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(new apiResponse(200,loggedInUser,'Logged In Successfully'))
 })
 
+// export const loggout = asyncHandler(async(req,res)=>{
+    
 
-// export const signIn = async (req, res, next) => {
-//     const { email, password } = req.body;
-//     try {
-//         const userValid = await User.findOne({ email });
-        
-//         if (!userValid) throw new(apiErrorHandler(404, 'User not found!'))
-
-//         const validPassword = bcryptjs.compareSync(password, userValid.password);
-
-//         if (!validPassword) throw new(apiErrorHandler(404, "Incorrect Credentials"))
-//         const secretKey = `${process.env.JWT_SECRET}`
-
-//         const token = jwt.sign({ id: userValid._id }, secretKey)
-//         const { password: pass, ...rest } = userValid._doc;        
-//         res.cookie('access_token', token, { http: true }).status(200).json(rest)
-//     }
-//     catch (error) {
-//         next(error);
-//     }
-// }
+//     res.clearCookie("accesstoken", options);
+//     res.clearCookie("refreshtoken", options);
+// })
 
 // export const google = async (req, res, next) => {
 //     try {
@@ -119,14 +118,6 @@ export const signIn = asyncHandler(async(req,res)=>{
 //     }
 // };
 
-// export const signOut = async (req, res, next) => {
-//     try {
-//         res.clearCookie('access-token');
-//         res.status(200).json("Sign out Successfully!")
-//     } catch (error) {
-//         next(error)
-//     }
-// }
 
 
 

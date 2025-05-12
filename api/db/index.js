@@ -4,9 +4,7 @@ import { apiErrorHandler } from "../utils/error.js";
 const connectDB = async () => {
     try {
         // const dbURL = 'mongodb://127.0.0.1:27017/realEState'
-        const dbURL = `${process.env.MONGODB_URL}`
-        console.log(`This is db url ${dbURL}`);
-        
+        const dbURL = `${process.env.MONGODB_URL}`        
         const dbResponse = await mongoose.connect(dbURL)
         console.log(`DB Connected !`);
         

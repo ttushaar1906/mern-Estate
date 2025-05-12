@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import SignInImg from '../images/SignIn.jpeg'
 import { AiFillGoogleCircle } from 'react-icons/ai'
 import { createUserFn } from '../controllers/Users/createUser'
@@ -16,7 +16,6 @@ export default function SignUp() {
         joinInDate: "",
         avatar: ""
     })
-
     const [isLoading, setLoading] = useState<boolean>(false);
     const [snackBar, setSnackBar] = useState({
         open: false,
@@ -24,6 +23,7 @@ export default function SignUp() {
         message: "",
         autoHideDuration: 3000
     });
+    const navigate = useNavigate()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -49,11 +49,14 @@ export default function SignUp() {
                 severity: "success",
                 autoHideDuration: 3000
             })
+            setTimeout(() => {
+                navigate("/signIn")
+            }, 1000)
         } catch (error: any) {
             setSnackBar({
                 open: true,
                 message: `${error.response.data.message}`,
-                severity: "erro",
+                severity: "error",
                 autoHideDuration: 3000
             })
         } finally {

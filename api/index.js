@@ -38,19 +38,6 @@ app.get('*',(req,res)=>{
   res.sendFile(path.join(__dirname,'client','dist','index.html'))
 })
 
-app.use((req, res) => {
-  res.status(503).send(`
-    <html>
-      <head><title>Maintenance</title></head>
-      <body style="text-align:center;padding-top:50px;">
-        <h1>This website is currently unavailable.</h1>
-        <p>We'll be back soon. Thank you for your patience.</p>
-      </body>
-    </html>
-  `);
-});
-
-
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
