@@ -8,3 +8,8 @@ export interface ProfileIn{
     joinInDate: string | "", 
     password:string
 }
+
+export interface UserLoginInt{
+    userEmail : string,
+    password: string
+}

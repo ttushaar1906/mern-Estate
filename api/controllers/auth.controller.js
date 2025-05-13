@@ -12,9 +12,7 @@ import {generateAccessToken, generateRefreshToken} from "../utils/token.js"
 const generateAccessTokenRefreshToken = async (id) => {
     try {
         const user = await User.findById(id)
-        console.log(user.id);
-        
-        const payload = {
+                const payload = {
             id: user._id,
             userEmail: user.userEmail
         }
@@ -63,6 +61,9 @@ export const signUp = asyncHandler(async (req, res) => {
 
 export const signIn = asyncHandler(async(req,res)=>{
     const {userEmail, password} = req.body
+    if(userEmail === "") throw new apiErrorHandler(400,"User emial field is required")
+    if(password === "") throw new apiErrorHandler(400,"Password is required")
+
     const user = await User.findOne({userEmail})
     if(!user) throw new apiErrorHandler(404,'User not found !!')
 
@@ -83,6 +84,10 @@ export const signIn = asyncHandler(async(req,res)=>{
     .cookie("refreshToken", refreshToken, options)
     .json(new apiResponse(200,loggedInUser,'Logged In Successfully'))
 })
+
+// export const googleLogIn = asyncHandler(async(req,res)=>{
+//     await User.findOne({userEmail:req.body.})
+// })
 
 // export const loggout = asyncHandler(async(req,res)=>{
     
