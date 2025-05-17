@@ -2,8 +2,10 @@ import { NavLink } from "react-router-dom";
 import Logo from "../images/logo.jpg";
 import { useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const user = useSelector(state=> state.currentUser)
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -22,7 +24,11 @@ export default function Navbar() {
           <NavLink to="/about" className={navLinkClass}><li>ABOUT US</li></NavLink>
           <NavLink to="/properties" className={navLinkClass}><li>Properties</li></NavLink>
           <NavLink to="/contactUs" className={navLinkClass}><li>Contact Us</li></NavLink>
+          {user === null ? 
+          <NavLink to="/signIn" className={navLinkClass}><li>Login</li></NavLink>
+          :
           <NavLink to="/user" className={navLinkClass}><li>User</li></NavLink>
+          }
         </ul>
 
         {/* Hamburger Button */}

@@ -2,17 +2,22 @@ import { Link, useNavigate } from "react-router-dom";
 import SignInImg from "../images/SignIn.jpeg"
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { useState } from "react";
-import { loginUserFn } from "../controllers/Users/loginUser";
+import { loginUserFn, userDetailsFn } from "../controllers/Users/loginUser";
 import { CircularProgress } from "@mui/material";
 import Notification from "../components/Notification";
+// import { useDispatch } from "react-redux"
+// import { signInSuccess } from "../redux/User/userSlice";
+import { SnackBarState } from "../interfaces/NotificationInt";
 
 export default function SignIn() {
+   
+    // const dispatch = useDispatch()
     const inputFields: string[] = ["email", "password"];
     const [formData, setFormData] = useState({
         userEmail: "",
         password: ""
     })
-    const [snackBar, setSnackBar] = useState({
+    const [snackBar, setSnackBar] = useState<SnackBarState>({
         open: false,
         severity: "info",
         message: "",
@@ -21,32 +26,33 @@ export default function SignIn() {
     const [isLoading, setLoading] = useState<Boolean>(false)
     const navigate = useNavigate()
 
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true);
         try {
-            await loginUserFn(formData)
+            const data = await loginUserFn(formData)
             setFormData({
                 userEmail: "",
                 password: "",
             })
             setSnackBar({
-                open:true,
-                message:"Logged In Successfully !!",
-                severity:"success",
-                autoHideDuration:3000
+                open: true,
+                message: "Logged In Successfully !!",
+                severity: "success",
+                autoHideDuration: 3000
             })
-            console.log(`Logged successfully`);
-            setTimeout(()=>{
+            // dispatch(signInSuccess(data))
+            setTimeout(() => {
                 navigate("/")
-            },1000)
+            }, 1000)
 
         } catch (error: any) {
             console.log(error);
 
             setSnackBar({
                 open: true,
-                message: `Failed to Log in ${error.response.data.message}`,
+                message: `Failed to Log in ${error.response?.data?.message || error.message}`,
                 severity: "error",
                 autoHideDuration: 3000
             })

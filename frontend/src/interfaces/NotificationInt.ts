@@ -6,3 +6,10 @@ export interface NotificationInt {
   onClose: () => void;
   autoHideDuration?: number;
 }
+
+export type SnackBarState = {
+        open: boolean;
+        severity: "info" | "success" | "error" | "warning";
+        message: string;
+        autoHideDuration: number;
+    };

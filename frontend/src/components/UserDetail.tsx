@@ -1,29 +1,53 @@
 import { AiOutlineMail, AiOutlinePhone, AiOutlineCalendar } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import LoginFirst from "./LoginFirst";
+import { Link } from "react-router-dom";
+
 
 export default function UserDetail() {
-  return (
-    <div className=" bg-gray-50 rounded-lg shadow-md sm:flex sm:items-center ">
-      <div className="m-2">
-        <img src="" alt="" className="w-24 h-24 sm:w-50 sm:h-50 border rounded-full object-cover" />
+
+
+  const user = useSelector(state => state.currentUser);
+  const userData = user?.data?.data;
+
+  if (!userData) {
+    return (
+      <div className="mt-[35%] sm:mt-8 block m-auto sm:w-[500px] sm:h-[500px]">
+        <LoginFirst />
+        <h1>Please Login First to view Details</h1>
+        <Link to = "/signIn">
+        <button>Login</button>
+        </Link>
+
       </div>
-      <div className=" p-4 mb-2 leading-8 text-slate-600">
-        <p className="mdHead">
-          Tuhar Tharwani
-        </p>
-        <p className="text-slate-700 flex gap-2 items-center">
+    );
+  }
+
+  return (
+    <div className="bg-gray-50 rounded-lg shadow-md sm:flex sm:items-center mt-8 p-4">
+      <div className="mx-auto sm:mx-4">
+        <img
+          src={userData.avatar}
+          alt="User Avatar"
+          className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border mx-auto"
+        />
+      </div>
+      <div className="sm:ml-6 mt-4 sm:mt-0 text-slate-600">
+        <p className="text-xl font-semibold text-slate-800">{userData.userName}</p>
+        <p className="flex items-center gap-2 mt-2 text-slate-700">
           <AiOutlineMail />
-          tuhartharwani@gmail.com
+          {userData.userEmail}
         </p>
-        <p className="text-slate-700 flex gap-2 items-center">
+        <p className="flex items-center gap-2 mt-1 text-slate-700">
           <AiOutlineCalendar />
-          Member Since: 19 June
+          {userData.createdAt}
         </p>
-        <p className="text-slate-700 flex gap-2 items-center">
+        <p className="flex items-center gap-2 mt-1 text-slate-700">
           <AiOutlinePhone />
-          9527878712
+          {userData.mobileNo}
         </p>
-        <button className="buttonStyle mt-2">Edit User</button>
+        <button className="buttonStyle mt-3">Edit User</button>
       </div>
     </div>
-  )
+  );
 }

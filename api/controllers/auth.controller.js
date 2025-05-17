@@ -17,6 +17,7 @@ const generateAccessTokenRefreshToken = async (id) => {
             userEmail: user.userEmail
         }
         const accessToken =await generateAccessToken(payload, process.env.ACCESS_TOKEN_EXPIRY)
+        
         const refreshToken =await generateRefreshToken(payload,process.env.REFRESH_TOKEN_EXPIRY)
         
         user.refreshToken = refreshToken        
@@ -61,7 +62,7 @@ export const signUp = asyncHandler(async (req, res) => {
 
 export const signIn = asyncHandler(async(req,res)=>{
     const {userEmail, password} = req.body
-    if(userEmail === "") throw new apiErrorHandler(400,"User emial field is required")
+    if(userEmail === "") throw new apiErrorHandler(400,"User email field is required")
     if(password === "") throw new apiErrorHandler(400,"Password is required")
 
     const user = await User.findOne({userEmail})
@@ -70,7 +71,7 @@ export const signIn = asyncHandler(async(req,res)=>{
     const validPassword = bcryptjs.compareSync(password, user.password);
     if(!validPassword) throw new apiErrorHandler(400,'Password does not match')
     
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToekn")
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
     const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
     
@@ -85,9 +86,32 @@ export const signIn = asyncHandler(async(req,res)=>{
     .json(new apiResponse(200,loggedInUser,'Logged In Successfully'))
 })
 
-// export const googleLogIn = asyncHandler(async(req,res)=>{
-//     await User.findOne({userEmail:req.body.})
-// })
+export const googleLogIn = asyncHandler(async(req,res)=>{
+    const user = await User.findOne({userEmail:req.body.userEmail})
+    if(user){
+
+ const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
+    
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res.status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(new apiResponse(200,loggedInUser,'Logged In Successfully'))
+    }
+    else{
+        const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+        const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+                
+            const newUser = new User({ username: req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4), email: req.body.email, password: hashedPassword, avatar: req.body.photo });
+            await newUser.save();
+
+    }
+    return res.status(200).json(new apiResponse(200,"Found",newUser))
+})
 
 // export const loggout = asyncHandler(async(req,res)=>{
     

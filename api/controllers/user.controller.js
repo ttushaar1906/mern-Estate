@@ -3,6 +3,22 @@
 // import { errorHandler } from '../utils/error.js';
 // import Listing from '../models/listing.model.js';
 
+import User from "../models/user.module.js";
+import { apiResponse } from "../utils/apiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { apiErrorHandler } from "../utils/error.js";
+
+export const getUser = asyncHandler(async(req,res)=>{
+    const userId = req.user.id
+    const user = await User.find({_id:userId}).select("-password -refreshToken")
+    
+    if(!user) throw new apiErrorHandler(400,"User Not Found")
+    
+    return res.status(200).json(new apiResponse(200,user,"Users Details"))
+})
+
+
+
 // export const test = (req, res) => {
 //   res.send("Hello World!")
 // }

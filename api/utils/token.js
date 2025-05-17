@@ -1,4 +1,3 @@
-import { asyncHandler } from "./asyncHandler.js";
 import jwt from "jsonwebtoken"
 
 export const generateAccessToken = async (payload, duration) => {

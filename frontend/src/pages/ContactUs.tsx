@@ -11,6 +11,8 @@ import { createInequery } from '../controllers/ContactUs/createInequery';
 import { ContactUsInt } from '../interfaces/ContactUsInt';
 import CircularProgress from '@mui/material/CircularProgress';
 import Notification from '../components/Notification';
+import { SnackBarState } from '../interfaces/NotificationInt';
+
 
 export default function ContactUs() {
   const [formData, setFormData] = useState<ContactUsInt>({
@@ -23,11 +25,11 @@ export default function ContactUs() {
   });
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [snackBar, setSnackBar] = useState({
+  const [snackBar, setSnackBar] = useState<SnackBarState>({
     open: false,
     severity: "info",
     message: "",
-    autoHideDuration:3000
+    autoHideDuration: 3000
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -39,7 +41,7 @@ export default function ContactUs() {
     e.preventDefault();
     setLoading(true);
     try {
-       await createInequery(formData);
+      await createInequery(formData);
       setFormData({
         fullName: "",
         email: "",
@@ -52,14 +54,14 @@ export default function ContactUs() {
         open: true,
         severity: "success",
         message: "Inquiry Sent Successfully",
-        autoHideDuration:3000
+        autoHideDuration: 3000
       });
-    } catch (error:object | any| unknown) {      
+    } catch (error: object | any | unknown) {
       setSnackBar({
         open: true,
         severity: "error",
         message: `${error.response.data.message}`,
-        autoHideDuration:3000
+        autoHideDuration: 3000
       });
     } finally {
       setTimeout(() => {
@@ -164,7 +166,7 @@ export default function ContactUs() {
                   />
                 </div>
                 <div>
-                  <label className="labelStyleCont">Property Type</label>
+                  <label htmlFor="propertyType" className="labelStyleCont">Property Type</label>
                   <select
                     id="propertyType"
                     name="propertyType"
@@ -179,6 +181,7 @@ export default function ContactUs() {
                     <option value="Land">Land</option>
                   </select>
                 </div>
+
               </div>
 
               <div>
