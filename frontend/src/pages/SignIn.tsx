@@ -5,13 +5,13 @@ import { useState } from "react";
 import { loginUserFn, userDetailsFn } from "../controllers/Users/loginUser";
 import { CircularProgress } from "@mui/material";
 import Notification from "../components/Notification";
-// import { useDispatch } from "react-redux"
-// import { signInSuccess } from "../redux/User/userSlice";
 import { SnackBarState } from "../interfaces/NotificationInt";
+import { signInSuccess } from "../redux/User/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function SignIn() {
    
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const inputFields: string[] = ["email", "password"];
     const [formData, setFormData] = useState({
         userEmail: "",
@@ -26,6 +26,12 @@ export default function SignIn() {
     const [isLoading, setLoading] = useState<Boolean>(false)
     const navigate = useNavigate()
 
+    const userDetails = async()=>{
+       const response =  await userDetailsFn()
+       const userData = response.data?.data[0];
+       return userData
+       
+    }
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -42,7 +48,9 @@ export default function SignIn() {
                 severity: "success",
                 autoHideDuration: 3000
             })
-            // dispatch(signInSuccess(data))
+            const user =await userDetails()
+            dispatch(signInSuccess(user))
+            
             setTimeout(() => {
                 navigate("/")
             }, 1000)

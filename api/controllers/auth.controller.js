@@ -1,7 +1,7 @@
 import User from "../models/user.module.js";
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { emailValidation, mobileNoValidation, nameValidtion } from "../utils/validationFile.js";
+import { emailValidation, mobileNoValidation, nameValidation } from "../utils/validationFile.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiErrorHandler } from "../utils/error.js";
 import { apiResponse } from "../utils/apiResponse.js";
@@ -12,13 +12,14 @@ import {generateAccessToken, generateRefreshToken} from "../utils/token.js"
 const generateAccessTokenRefreshToken = async (id) => {
     try {
         const user = await User.findById(id)
-                const payload = {
+            const payload = {
             id: user._id,
-            userEmail: user.userEmail
+            userEmail: user.userEmail,
+            name:user.userName
         }
-        const accessToken =await generateAccessToken(payload, process.env.ACCESS_TOKEN_EXPIRY)
+        const accessToken =await generateAccessToken(payload)
         
-        const refreshToken =await generateRefreshToken(payload,process.env.REFRESH_TOKEN_EXPIRY)
+        const refreshToken =await generateRefreshToken(payload)
         
         user.refreshToken = refreshToken        
         await user.save({ ValidateBeforeSave: false })
@@ -32,7 +33,7 @@ const generateAccessTokenRefreshToken = async (id) => {
 
 export const signUp = asyncHandler(async (req, res) => {
     const { userName, userEmail, mobileNo, password } = req.body;
-    nameValidtion(userName)
+    nameValidation(userName)
     emailValidation(userEmail)
     mobileNoValidation(mobileNo)
 
@@ -59,7 +60,6 @@ export const signUp = asyncHandler(async (req, res) => {
     return res.status(200).json(new apiResponse(200, user, "User created"));
 });
 
-
 export const signIn = asyncHandler(async(req,res)=>{
     const {userEmail, password} = req.body
     if(userEmail === "") throw new apiErrorHandler(400,"User email field is required")
@@ -72,7 +72,9 @@ export const signIn = asyncHandler(async(req,res)=>{
     if(!validPassword) throw new apiErrorHandler(400,'Password does not match')
     
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
-
+    loggedInUser.isLoggedIn = true
+    await loggedInUser.save()
+     
     const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
     
     const options = {

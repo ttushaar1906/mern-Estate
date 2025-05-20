@@ -18,10 +18,10 @@ export default function Home() {
   if (isLoading) return <Loading />;
   if (isError) return <Error />;
 
-  const recentProperties = data
-    ?.slice()
-    .sort((a, b) => (a.price) - (b.price))
-    .slice(0, 3);
+  // const recentProperties = data
+  //   ?.slice()
+  //   .sort((a, b) => (a.price) - (b.price))
+  //   .slice(0, 3);
 
   return (
     <div>
@@ -33,7 +33,7 @@ export default function Home() {
       <div className="customeContainer">
         <section className="my-4 p-4">
           <h2 className="lgHeading">Wallet-Friendly Finds</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             {recentProperties?.map((property, index) => (
               <div
                 key={index}
@@ -58,7 +58,7 @@ export default function Home() {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </section>
 
         <ADBanner />

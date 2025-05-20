@@ -13,7 +13,6 @@ const ImageSchema = new mongoose.Schema({
 })
 
 const FeaturesSchema = new mongoose.Schema({
-    Features: {
       parking: Boolean,
       petFriendly: Boolean,
       security: Boolean,
@@ -34,7 +33,6 @@ const FeaturesSchema = new mongoose.Schema({
       propertyType: {
         enum: ["residential", "commercial","industrial","land", "villas"]
       },
-    }
 })
 
 const RulesSchema = new mongoose.Schema({
@@ -45,11 +43,11 @@ const RulesSchema = new mongoose.Schema({
 })
 
 const listingSchema = new mongoose.Schema({
-    name: {
+    propertyName: {
         type: String,
         required: true,
     },
-    desc: {
+    propertyDesc: {
         type: String,
         required: true,
     },
@@ -68,6 +66,9 @@ const listingSchema = new mongoose.Schema({
     },
     rules:{
         type:RulesSchema
+    },
+    RegisteredBy:{
+        type:String
     }
 
 

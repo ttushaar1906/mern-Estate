@@ -2,13 +2,13 @@ import { ContactUs } from "../models/contactUs.model.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiErrorHandler } from "../utils/error.js";
-import { mobileNoValidation, nameValidtion } from "../utils/validationFile.js";
+import { mobileNoValidation, nameValidation } from "../utils/validationFile.js";
 
 export const contactUs = asyncHandler(async (req, res) => {
   const { fullName, email, mobileNo, propertyType, inquiresType, message } = req.body
   const userId = req.user.id;
 
-  nameValidtion(fullName)
+  nameValidation(fullName)
   mobileNoValidation(mobileNo)
 
   const data = await ContactUs.create({

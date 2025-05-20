@@ -6,7 +6,6 @@ import Error from "../components/Error";
 import { AiOutlineEnvironment, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// import { Modal } from "antd";
 
 export default function Properties() {
   const [liked, setLiked] = useState<{ [key: number]: boolean }>({}); // Per-property like
@@ -15,6 +14,8 @@ export default function Properties() {
     queryKey: ["properties"],
     queryFn: getPropertiesFn,
   });
+  console.log();
+  
   if (isLoading) return <div><Loading /></div>;
   if (isError) return <div><Error /></div>;
 
@@ -25,12 +26,30 @@ export default function Properties() {
   return (
     <section className="customeContainer">
 
-      <div className="border flex items-center justify-evenly gap-4">
-        <input type="text" placeholder="Search. Find. Stay. " className=" " />
-        <button className="my-2 w-40 p-2 bg-slate-700 text-white rounded-lg hover:bg-gray-800">
+      <div className=" p-4 rounded-lg shadow flex flex-wrap items-center justify-between gap-4 bg-white">
+        <input
+          type="text"
+          placeholder="Search. Find. Stay."
+          className="flex-grow min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
+        />
+
+        <div className="flex flex-wrap gap-2">
+          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+            High to Low
+          </button>
+          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+            Pet Friendly
+          </button>
+          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+            Parking
+          </button>
+        </div>
+
+        <button className="w-40 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-gray-800">
           Add Property
         </button>
       </div>
+
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
         {data?.map((property, index) => (

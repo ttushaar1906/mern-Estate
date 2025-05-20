@@ -8,6 +8,6 @@ export const loginUserFn = async(userData:UserLoginInt)=>{
 }
 
 export const userDetailsFn = async()=>{
-    const response = await axios.get<ProfileIn>(userDetails)
+    const response = await axios.get<ProfileIn>(userDetails,{withCredentials:true})
     return response
 }

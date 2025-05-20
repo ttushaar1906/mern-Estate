@@ -4,8 +4,11 @@ import axios from "axios";
 
 export const getPropertiesFn = async () => {
   const response = await axios.get<PropertyInt[]>(getProperties);
-  return response.data;
+  console.log(response.data);
+  
+  return response.data?.data;
 };
+
 
 export const getPropertyFn = async (id: string) => {
   const response = await axios.get<PropertyInt>(getProperty(id));

@@ -1,6 +1,6 @@
 import { apiErrorHandler } from "./error.js";
 
-export const nameValidtion = (name) => {
+export const nameValidation = (name) => {
     const nameRegex = /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/;
     if (!nameRegex.test(name) || name === "") throw new apiErrorHandler(400, "Invalid Name")
 }

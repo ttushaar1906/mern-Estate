@@ -11,6 +11,8 @@ export default function Navbar() {
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `hover:text-[#2DA8BE] ${isActive ? "text-[#2DA8BE]" : ""}`;
 
+  
+
   return (
     <div className="bg-gray-800 text-white">
       <div className="h-14 flex items-center justify-between px-4 relative">

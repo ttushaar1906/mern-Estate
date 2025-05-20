@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
     },
     refreshToken: {
         type: String
+    },
+    isLoggedIn:{
+        type:Boolean
     }
 },{ timestamps : true});
 
