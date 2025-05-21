@@ -45,11 +45,11 @@ const RulesSchema = new mongoose.Schema({
 const listingSchema = new mongoose.Schema({
     propertyName: {
         type: String,
-        required: true,
+        // required: true,
     },
     propertyDesc: {
         type: String,
-        required: true,
+        // required: true,
     },
     images: {
         type: [ImageSchema]

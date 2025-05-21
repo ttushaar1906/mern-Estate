@@ -4,12 +4,13 @@ import { apiResponse } from "../utils/apiResponse.js"
 import { apiErrorHandler } from "../utils/error.js";
 import { nameValidation } from "../utils/validationFile.js"
 import User from "../models/user.module.js";
+import { cloudinaryUpload } from "../utils/cloudinary.js";
 
 // for update use redux and for delete also
 
 export const createListing = asyncHandler(async (req, res) => {
   // images
-  const { propertyName, propertyDesc, address, price, discountedPrice, features, rules,RegisteredBy } = req.body
+  const { propertyName, propertyDesc, address, price, discountedPrice, features, rules, RegisteredBy, images } = req.body
 
   nameValidation(propertyName)
 
@@ -19,31 +20,31 @@ export const createListing = asyncHandler(async (req, res) => {
 
   const { parking, petFriendly, security, swimmingPool, playGround, garden, publicToilet, clubHouse, temple, balcony, cctv, lift, forSell, noOfRooms, noOfRestRooms, noOfLivingRoom, sqFt, propertyType } = features
 
-  const {id:userId, name} = req.user.id
-  console.log(name);
-  
+  // 1. Handle multiple image uploads
+  const coverImageFiles = req.files?.coverImages || [];
+  const coverImageUrls = [];
+
+  for (let file of coverImageFiles) {
+    const uploadResult = await cloudinaryUpload(file.path);
+    if (uploadResult?.secure_url) {
+      coverImageUrls.push({ url: uploadResult.secure_url });
+    }
+  }
+  const { id: userId, name } = req.user.id
 
   const response = await Listing.create({
     propertyName,
-    propertyDesc, 
+    propertyDesc,
     address,
     price,
-    discountedPrice, 
-    features, 
+    discountedPrice,
+    features,
     rules,
-    RegisteredBy:name || "not found"
+    RegisteredBy: name || "not found",
+    images: coverImageUrls
   })
   return res.status(200).json(new apiResponse(200, response, "Property Registered Successfully !"))
 })
-
-// export const createListing = async (req, res, next) => {
-//   try {
-//     const listing = await Listing.create(req.body);
-//     return res.status(201).json(listing);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 // Single View
 export const viewListing = asyncHandler(async (req, res) => {
