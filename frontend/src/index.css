@@ -57,7 +57,7 @@ body {
 }
 
 .inputFields {
-  @apply text-center rounded-3xl border p-1 text-slate-600;
+  @apply w-full border-b-2 p-2 m-2 text-slate-600 placeholder-transparent focus:outline-none;
 }
 
 /* This is used for form input eg:listing, contact Us etc */
@@ -68,7 +68,7 @@ body {
   @apply  block text-left px-2 text-sm font-medium text-slate-600 mb-1
 }
 .buttonStyle {
-  @apply bg-slate-700 py-2 px-6 text-white rounded-xl cursor-pointer;
+  @apply bg-slate-700 py-2 px-6  text-white rounded-xl cursor-pointer;
 }
 
 .buttonStyle:hover {
@@ -85,4 +85,11 @@ body {
 
 .flexStyleBet{
   @apply flex justify-between items-center
+}
+
+.floatingLabel{
+  @apply absolute left-2 top-2 text-slate-500 text-sm transition-all duration-200
+                 peer-placeholder-shown:top-2 peer-placeholder-shown:text-base
+                 peer-placeholder-shown:text-slate-400 peer-focus:top-[-0.5rem]
+                 peer-focus:text-sm peer-focus:text-slate-700 peer-focus:font-bold bg-white px-1
 }

@@ -45,12 +45,13 @@ interface Features {
 }
 
 export interface PropertyInt {
-  name: string;
-  desc: string;
+  propertyName: string;
+  propertyDesc: string;
   images: Image[];
   address: Address;
   price: number;
   discountedPrice: number;
   features: Features;
   rules: rulesRegulation[];
+  _id: string;
 }

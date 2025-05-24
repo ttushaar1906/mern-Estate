@@ -78,35 +78,44 @@ export default function SignUp() {
         <div className="container customeContainer pt-10 flex justify-center flex-col-reverse sm:flex-row">
 
             <div className="w-full sm:w-1/2 h-auto">
-                <h1 className="lgHeading p-4">Sign In</h1>
+                <h1 className="lgHeading p-4">Sign Up</h1>
 
                 <form onSubmit={handleSubmit}>
                     {inputFields.map((field, index) => (
-                        <div key={index} className="m-1 flex flex-col justify-evenly items-center p-2">
-                            <label htmlFor={field.name} className="capitalize mb-2">
-                                {field.label}
-                            </label>
-                            <input
-                                id={field.name}
-                                name={field.name}
-                                type={field.type}
-                                value={(formData as any)[field.name] || ""}
-                                onChange={handleChange}
-                                className="inputFields w-[80%]"
-                                autoComplete="off"
-                                placeholder={`Enter ${field.label}`}
-                            />
+                        <div key={index} className="m-1 flex flex-col justify-evenly items-center p-2 w-[90%] ">
+                            <div className="relative w-full">
+                                <input
+                                    id={field.name}
+                                    name={field.name}
+                                    type={field.type}
+                                    value={(formData as any)[field.name] || ""}
+                                    onChange={handleChange}
+                                    className="peer inputFields"
+                                    autoComplete="off"
+                                    placeholder={`Enter ${field.label}`} 
+                                />
+                                <label
+                                    htmlFor={field.name}
+                                    className={`absolute left-2 transition-all bg-white px-2  
+        ${((formData as any)[field.name])
+                                            ? 'top-[-0.5rem] text-sm text-cyan-600' 
+                                            : 'top-2 text-base text-slate-400 peer-focus:top-[-0.5rem] peer-focus:text-sm peer-focus:text-slate-700'}`}
+                                >
+                                    {field.label}
+                                </label>
+                            </div>
                         </div>
+
                     ))}
 
                     <div className='my-4 flex justify-center'>
                         {isLoading ? (
-                            <div className='buttonStyle '>
+                            <div className='buttonStyle w-[75%]'>
                                 <CircularProgress color='white' size={18} />
                             </div>
 
                         ) : (
-                            <button onClick={handleSubmit} className="buttonStyle ">
+                            <button onClick={handleSubmit} className="buttonStyle w-[75%] ">
                                 Sign Up
                             </button>
                         )}
@@ -118,7 +127,7 @@ export default function SignUp() {
                             OR
                         </span>
 
-                        <div className="flex border rounded-xl w-[80%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
+                        <div className="flex border rounded-xl w-[75%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
                             <AiFillGoogleCircle size={20} />
                             <p>
                                 Continue with Google

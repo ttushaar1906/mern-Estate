@@ -14,8 +14,7 @@ export default function Properties() {
     queryKey: ["properties"],
     queryFn: getPropertiesFn,
   });
-  console.log();
-  
+
   if (isLoading) return <div><Loading /></div>;
   if (isError) return <div><Error /></div>;
 
@@ -59,14 +58,14 @@ export default function Properties() {
           >
             <img
               src={property.images[0]?.url}
-              alt={property.name}
+              alt={property.propertyName}
               className="w-full h-52 object-cover bg-no-repeat"
             />
 
             <div className="p-4 space-y-2">
               <div className="flexStyleBet">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-700">{property.name}</h2>
+                  <h2 className="text-lg font-semibold text-slate-700">{property.propertyName}</h2>
                   <p className="text-md text-slate-600 font-bold">₹ {property.price.toLocaleString()}</p>
                 </div>
                 {liked[index] ? (
@@ -88,7 +87,7 @@ export default function Properties() {
                   {property.address.line1}, {property.address.line2}, {property.address.city}, {property.address.state}
                 </p>
               </div>
-              <Link to="/property">
+              <Link to={`/property/${property._id}`}>
                 <button className="mt-4 w-full py-2 bg-slate-700 text-white rounded-lg hover:bg-gray-800 hover:cursor-pointer">
                   Explore Property
                 </button>

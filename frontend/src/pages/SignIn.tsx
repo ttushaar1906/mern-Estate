@@ -10,9 +10,9 @@ import { signInSuccess } from "../redux/User/userSlice";
 import { useDispatch } from "react-redux";
 
 export default function SignIn() {
-   
+
     const dispatch = useDispatch()
-    const inputFields: string[] = ["email", "password"];
+    const inputFields: string[] = ["Email", "Password"];
     const [formData, setFormData] = useState({
         userEmail: "",
         password: ""
@@ -26,11 +26,11 @@ export default function SignIn() {
     const [isLoading, setLoading] = useState<Boolean>(false)
     const navigate = useNavigate()
 
-    const userDetails = async()=>{
-       const response =  await userDetailsFn()
-       const userData = response.data?.data[0];
-       return userData
-       
+    const userDetails = async () => {
+        const response = await userDetailsFn()
+        const userData = response.data?.data[0];
+        return userData
+
     }
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -48,9 +48,9 @@ export default function SignIn() {
                 severity: "success",
                 autoHideDuration: 3000
             })
-            const user =await userDetails()
+            const user = await userDetails()
             dispatch(signInSuccess(user))
-            
+
             setTimeout(() => {
                 navigate("/")
             }, 1000)
@@ -72,61 +72,75 @@ export default function SignIn() {
         }
     }
     return (
-        <div className="container customeContainer pt-10 block sm:flex justify-center ">
+        <div className="container customeContainer pt-10 block sm:flex justify-center">
             <div className="w-full sm:w-1/2   ">
                 <img src={SignInImg} alt="SignIn" />
             </div>
-            <div className="w-full sm:w-1/2 h-auto  ">
+            <div className="w-full sm:w-1/2 h-auto ">
                 <h1 className="lgHeading p-4">Sign In</h1>
 
                 <form className=" ">
                     {inputFields.map((field, index) => (
-                        <div key={index} className="m-1 flex flex-col justify-evenly items-center p-2">
-                            <label htmlFor={field} className=" capitalize mb-2">
-                                {field}
-                            </label>
-                            <input
-                                id={field}
-                                type={field === "password" ? "password" : "email"}
-                                name={field}
-                                value={field === "email" ? formData.userEmail : formData.password}
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        [field === "email" ? "userEmail" : "password"]: e.target.value,
-                                    })}
-                                className="inputFields w-[80%]"
-                                placeholder={field === "email" ? "Enter Email ID" : "Enter Password"}
-                                autoComplete="off"
-                            />
+                        <div
+                            key={index}
+                            className="m-1 flex flex-col justify-evenly items-center p-2 w-[90%]"
+                        >
+                            <div className="relative w-full">
+                                <input
+                                    id={field}
+                                    type={field.toLowerCase() === "password" ? "password" : "email"}
+                                    name={field.toLowerCase()}
+                                    value={formData[field.toLowerCase() as "userEmail" | "password"]}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            [field.toLowerCase() === "email" ? "userEmail" : "password"]: e.target.value,
+                                        })
+                                    }
+                                    className="peer inputFields "
+                                    placeholder={field === "Email" ? "Enter Email ID" : "Enter Password"}
+                                    autoComplete="off"
+                                />
+                                <label
+                                    htmlFor={field}
+                                    className={`absolute left-2 transition-all bg-white px-2
+          ${formData[field.toLowerCase() === "email" ? "userEmail" : "password"]
+                                            ? "top-[-0.5rem] text-sm text-cyan-600"
+                                            : "top-2 text-base text-slate-400 peer-focus:top-[-0.5rem] peer-focus:text-sm peer-focus:text-slate-700"
+                                        }`}
+                                >
+                                    {field}
+                                </label>
+                            </div>
                         </div>
                     ))}
+
                     <div className='my-4 flex justify-center'>
 
                         {isLoading ? (
-                            <div className='buttonStyle '>
+                            <div className='buttonStyle w-[75%]'>
                                 <CircularProgress color='white' size={18} />
                             </div>
                         ) : (
-                            <button onClick={handleLogin} className="buttonStyle block mx-auto">
+                            <button onClick={handleLogin} className="buttonStyle w-[75%] block mx-auto">
                                 Sign In
                             </button>)}
                     </div>
 
                     <p className="p-2 text-slate-600 text-center">Forgot Password ?</p>
 
-                    <div className=" flex flex-col items-center">
-                        <p className="">
+                    <div className=" flex flex-col items-center ">
+                        <p className="my-2">
                             OR
                         </p>
-                        <div className="flex border rounded-xl w-[80%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
+                        <div className="flex border rounded-xl w-[75%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
                             <AiFillGoogleCircle size={20} />
                             <p>
                                 Continue with Google
                             </p>
                         </div>
 
-                        <div className="p-3">
+                        <div className="p-3 mt-2">
                             Don't have an Account ?
                             <Link to="/signUp">
                                 <span className="px-1 darkColor">

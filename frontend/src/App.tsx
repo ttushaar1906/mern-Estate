@@ -9,6 +9,7 @@ import ContactUs from "./pages/ContactUs";
 import Properties from "./pages/Properties";
 import User from "./pages/User";
 import ViewProperty from "./components/ViewProperty";
+import PropertyDetails from "./components/PropertyDetails";
 
 export default function App() {
 
@@ -23,7 +24,7 @@ export default function App() {
         <Route path="contactUs" element={<ContactUs />} />
         <Route path="properties" element={<Properties />} />
         <Route path="property" element={<ViewProperty />} />
-        
+        <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="user" element={<User />} />
       </Route>
     ))

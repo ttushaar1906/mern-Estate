@@ -15,8 +15,8 @@ export const createListing = asyncHandler(async (req, res) => {
   nameValidation(propertyName)
 
   const { line1, line2, city, state, postalCode } = address
-  nameValidation(state)
   nameValidation(city)
+  nameValidation(state)
 
   const { parking, petFriendly, security, swimmingPool, playGround, garden, publicToilet, clubHouse, temple, balcony, cctv, lift, forSell, noOfRooms, noOfRestRooms, noOfLivingRoom, sqFt, propertyType } = features
 
@@ -52,7 +52,6 @@ export const viewListing = asyncHandler(async (req, res) => {
   if (!response) throw new apiErrorHandler(400, "Failed to Fetch Property !!")
   return res.status(200).json(new apiResponse(200, response, "Property Fetched"))
 })
-
 
 export const getlisting = asyncHandler(async (req, res) => {
   const { query, sort, petFriendly, parking, limit = 15, page = 1 } = req.query

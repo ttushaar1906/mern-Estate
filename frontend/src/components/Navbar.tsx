@@ -9,7 +9,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `hover:text-[#2DA8BE] ${isActive ? "text-[#2DA8BE]" : ""}`;
+    `hover:text-[#2DA8BE] ${isActive ? "text-[#2DA8BE] font-semibold" : "font-semibold"}`;
 
   
 

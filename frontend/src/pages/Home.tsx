@@ -7,7 +7,9 @@ import ListProp from "../components/ListProp";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import { Link } from "react-router-dom";
-import HomeBanner from "../images/bannerImg.png"
+// import HomeBanner from "../images/bannerImg.png"
+import HomeBanner from "../images/banner.png"
+
 
 export default function Home() {
   const { data, isLoading, isError } = useQuery<PropertyInt[]>({
