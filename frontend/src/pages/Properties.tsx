@@ -44,9 +44,12 @@ export default function Properties() {
           </button>
         </div>
 
-        <button className="w-40 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-gray-800">
-          Add Property
-        </button>
+        <Link to="/addProperty">
+          <button className="w-40 px-4 py-2 cursor-pointer bg-slate-700 text-white rounded-lg hover:bg-gray-800">
+            Add Property
+          </button>
+        </Link>
+
       </div>
 
 

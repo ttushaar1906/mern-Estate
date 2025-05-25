@@ -31,6 +31,7 @@ const FeaturesSchema = new mongoose.Schema({
       noOfLivingRoom : Number,
       sqFt: String,
       propertyType: {
+        type:String,
         enum: ["residential", "commercial","industrial","land", "villas"]
       },
 })

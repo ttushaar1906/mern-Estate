@@ -10,6 +10,7 @@ import Properties from "./pages/Properties";
 import User from "./pages/User";
 import ViewProperty from "./components/ViewProperty";
 import PropertyDetails from "./components/PropertyDetails";
+import AddPropertyForm from "./components/AddPropertyForm";
 
 export default function App() {
 
@@ -25,6 +26,8 @@ export default function App() {
         <Route path="properties" element={<Properties />} />
         <Route path="property" element={<ViewProperty />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
+        <Route path="/addProperty" element={<AddPropertyForm />} />
+
         <Route path="user" element={<User />} />
       </Route>
     ))

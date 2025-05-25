@@ -19,7 +19,7 @@ export const createListing = asyncHandler(async (req, res) => {
   nameValidation(state)
 
   const { parking, petFriendly, security, swimmingPool, playGround, garden, publicToilet, clubHouse, temple, balcony, cctv, lift, forSell, noOfRooms, noOfRestRooms, noOfLivingRoom, sqFt, propertyType } = features
-
+  
   // 1. Handle multiple image uploads
   const coverImageFiles = req.files?.coverImages || [];
   const coverImageUrls = [];

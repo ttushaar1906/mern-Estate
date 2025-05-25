@@ -16,7 +16,7 @@ interface Address {
 }
 
 export enum PropertyType {
-  Residential = "residential",
+  residential = "residential",
   Commercial = "commercial",
   Industrial = "industrial",
   Land = "land",
