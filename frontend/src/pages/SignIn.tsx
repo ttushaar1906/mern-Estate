@@ -29,7 +29,7 @@ export default function SignIn() {
 
     const userDetails = async () => {
         const response = await userDetailsFn()
-        const userData = response.data?.data[0];  
+        const userData = response.data?.data[0];
         return userData
     }
 
@@ -48,7 +48,7 @@ export default function SignIn() {
                 severity: "success",
                 autoHideDuration: 3000
             })
-            const user = await userDetails()            
+            const user = await userDetails()
             dispatch(signInSuccess(user))
             Cookies.set("accessToken", response.data.accessToken, { secure: true, sameSite: "strict" });
             setTimeout(() => {
@@ -119,8 +119,8 @@ export default function SignIn() {
                     <div className='my-4 flex justify-center'>
 
                         {isLoading ? (
-                            <div className='buttonStyle w-[75%]'>
-                                <CircularProgress color='white' size={18} />
+                            <div className='buttonStyle w-[75%] text-center'>
+                                <CircularProgress color='white' size={18}/>
                             </div>
                         ) : (
                             <button onClick={handleLogin} className="buttonStyle w-[75%] block mx-auto">

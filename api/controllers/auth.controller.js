@@ -115,16 +115,17 @@ export const googleLogIn = asyncHandler(async (req, res) => {
     return res.status(200).json(new apiResponse(200, "Found", newUser))
 })
 
-export const loggout = asyncHandler(async (req, res) => {
-    const options = {
-        httpOnly: true,
-        sameSite: 'strict',
-    };
+export const logout = asyncHandler(async (req, res) => {
 
     const userId = req.user.id
+
     if (!userId) return res.status(401).json({ statusCode: 401, message: "Unauthorised" })
 
-    const user = await User.findByIdAndUpdate(userId, { refreshToken: "" , isLoggedIn:false})
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+    await User.findByIdAndUpdate(userId, { refreshToken: "", isLoggedIn: false })
 
     res.clearCookie("accesstoken", options);
     res.clearCookie("refreshtoken", options);
