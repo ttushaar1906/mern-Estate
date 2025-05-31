@@ -8,6 +8,7 @@ import Notification from "../components/Notification";
 import { SnackBarState } from "../interfaces/NotificationInt";
 import { signInSuccess } from "../redux/User/userSlice";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 export default function SignIn() {
 
@@ -28,16 +29,15 @@ export default function SignIn() {
 
     const userDetails = async () => {
         const response = await userDetailsFn()
-        const userData = response.data?.data[0];
+        const userData = response.data?.data[0];  
         return userData
-
     }
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true);
         try {
-            const data = await loginUserFn(formData)
+            const response = await loginUserFn(formData)
             setFormData({
                 userEmail: "",
                 password: "",
@@ -48,9 +48,9 @@ export default function SignIn() {
                 severity: "success",
                 autoHideDuration: 3000
             })
-            const user = await userDetails()
+            const user = await userDetails()            
             dispatch(signInSuccess(user))
-
+            Cookies.set("accessToken", response.data.accessToken, { secure: true, sameSite: "strict" });
             setTimeout(() => {
                 navigate("/")
             }, 1000)
@@ -71,6 +71,7 @@ export default function SignIn() {
             }, 1000);
         }
     }
+
     return (
         <div className="container customeContainer pt-10 block sm:flex justify-center">
             <div className="w-full sm:w-1/2   ">

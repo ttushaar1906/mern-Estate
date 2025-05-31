@@ -7,21 +7,21 @@ import { apiErrorHandler } from "../utils/error.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import dotenv from 'dotenv';
 dotenv.config({ path: "../.env", });
-import {generateAccessToken, generateRefreshToken} from "../utils/token.js"
+import { generateAccessToken, generateRefreshToken } from "../utils/token.js"
 
 const generateAccessTokenRefreshToken = async (id) => {
     try {
         const user = await User.findById(id)
-            const payload = {
+        const payload = {
             id: user._id,
             userEmail: user.userEmail,
-            name:user.userName
+            name: user.userName
         }
-        const accessToken =await generateAccessToken(payload)
-        
-        const refreshToken =await generateRefreshToken(payload)
-        
-        user.refreshToken = refreshToken        
+        const accessToken = await generateAccessToken(payload)
+
+        const refreshToken = await generateRefreshToken(payload)
+
+        user.refreshToken = refreshToken
         await user.save({ ValidateBeforeSave: false })
         return { accessToken, refreshToken }
 
@@ -39,14 +39,14 @@ export const signUp = asyncHandler(async (req, res) => {
 
     const existingUser = await User.findOne({
         $or: [
-          { userName },
-          { userEmail },
-          { mobileNo }
+            { userName },
+            { userEmail },
+            { mobileNo }
         ]
-      });
+    });
 
-    if(existingUser){
-        throw new apiErrorHandler(409,"User Already registered with some credentials")
+    if (existingUser) {
+        throw new apiErrorHandler(409, "User Already registered with some credentials")
     }
     const hashedPassword = await bcryptjs.hash(password, 10);
 
@@ -60,67 +60,77 @@ export const signUp = asyncHandler(async (req, res) => {
     return res.status(200).json(new apiResponse(200, user, "User created"));
 });
 
-export const signIn = asyncHandler(async(req,res)=>{
-    const {userEmail, password} = req.body
-    if(userEmail === "") throw new apiErrorHandler(400,"User email field is required")
-    if(password === "") throw new apiErrorHandler(400,"Password is required")
+export const signIn = asyncHandler(async (req, res) => {
+    const { userEmail, password } = req.body
+    if (userEmail === "") throw new apiErrorHandler(400, "User email field is required")
+    if (password === "") throw new apiErrorHandler(400, "Password is required")
 
-    const user = await User.findOne({userEmail})
-    if(!user) throw new apiErrorHandler(404,'User not found !!')
+    const user = await User.findOne({ userEmail })
+    if (!user) throw new apiErrorHandler(404, 'User not found !!')
 
     const validPassword = bcryptjs.compareSync(password, user.password);
-    if(!validPassword) throw new apiErrorHandler(400,'Password does not match')
-    
+    if (!validPassword) throw new apiErrorHandler(400, 'Password does not match')
+
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
     loggedInUser.isLoggedIn = true
     await loggedInUser.save()
-     
+
     const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
-    
+
     const options = {
         httpOnly: true,
         secure: true
     }
 
     return res.status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(new apiResponse(200,loggedInUser,'Logged In Successfully'))
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(new apiResponse(200, loggedInUser, 'Logged In Successfully'))
 })
 
-export const googleLogIn = asyncHandler(async(req,res)=>{
-    const user = await User.findOne({userEmail:req.body.userEmail})
-    if(user){
+export const googleLogIn = asyncHandler(async (req, res) => {
+    const user = await User.findOne({ userEmail: req.body.userEmail })
+    if (user) {
 
- const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
-    
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
+        const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
 
-    return res.status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(new apiResponse(200,loggedInUser,'Logged In Successfully'))
+        const options = {
+            httpOnly: true,
+            secure: true
+        }
+
+        return res.status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", refreshToken, options)
+            .json(new apiResponse(200, loggedInUser, 'Logged In Successfully'))
     }
-    else{
+    else {
         const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
         const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
-                
-            const newUser = new User({ username: req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4), email: req.body.email, password: hashedPassword, avatar: req.body.photo });
-            await newUser.save();
+
+        const newUser = new User({ username: req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4), email: req.body.email, password: hashedPassword, avatar: req.body.photo });
+        await newUser.save();
 
     }
-    return res.status(200).json(new apiResponse(200,"Found",newUser))
+    return res.status(200).json(new apiResponse(200, "Found", newUser))
 })
 
-// export const loggout = asyncHandler(async(req,res)=>{
-    
+export const loggout = asyncHandler(async (req, res) => {
+    const options = {
+        httpOnly: true,
+        sameSite: 'strict',
+    };
 
-//     res.clearCookie("accesstoken", options);
-//     res.clearCookie("refreshtoken", options);
-// })
+    const userId = req.user.id
+    if (!userId) return res.status(401).json({ statusCode: 401, message: "Unauthorised" })
+
+    const user = await User.findByIdAndUpdate(userId, { refreshToken: "" , isLoggedIn:false})
+
+    res.clearCookie("accesstoken", options);
+    res.clearCookie("refreshtoken", options);
+
+    return res.status(200).json({ statusCode: 200, message: "User Logged out successfully !!" })
+})
 
 // export const google = async (req, res, next) => {
 //     try {
@@ -153,10 +163,10 @@ export const googleLogIn = asyncHandler(async(req,res)=>{
 
 
 
-    // const existingUser = await User.find({
-    //     $or: [{ username }, { userEmail }, { mobileNo }]
-    // });
+// const existingUser = await User.find({
+//     $or: [{ username }, { userEmail }, { mobileNo }]
+// });
 
-    // if (existingUser.length > 0) {
-    //     throw new apiErrorHandler(409, "User email, username or mobile number already exists!");
-    // }
+// if (existingUser.length > 0) {
+//     throw new apiErrorHandler(409, "User email, username or mobile number already exists!");
+// }

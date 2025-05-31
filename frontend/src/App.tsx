@@ -11,8 +11,25 @@ import User from "./pages/User";
 import ViewProperty from "./components/ViewProperty";
 import PropertyDetails from "./components/PropertyDetails";
 import AddPropertyForm from "./components/AddPropertyForm";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { userDetailsFn } from "./controllers/Users/loginUser";
+import { signInSuccess } from "./redux/User/userSlice";
 
 export default function App() {
+ const dispatch = useDispatch();
+  useEffect(() => {
+  const restoreUser = async () => {
+    try {
+      const res = await userDetailsFn(); 
+      dispatch(signInSuccess(res.data?.data[0]));
+    } catch (err) {
+      console.error("User restore failed", err);
+      // optional: redirect to login
+    }
+  };
+  restoreUser();
+}, []);
 
   const router = createBrowserRouter(
     createRoutesFromElements(

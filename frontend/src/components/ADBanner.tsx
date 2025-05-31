@@ -5,7 +5,7 @@ export default function ADBanner() {
 
   return (
     <div className=" rounded-lg p-4">
-      <h1 className="lgHeading">We Make A Difference </h1>
+      <h1 className="lgHeading mb-4">We Make A Difference </h1>
 
       <div className="sm:flex sm:justify-between">
         {ADResponse.map((item, index) => (

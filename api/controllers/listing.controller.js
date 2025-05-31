@@ -19,7 +19,7 @@ export const createListing = asyncHandler(async (req, res) => {
   nameValidation(state)
 
   const { parking, petFriendly, security, swimmingPool, playGround, garden, publicToilet, clubHouse, temple, balcony, cctv, lift, forSell, noOfRooms, noOfRestRooms, noOfLivingRoom, sqFt, propertyType } = features
-  
+
   // 1. Handle multiple image uploads
   const coverImageFiles = req.files?.coverImages || [];
   const coverImageUrls = [];
@@ -68,12 +68,13 @@ export const getlisting = asyncHandler(async (req, res) => {
   }
 
   if (petFriendly !== undefined) {
-    searchConditions.push({ petFriendly: petFriendly === "true" });
+    searchConditions.push({ "features.petFriendly": petFriendly === "true" });
+
   }
 
   // Parking filter
   if (parking !== undefined) {
-    searchConditions.push({ parking: parking === "true" });
+    searchConditions.push({ "features.parking": parking === "true" });
   }
 
   // Combine all conditions (AND logic)

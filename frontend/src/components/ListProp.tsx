@@ -10,7 +10,7 @@ export default function ListProp() {
                 List your property on PropertyPulse and reach thousands of potential buyers and tenants.
             </p>
             <div className="flex items-center justify-center">
-                <Link to="">
+                <Link to="/addProperty">
                     <button className="buttonStyle">
                         List Your Property
                     </button>

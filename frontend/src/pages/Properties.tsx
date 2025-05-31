@@ -9,14 +9,8 @@ import { Link } from "react-router-dom";
 
 export default function Properties() {
   const [liked, setLiked] = useState<{ [key: number]: boolean }>({}); // Per-property like
-
-  const { data, isLoading, isError } = useQuery<PropertyInt[]>({
-    queryKey: ["properties"],
-    queryFn: getPropertiesFn,
-  });
-
-  if (isLoading) return <div><Loading /></div>;
-  if (isError) return <div><Error /></div>;
+  // if (isLoading) return <div><Loading /></div>;
+  // if (isError) return <div><Error /></div>;
 
   const toggleLike = (index: number) => {
     setLiked(prev => ({ ...prev, [index]: !prev[index] }));
@@ -29,17 +23,21 @@ export default function Properties() {
         <input
           type="text"
           placeholder="Search. Find. Stay."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="flex-grow min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
         />
 
         <div className="flex flex-wrap gap-2">
-          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+          <button onClick={() => setSortOrder("priceDesc")} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
             High to Low
           </button>
-          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+          <button
+            onClick={() => setPetFriendly((prev) => !prev)} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
             Pet Friendly
           </button>
-          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+          <button
+            onClick={() => setParking((prev) => !prev)} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
             Parking
           </button>
         </div>
@@ -53,7 +51,7 @@ export default function Properties() {
       </div>
 
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 my-4">
         {data?.map((property, index) => (
           <div
             key={index}
