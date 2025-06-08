@@ -26,9 +26,10 @@ export const contactUs = asyncHandler(async (req, res) => {
 
 export const viewInequiry = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-
+  console.log(userId);
+  
   const queries = await ContactUs.find({ user: userId }).sort({ createdAt: -1 });
   if(queries.length === 0 ) throw new apiErrorHandler(400, "NO Inequiry Raised")
   
-  return res.status(200).json(new apiResponse(200, queries, "User found",))
+  return res.status(200).json(new apiResponse(200, queries, "Query Found with current user",))
 })

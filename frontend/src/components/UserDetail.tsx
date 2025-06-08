@@ -3,20 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import LoginFirst from "./LoginFirst";
 import { SnackBarState } from "../interfaces/NotificationInt";
 import Notification from "../components/Notification";
 import axios from "axios";
 import { logoutUser } from "../apis/userAPI";
 import { signOutUserSuccess } from "../redux/User/userSlice";
+import { updateUserFn } from "../controllers/Users/createUser";
+import { CircularProgress } from "@mui/material";
 
-// Assuming you have a logout action
-// import { logout } from "../redux/userSlice";
 
 export default function UserDetail() {
   const [snackBar, setSnackBar] = useState<SnackBarState>({
@@ -33,7 +28,9 @@ export default function UserDetail() {
     userName: user?.userName || "",
     userEmail: user?.userEmail || "",
     mobileNo: user?.mobileNo || "",
+    avatar: user?.avatar || "",
   });
+  const [isLoading, setLoading] = useState<Boolean>(false)
 
   if (!user) {
     return (
@@ -81,45 +78,94 @@ export default function UserDetail() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSave = () => {
-    // Save logic here (e.g. API call)
-    console.log("Saving user:", formData);
-    handleClose();
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true);
+    try {
+      const response = await updateUserFn(formData)
+      console.log(`Success !!! ${response}`);
+      setLoading(true)
+      handleClose();
+      setSnackBar({
+        open: true,
+        severity: "success",
+        message: `User Updated successfully !!`,
+        autoHideDuration: 3000
+      })
+
+    } catch (error: unknown) {
+      console.log(`Failed to Update User ${error}`);
+      setLoading(false)
+      setSnackBar({
+        open: true,
+        severity: "error",
+        message: `Failed to update User ${error.message}`,
+        autoHideDuration: 3000
+      })
+    }
+    finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => ({
+        ...prev,
+        avatar: reader.result as string,
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const details = [
+    { label: "Username", name: "userName", type: "text", value: `${formData.userName}` },
+    // { label: "Useremail", name: "userEmail", type: "email", value: `${formData.userEmail}` },
+    { label: "Mobile No", name: "mobileNo", type: "number", value: `${formData.mobileNo}` }
+  ]
+
   return (
-    <div className="bg-white rounded-lg shadow-md sm:flex sm:items-center mt-10 p-6 max-w-3xl mx-auto">
-      <div className="sm:mx-6">
+
+    <div className="bg-white rounded-xl gap-4 shadow-lg sm:flex sm:items-start mt-10 p-6 max-w-4xl mx-auto  transition hover:shadow-xl">
+      <div className="flex justify-center sm:justify-start">
         <img
           src={user.avatar}
           alt="User Avatar"
-          className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border"
+          className="w-32 h-32 rounded-full object-cover border shadow-md"
         />
       </div>
-      <div className="sm:ml-8 mt-6 sm:mt-0 text-gray-700 w-full">
-        <p className="text-2xl font-bold text-gray-900">{user.userName}</p>
-        <p className="flex items-center gap-2 mt-2">
-          <AiOutlineMail />
+
+      <div className="  sm:mt-0  p-4 w-full">
+        <p className="text-2xl font-bold text-slate-700 text-center sm:text-left">{user.userName}</p>
+
+        <p className="flex items-center gap-2 mt-3 text-sm sm:text-base">
+          <AiOutlineMail className="text-blue-500" />
           {user.userEmail}
         </p>
-        <p className="flex items-center gap-2 mt-1">
-          <AiOutlineCalendar />
+        <p className="flex items-center gap-2 mt-1 text-sm sm:text-base">
+          <AiOutlineCalendar className="text-green-500" />
           {new Date(user.createdAt).toLocaleDateString()}
         </p>
-        <p className="flex items-center gap-2 mt-1">
-          <AiOutlinePhone />
+        <p className="flex items-center gap-2 mt-1 text-sm sm:text-base">
+          <AiOutlinePhone className="text-pink-500" />
           {user.mobileNo}
         </p>
-        <div className="mt-4 flex gap-4">
+
+        <div className="mt-6 flex gap-4 flex-wrap">
           <button
             onClick={handleOpen}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Edit User
+            className="buttonStyle">
+            Edit Profile
           </button>
           <button
             onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            className="bg-red-500 hover:bg-red-600 cancelButtonStyle  "
           >
             Logout
           </button>
@@ -136,49 +182,158 @@ export default function UserDetail() {
         )}
       </div>
 
-      {/* Edit User Modal */}
-      <Dialog open={open} onClose={handleClose} className="border-2 border-red-400">
-        <div className="border-2 border-yellow-900 w-[450px] h-[1000px]">
+      {/* Edit Modal */}
+      <Dialog open={open} onClose={handleClose}>
+        <div className="bg-white w-[95vw] max-w-lg rounded-lg shadow-lg p-6 border border-gray-300 mx-auto">
+          <h2 className="text-xl font-bold text-slate-700 mb-4 text-center">Edit Profile</h2>
 
+          <div className="mb-4 text-center">
+            <label className="block text-sm font-medium mb-2">Update Avatar</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="block mx-auto border border-gray-300 rounded cursor-pointer p-2"
+            />
+          </div>
 
-          <DialogTitle>Edit User Details</DialogTitle>
-          <DialogContent className="flex flex-col gap-4 mt-2 border-2 border-yellow-900">
-            <div
-              label="Name"
-              name="userName"
-              value={formData.userName}
-              onChange={handleChange}
-            // fullWidth
-            />
-            <div
-              label="Email"
-              name="userEmail"
-              value={formData.userEmail}
-              onChange={handleChange}
-            // fullWidth
-            />
-            <TextField
-              label="Mobile"
-              name="mobileNo"
-              value={formData.mobileNo}
-              onChange={handleChange}
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="inherit">
+          <img
+            src={formData.avatar || user.avatar}
+            alt="Avatar Preview"
+            className="w-24 h-24 rounded-full object-cover mx-auto shadow mb-6"
+          />
+
+          {details.map((detail) => (
+            <div className="mb-4" key={detail.name}>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                {detail.label}
+              </label>
+              <input
+                type={detail.type}
+                name={detail.name}
+                value={detail.value}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              />
+            </div>
+          ))}
+
+          <div className="flex justify-center gap-4 mt-6">
+            {isLoading ? (
+              <div className='buttonStyle text-center'>
+                <CircularProgress color='white' size={18} />
+              </div>
+            ) : (
+              <button
+                className="buttonStyle"
+                onClick={handleUpdate}
+              >
+                Update
+              </button>)}
+            <button
+              className="cancelButtonStyle"
+              onClick={handleClose}
+            >
               Cancel
-            </Button>
-            <Button onClick={handleSave} variant="contained" color="primary">
-              Save
-            </Button>
-          </DialogActions>
+            </button>
+          </div>
         </div>
       </Dialog>
-
-
     </div>
 
+
+
+
+    // <div className="bg-white rounded-lg shadow-md  sm:flex sm:items-center mt-10 p-6 max-w-3xl mx-auto border-2 border-yellow-400">
+    //   <div className="sm:mx-6">
+    //     <img
+    //       src={user.avatar}
+    //       alt="User Avatar"
+    //       className="w-32 h-32 object-cover border block mx-auto"
+    //     />
+    //   </div>
+    //   <div className=" sm:ml-8 mt-6 sm:mt-0 text-gray-700 w-full">
+    //     <p className="text-2xl font-bold text-slate-700">{user.userName}</p>
+    //     <p className="flex items-center gap-2 mt-2">
+    //       <AiOutlineMail />
+    //       {user.userEmail}
+    //     </p>
+    //     <p className="flex items-center gap-2 mt-1">
+    //       <AiOutlineCalendar />
+    //       {new Date(user.createdAt).toLocaleDateString()}
+    //     </p>
+    //     <p className="flex items-center gap-2 mt-1">
+    //       <AiOutlinePhone />
+    //       {user.mobileNo}
+    //     </p>
+    //     <div className="mt-4 flex gap-4">
+    //       <button
+    //         onClick={handleOpen}
+    //         className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+    //       >
+    //         Edit User
+    //       </button>
+    //       <button
+    //         onClick={handleLogout}
+    //         className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+    //       >
+    //         Logout
+    //       </button>
+    //     </div>
+
+    //     {snackBar.open && (
+    //       <Notification
+    //         open={snackBar.open}
+    //         severity={snackBar.severity}
+    //         message={snackBar.message}
+    //         onClose={() => setSnackBar({ ...snackBar, open: false })}
+    //         autoHideDuration={snackBar.autoHideDuration}
+    //       />
+    //     )}
+    //   </div>
+
+    //   {/* Edit User Modal */}
+    //   <Dialog open={open} onClose={handleClose} className="border-2 border-red-400">
+    //     <div className="border-2 border-red-500 bg-white w-[500px] h-auto p-4">
+    //       <h1 className="lgHeading p-4">Edit User</h1>
+    //       <div>
+    //         <div className="my-4 text-center">
+    //           <label className="block text-sm font-medium mb-2">Update Avatar</label>
+    //           <input
+    //             type="file"
+    //             accept="image/*"
+    //             onChange={handleImageChange}
+    //             className="block mx-auto border-2 border-pink-400 cursor-pointer"
+    //           />
+    //         </div>
+
+    //         <img
+    //           src={formData.avatar || user.avatar}
+    //           alt="Avatar Preview"
+    //           className="w-24 h-24 block mx-auto rounded-full"
+    //         />
+
+    //         {details.map((detail) => (
+    //           <div>
+    //             <label className="labelStyleCont pb-1">{detail.label}</label>
+    //             <input type={detail.type}
+    //               name={detail.name}
+    //               value={detail.value}
+    //               className="inputFieldInfo"
+    //               onChange={handleChange}
+    //               placeholder="" />
+    //           </div>
+    //         ))}
+    //       </div>
+    //       <div className="flex gap-4 items-center my-6 justify-center">
+    //         <button className="buttonStyle" onClick={handleUpdate}>Update</button>
+    //         <button className="cancelButtonStyle" onClick={handleClose}>Cancel</button>
+    //       </div>
+    //     </div>
+    //   </Dialog>
+
+
+    // </div>
   );
 }
 

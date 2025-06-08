@@ -16,7 +16,8 @@ const __dirname = path.resolve()
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: '5kb' }));
+app.use(express.urlencoded({ extended: true, limit: '5kb' }));
 
 app.use(cors({
   origin: "http://localhost:5173", // your frontend dev server (Vite or React)

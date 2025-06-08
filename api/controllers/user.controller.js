@@ -1,11 +1,7 @@
-// import bcryptjs from 'bcryptjs';
-// import User from '../models/user.module.js';
-// import { errorHandler } from '../utils/error.js';
-// import Listing from '../models/listing.model.js';
-
 import User from "../models/user.module.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { cloudinaryUpload } from "../utils/cloudinary.js";
 import { apiErrorHandler } from "../utils/error.js";
 
 export const getUser = asyncHandler(async(req,res)=>{
@@ -17,7 +13,35 @@ export const getUser = asyncHandler(async(req,res)=>{
     return res.status(200).json(new apiResponse(200,user,"Users Details"))
 })
 
+// Update user 
+export const updateUser = asyncHandler(async(req,res)=>{
+    const userId = req.user.id
+    console.log(userId);
+    
+    if(!userId) console.log("not hit");
+    
+    const user = await User.findOne({_id:userId}).select("-password -refreshToken")
+    
+    if(!user) throw new apiErrorHandler(400,"User Not Found")
+  
+    const allowedFields = ["userName", "userEmail", "mobileNo"];
+    allowedFields.forEach((field) => {
+    if (req.body[field]) {
+      user[field] = req.body[field];
+    }
+  });
+  
+  if (req.file) {
+    const result = await cloudinaryUpload(req.file.path);
+    if (result?.secure_url) {
+      user.avatar = result.secure_url;
+    }
+  }
 
+  // Save the updated user
+  const updatedUser = await user.save();
+  return res.status(200).json({statusCode:200, message:"User Found and Updated !!", user:updatedUser})
+})
 
 // export const test = (req, res) => {
 //   res.send("Hello World!")

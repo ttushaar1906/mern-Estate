@@ -64,15 +64,23 @@ body {
 .inputFieldInfo {
   @apply w-full px-4 py-2 border border-gray-300 rounded-md text-slate-600;
 }
+
 .labelStyleCont{
   @apply  block text-left px-2 text-sm font-medium text-slate-600 mb-1
 }
+
 .buttonStyle {
-  @apply bg-slate-700 py-2 px-6  text-white rounded-xl cursor-pointer;
+  @apply bg-slate-700 py-2 px-6  text-white rounded-xl cursor-pointer transition shadow;
 }
 
+.cancelButtonStyle{
+  @apply bg-red-700 py-2 px-6  text-white rounded-xl cursor-pointer transition shadow;
+}
+.cancelButtonStyle:hover{
+  @apply bg-red-800 ;
+}
 .buttonStyle:hover {
-  background: #475569;
+  @apply bg-slate-800;
 }
 
 .buttonStyle2 {
