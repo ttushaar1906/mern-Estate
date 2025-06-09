@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { ProfileIn } from '../interfaces/ProfileInt'
 import Notification from '../components/Notification'
 import CircularProgress from '@mui/material/CircularProgress';
+import GoogleLogin from '../components/GoogleLogin'
 
 export default function SignUp() {
     const [formData, setFormData] = useState<ProfileIn>({
@@ -127,12 +128,7 @@ export default function SignUp() {
                             OR
                         </span>
 
-                        <div className="flex border rounded-xl w-[75%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
-                            <AiFillGoogleCircle size={20} />
-                            <p>
-                                Continue with Google
-                            </p>
-                        </div>
+                      <GoogleLogin />
 
                         <div className="p-3">
                             Already have an account ?

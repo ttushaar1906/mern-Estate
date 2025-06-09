@@ -89,31 +89,53 @@ export const signIn = asyncHandler(async (req, res) => {
 })
 
 export const googleLogIn = asyncHandler(async (req, res) => {
-    const user = await User.findOne({ userEmail: req.body.userEmail })
-    if (user) {
+  const { email, name, photo } = req.body;
 
-        const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id)
+  // Check if user already exists
+  const user = await User.findOne({ email });
 
-        const options = {
-            httpOnly: true,
-            secure: true
-        }
+  if (user) {
+    const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(user._id);
 
-        return res.status(200)
-            .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", refreshToken, options)
-            .json(new apiResponse(200, loggedInUser, 'Logged In Successfully'))
-    }
-    else {
-        const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
-        const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
 
-        const newUser = new User({ username: req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4), email: req.body.email, password: hashedPassword, avatar: req.body.photo });
-        await newUser.save();
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json(new apiResponse(200, user, "Logged In Successfully"));
+  }
 
-    }
-    return res.status(200).json(new apiResponse(200, "Found", newUser))
-})
+  // New user case
+  const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+  const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+  const newUser = new User({
+    username: name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4),
+    email,
+    password: hashedPassword,
+    avatar: photo,
+  });
+
+  await newUser.save();
+
+  const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(newUser._id);
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(new apiResponse(200, newUser, "Account Created and Logged In"));
+});
+
 
 export const logout = asyncHandler(async (req, res) => {
 

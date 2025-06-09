@@ -9,6 +9,7 @@ import { SnackBarState } from "../interfaces/NotificationInt";
 import { signInSuccess } from "../redux/User/userSlice";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
+import GoogleLogin from "../components/GoogleLogin";
 
 export default function SignIn() {
 
@@ -134,13 +135,8 @@ export default function SignIn() {
                         <p className="my-2">
                             OR
                         </p>
-                        <div className="flex border rounded-xl w-[75%] mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
-                            <AiFillGoogleCircle size={20} />
-                            <p>
-                                Continue with Google
-                            </p>
-                        </div>
-
+                       
+                         <GoogleLogin />   
                         <div className="p-3 mt-2">
                             Don't have an Account ?
                             <Link to="/signUp">
