@@ -22,11 +22,11 @@ export default function WalletFriendlySection() {
         .slice(0, 3);
 
     return (
-        <div className="flex justify-evenly flex-wrap items-center gap-8 sm:gap-4 p-4">
+        <div className="flex justify-evenly flex-wrap items-center gap-8 sm:gap-4 p-4 ">
             {recentProperties?.map((property, index) => (
                 <div
                     key={index}
-                    className="rounded-xl overflow-hidden shadow-lg bg-white w-[350px]"
+                    className="rounded-xl overflow-hidden bg-white w-[350px] transition-transform duration-200 hover:scale-[1.02] shadow hover:shadow-lg "
                 >
                     <img
                         src={property.images[0]?.url}

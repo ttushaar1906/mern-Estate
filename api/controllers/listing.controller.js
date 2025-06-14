@@ -3,8 +3,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiResponse } from "../utils/apiResponse.js"
 import { apiErrorHandler } from "../utils/error.js";
 import { nameValidation } from "../utils/validationFile.js"
-import User from "../models/user.module.js";
 import { cloudinaryUpload } from "../utils/cloudinary.js";
+import { v2 as cloudinary } from 'cloudinary'; // assuming you're using this
 
 // for update use redux and for delete also
 
@@ -27,10 +27,10 @@ export const createListing = asyncHandler(async (req, res) => {
   for (let file of coverImageFiles) {
     const uploadResult = await cloudinaryUpload(file.path);
     if (uploadResult?.secure_url) {
-      coverImageUrls.push({ url: uploadResult.secure_url });
+      coverImageUrls.push({ url: uploadResult.secure_url,public_id: uploadResult.public_id });
     }
   }
-  const { id: userId, name } = req.user.id
+  const { userName } = req.user
 
   const response = await Listing.create({
     propertyName,
@@ -40,7 +40,7 @@ export const createListing = asyncHandler(async (req, res) => {
     discountedPrice,
     features,
     rules,
-    RegisteredBy: name || "not found",
+    RegisteredBy: userName || "Unknown",
     images: coverImageUrls
   })
   return res.status(200).json(new apiResponse(200, response, "Property Registered Successfully !"))
@@ -54,7 +54,7 @@ export const viewListing = asyncHandler(async (req, res) => {
 })
 
 export const getlisting = asyncHandler(async (req, res) => {
-  const { query, sort, petFriendly, parking, limit = 15, page = 1 } = req.query
+  const { query, sort, limit = 15, page = 1 } = req.query
 
   const searchConditions = []
   if (query) {
@@ -67,27 +67,28 @@ export const getlisting = asyncHandler(async (req, res) => {
     })
   }
 
-  if (petFriendly !== undefined) {
-    searchConditions.push({ "features.petFriendly": petFriendly === "true" });
+  // if (petFriendly !== undefined) {
+  //   searchConditions.push({ "features.petFriendly": petFriendly === "true" });
 
-  }
+  // }
 
   // Parking filter
-  if (parking !== undefined) {
-    searchConditions.push({ "features.parking": parking === "true" });
-  }
+  // if (parking !== undefined) {
+  //   searchConditions.push({ "features.parking": parking === "true" });
+  // }
 
   // Combine all conditions (AND logic)
   const finalFilter = searchConditions.length ? { $and: searchConditions } : {};
 
   // Sort options
-  let sortOption = {};
-  if (sort === "priceAsc") sortOption = { price: 1 };
-  else if (sort === "priceDesc") sortOption = { price: -1 };
+  // let sortOption = {};
+  // if (sort === "priceAsc") sortOption = { price: 1 };
+  // else if (sort === "priceDesc") sortOption = { price: -1 };
+
   const skip = (page - 1) * limit;
 
   const result = await Listing.find(finalFilter)
-    .sort(sortOption)
+    // .sort(sortOption)
     .skip(skip)
     .limit(Number(limit));
 
@@ -100,6 +101,34 @@ export const getlisting = asyncHandler(async (req, res) => {
     pages: Math.ceil(total / limit),
   });
 });
+
+export const viewOwnerProperty = asyncHandler(async (req, res) => {
+  const { userName } = req.user
+
+  const propertyResponse = await Listing.find({ RegisteredBy: userName })
+
+  if (!propertyResponse || propertyResponse.length === 0) return res.status(400).json({ statusCode: 400, message: "No Property Registered by the owner" })
+
+  return res.status(200).json({ statusCode: 200, message: "Property Found with current user", propertyResponse })
+})
+
+export const deletePropety = asyncHandler(async (req, res) => {
+  const { userName } = req.user
+  const currentListing = await Listing.findById(req.params.id)
+
+  if(!currentListing || currentListing.length === 0 ) return res.status(200).json({statusCode:400, message:"No Listing with this Id"})
+    
+  if(currentListing.RegisteredBy !== userName) return res.status(403).json({statusCode:403, message:"You are not allowed to modify this listing"})
+
+      for (let image of currentListing.images) {
+    if (image.public_id) {
+      await cloudinary.uploader.destroy(image.public_id);
+    }
+  }
+  await currentListing.deleteOne()  
+  return res.status(200).json({statusCode:200, message: "Listing Deleted Successfully !!" })
+
+})
 
 //   // try {
 //   //   const limit = parseInt(req.query.limit) || 9;

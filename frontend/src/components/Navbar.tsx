@@ -3,6 +3,7 @@ import Logo from "../images/logo.jpg";
 import { useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import userAvatar from "../images/userAvatar.png"
 
 export default function Navbar() {
   const user = useSelector(state=> state.currentUser)
@@ -11,8 +12,8 @@ export default function Navbar() {
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `hover:text-[#2DA8BE] ${isActive ? "text-[#2DA8BE] font-semibold" : "font-semibold"}`;
 
+  const avatar = user?.avatar || "";
   
-
   return (
     <div className="bg-gray-800 text-white">
       <div className="h-14 flex items-center justify-between px-4 relative">
@@ -29,7 +30,7 @@ export default function Navbar() {
           {user === null ? 
           <NavLink to="/signIn" className={navLinkClass}><li>Login</li></NavLink>
           :
-          <NavLink to="/user" className={navLinkClass}><li>User</li></NavLink>
+          <NavLink to="/user" className={navLinkClass}><li><img src={avatar ? avatar : userAvatar} alt="" className="w-10 h-10 rounded-full" /></li></NavLink>
           }
         </ul>
 

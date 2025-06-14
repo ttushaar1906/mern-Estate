@@ -9,7 +9,8 @@ const addressSchema = new mongoose.Schema({
 })
 
 const ImageSchema = new mongoose.Schema({
-    url: String
+    url: String,
+    public_id:String
 })
 
 const FeaturesSchema = new mongoose.Schema({

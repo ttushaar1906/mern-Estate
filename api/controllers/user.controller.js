@@ -16,7 +16,7 @@ export const getUser = asyncHandler(async(req,res)=>{
 // Update user 
 export const updateUser = asyncHandler(async(req,res)=>{
     const userId = req.user.id
-    console.log(userId);
+
     
     if(!userId) console.log("not hit");
     

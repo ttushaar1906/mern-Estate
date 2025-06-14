@@ -6,9 +6,13 @@ import { signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
 import { googleLogin } from '../apis/userAPI';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { signInSuccess } from "../redux/User/userSlice";
 
 export default function GoogleLogin() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const handleGoogleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -26,7 +30,9 @@ export default function GoogleLogin() {
         token: idToken,
       }, { withCredentials: true }); // for cookie support
 
+      dispatch(signInSuccess(user))
       navigate("/")
+
       console.log("Logged in:", response.data);
     } catch (error: any) {
       console.error("Google Sign-In Error:", error?.message || error);

@@ -4,7 +4,6 @@ import { ContactUsInt } from "../interfaces/ContactUsInt";
 import Error from "./Error";
 import Loading from "./Loading";
 import { MdApartment } from "react-icons/md";
-import QueryNotSend from "../images/notFound2.png"
 
 export default function Inquiries() {
   const { data, isLoading, isError } = useQuery<ContactUsInt[]>({

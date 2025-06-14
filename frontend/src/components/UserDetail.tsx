@@ -12,7 +12,6 @@ import { signOutUserSuccess } from "../redux/User/userSlice";
 import { updateUserFn } from "../controllers/Users/createUser";
 import { CircularProgress } from "@mui/material";
 
-
 export default function UserDetail() {
   const [snackBar, setSnackBar] = useState<SnackBarState>({
     open: false,
@@ -240,7 +239,6 @@ export default function UserDetail() {
         </div>
       </Dialog>
     </div>
-
 
 
 
