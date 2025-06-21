@@ -54,7 +54,7 @@ export const viewListing = asyncHandler(async (req, res) => {
 })
 
 export const getlisting = asyncHandler(async (req, res) => {
-  const { query, sort, limit = 15, page = 1 } = req.query
+  const { query, limit = 15, page = 1 } = req.query
 
   const searchConditions = []
   if (query) {
@@ -67,28 +67,11 @@ export const getlisting = asyncHandler(async (req, res) => {
     })
   }
 
-  // if (petFriendly !== undefined) {
-  //   searchConditions.push({ "features.petFriendly": petFriendly === "true" });
-
-  // }
-
-  // Parking filter
-  // if (parking !== undefined) {
-  //   searchConditions.push({ "features.parking": parking === "true" });
-  // }
-
-  // Combine all conditions (AND logic)
   const finalFilter = searchConditions.length ? { $and: searchConditions } : {};
-
-  // Sort options
-  // let sortOption = {};
-  // if (sort === "priceAsc") sortOption = { price: 1 };
-  // else if (sort === "priceDesc") sortOption = { price: -1 };
 
   const skip = (page - 1) * limit;
 
   const result = await Listing.find(finalFilter)
-    // .sort(sortOption)
     .skip(skip)
     .limit(Number(limit));
 

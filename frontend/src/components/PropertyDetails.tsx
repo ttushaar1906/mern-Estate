@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import Error from "../components/Error";
 import { FaBuilding, FaDog, FaIndustry, FaLocationDot, FaPersonSwimming, FaRestroom, FaSquareParking } from "react-icons/fa6";
 import { GiCctvCamera, GiElevator, GiPoliceOfficerHead, GiVillage } from "react-icons/gi";
-import { MdBedroomChild, MdLiving, MdSportsCricket } from "react-icons/md";
+import { MdBalcony, MdBedroomChild, MdLiving, MdSportsCricket } from "react-icons/md";
 import { BsFillBuildingsFill, BsFillHouseHeartFill } from "react-icons/bs";
 import sqFT from "../images/sqft.png"
 import Balcony from "../images/balcony.png"
@@ -26,16 +26,16 @@ export default function PropertyDetails() {
     const property = data.data;
 
     const featureIcons = [
-        { key: 'parking', icon: <FaSquareParking size={24} />, label: 'Parking', color: 'text-blue-500' },
-        { key: 'petFriendly', icon: <FaDog size={24} />, label: 'Pet Friendly', color: 'text-green-500' },
-        { key: 'cctv', icon: <GiCctvCamera size={24} />, label: 'CCTV', color: 'text-purple-500' },
-        { key: 'publicToilet', icon: <FaRestroom size={24} />, label: 'Public Restroom', color: 'text-pink-500' },
-        { key: 'security', icon: <GiPoliceOfficerHead size={24} />, label: 'Security', color: 'text-red-500' },
-        { key: 'swimmingPool', icon: <FaPersonSwimming size={24} />, label: 'Swimming Pool', color: 'text-sky-500' },
-        { key: 'clubHouse', icon: <BsFillHouseHeartFill size={24} />, label: 'Club House', color: 'text-rose-500' },
-        { key: 'playGround', icon: <MdSportsCricket size={24} />, label: 'Play Ground', color: 'text-amber-500' },
-        { key: 'lift', icon: <GiElevator size={24} />, label: 'Lift', color: 'text-slate-600' },
-        { key: 'balcony', icon: <img src={Balcony} alt="balcony" className="w-6 h-6" />, label: 'Balcony', color: 'text-slate-600' }
+        { key: 'parking', icon: <FaSquareParking size={24} />, label: 'Parking', color: 'text-slate-500 ' },
+        { key: 'petFriendly', icon: <FaDog size={24} />, label: 'Pet Friendly', color: 'text-slate-500' },
+        { key: 'cctv', icon: <GiCctvCamera size={24} />, label: 'CCTV', color: 'text-slate-500' },
+        { key: 'publicToilet', icon: <FaRestroom size={24} />, label: 'Public Restroom', color: 'text-slate-500' },
+        { key: 'security', icon: <GiPoliceOfficerHead size={24} />, label: 'Security', color: 'text-slate-500' },
+        { key: 'swimmingPool', icon: <FaPersonSwimming size={24} />, label: 'Swimming Pool', color: 'text-slate-500' },
+        { key: 'clubHouse', icon: <BsFillHouseHeartFill size={24} />, label: 'Club House', color: 'text-slate-500' },
+        { key: 'playGround', icon: <MdSportsCricket size={24} />, label: 'Play Ground', color: 'text-slate-500' },
+        { key: 'lift', icon: <GiElevator size={24} />, label: 'Lift', color: 'text-slate-500' },
+        { key: 'balcony', icon: <MdBalcony size={24} />, label: 'Balcony', color: 'text-slate-500' }
 
     ];
 
@@ -193,7 +193,7 @@ export default function PropertyDetails() {
                         Top Amenities You’ll Love
                     </h2>
 
-                    <div className="mt-2 p-4 rounded-xl bg-slate-50 border flex items-center sm:justify-start flex-wrap gap-2 sm:gap-6">
+                    <div className="mt-2 p-4 rounded-xl bg-slate-50 flex items-center sm:justify-start flex-wrap gap-2 sm:gap-6">
                         {featureIcons.map(({ key, icon, label, color }) =>
                             property.features[key] ? (
                                 <div

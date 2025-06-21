@@ -42,7 +42,7 @@ export default function GoogleLogin() {
   return (
     <button
       onClick={handleGoogleLogin}
-      className="flex border rounded-xl mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
+      className="flex border w-[75%] rounded-xl mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
       <AiFillGoogleCircle size={20} />
       <p>
         Continue with Google
