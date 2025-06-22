@@ -16,9 +16,9 @@ export default function WalletFriendlySection() {
     if (isLoading) return <Loading />;
     if (isError) return <Error />;
 
-    const recentProperties = data?.data 
-        .sort((a, b) => (a.discountedPrice) - (b.discountedPrice))
-        .slice(0, 3);
+  const recentProperties = data
+  ? data.sort((a, b) => a.discountedPrice - b.discountedPrice).slice(0, 3)
+  : [];
 
     return (
         <div className="flex justify-evenly flex-wrap items-center gap-8 sm:gap-4 p-4 ">

@@ -99,7 +99,7 @@ export const deletePropety = asyncHandler(async (req, res) => {
   const { userName } = req.user
   const currentListing = await Listing.findById(req.params.id)
 
-  if(!currentListing || currentListing.length === 0 ) return res.status(200).json({statusCode:400, message:"No Listing with this Id"})
+  if(!currentListing || currentListing.length === 0 ) return res.status(400).json({statusCode:400, message:"No Listing with this Id"})
     
   if(currentListing.RegisteredBy !== userName) return res.status(403).json({statusCode:403, message:"You are not allowed to modify this listing"})
 

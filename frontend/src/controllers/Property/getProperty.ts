@@ -8,8 +8,8 @@ export const getPropertiesFn = async (page = 1, search = "") => {
 };
 
 export const getCheapPropertiesFn = async() =>{
-  const response = await axios.get(getCheapProperties)
-  return response.data
+  const response = await axios.get(getCheapProperties)  
+  return response.data.data
 }
 
 // This is for Single View

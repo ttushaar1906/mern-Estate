@@ -1,8 +1,9 @@
-const dbHost = "http://localhost:3000";
+const dbHost = "http://localhost:3000/api/listing";
 
-export const getCheapProperties = `${dbHost}/api/listing/gets`;
+export const getCheapProperties = `${dbHost}/gets`;
 export const getProperties = (page = 1, search = "") =>
-    `${dbHost}/api/listing/gets?page=${page}&query=${encodeURIComponent(search)}`;
-export const getProperty = (id: string) => `${dbHost}/api/listing/getListing/${id}`;
-export const createProperty = `${dbHost}/api/listing/create`
-export const ownerProperty = `${dbHost}/api/listing/viewOwnersProperty`
+    `${dbHost}/gets?page=${page}&query=${encodeURIComponent(search)}`;
+export const createProperty = `${dbHost}/create`
+export const ownerProperty = `${dbHost}/viewOwnersProperty`
+export const getProperty = (id: string) => `${dbHost}/getListing/${id}`;
+export const deleteProperty = (id:string) => `${dbHost}/deletePropety/${id}`
