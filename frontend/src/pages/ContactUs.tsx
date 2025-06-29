@@ -12,7 +12,7 @@ import { ContactUsInt } from '../interfaces/ContactUsInt';
 import CircularProgress from '@mui/material/CircularProgress';
 import Notification from '../components/Notification';
 import { SnackBarState } from '../interfaces/NotificationInt';
-
+import { useMutation } from '@tanstack/react-query';
 
 export default function ContactUs() {
   const [formData, setFormData] = useState<ContactUsInt>({
@@ -24,7 +24,6 @@ export default function ContactUs() {
     message: ""
   });
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(false);
   const [snackBar, setSnackBar] = useState<SnackBarState>({
     open: false,
     severity: "info",
@@ -37,11 +36,9 @@ export default function ContactUs() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await createInequery(formData);
+  const mutation = useMutation({
+    mutationFn: createInequery,
+    onSuccess: () => {
       setFormData({
         fullName: "",
         email: "",
@@ -56,18 +53,20 @@ export default function ContactUs() {
         message: "Inquiry Sent Successfully",
         autoHideDuration: 3000
       });
-    } catch (error: object | any | unknown) {
+    },
+    onError: (error: any) => {
       setSnackBar({
         open: true,
         severity: "error",
-        message: `${error.response.data.message}`,
+        message: error?.response?.data?.message || "Something went wrong",
         autoHideDuration: 3000
       });
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate(formData);
   };
 
   const toggleFAQ = (index: number) => {
@@ -217,9 +216,9 @@ export default function ContactUs() {
               </div>
 
               <div className="flex justify-end">
-                {isLoading ? (
+                {mutation.isPending ? (
                   <div className='buttonStyle w-25'>
-                    <CircularProgress color='white' />
+                    <CircularProgress color='inherit' />
                   </div>
                 ) : (
                   <button type="submit" className="buttonStyle">

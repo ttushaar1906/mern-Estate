@@ -18,8 +18,9 @@ export default function GoogleLogin() {
 
     try {
       const result = await signInWithPopup(auth, googleProvider);
+     
       const user = result.user;
-
+          
       const idToken = await user.getIdToken();
 
       // ✅ Send token and user data to your backend
@@ -29,8 +30,9 @@ export default function GoogleLogin() {
         photo: user.photoURL,
         token: idToken,
       }, { withCredentials: true }); // for cookie support
-
-      dispatch(signInSuccess(user))
+      console.log(response,"Response");
+      
+      dispatch(signInSuccess(response.data.data))
       navigate("/")
 
       console.log("Logged in:", response.data);

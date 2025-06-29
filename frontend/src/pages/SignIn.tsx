@@ -8,7 +8,7 @@ import Notification from "../components/Notification";
 import { SnackBarState } from "../interfaces/NotificationInt";
 import { signInSuccess } from "../redux/User/userSlice";
 import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import GoogleLogin from "../components/GoogleLogin";
 
 export default function SignIn() {
@@ -50,8 +50,9 @@ export default function SignIn() {
                 autoHideDuration: 3000
             })
             const user = await userDetails()
+            
             dispatch(signInSuccess(user))
-            Cookies.set("accessToken", response.data.accessToken, { secure: true, sameSite: "strict" });
+            // Cookies.set("accessToken", response.data.accessToken, { secure: true, sameSite: "strict" });
             setTimeout(() => {
                 navigate("/")
             }, 1000)

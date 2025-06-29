@@ -42,8 +42,6 @@ export default function AddPropertyForm() {
     setRules(updatedRules);
   };
 
-
-
   return (
     <section className="border customeContainer">
       <h1 className="lgHeading my-4">

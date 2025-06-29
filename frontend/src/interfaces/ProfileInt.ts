@@ -6,7 +6,7 @@ export interface ProfileIn{
     userEmail:string,
     mobileNo : number | null, 
     joinInDate: string | "", 
-    password:string
+    password:string | ""
 }
 
 export interface UserLoginInt{

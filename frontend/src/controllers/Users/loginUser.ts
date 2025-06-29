@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ProfileIn, UserLoginInt } from "../../interfaces/ProfileInt";
+import { UserLoginInt } from "../../interfaces/ProfileInt";
 import { loginUser, userDetails } from "../../apis/userAPI";
 
 export const loginUserFn = async (userData: UserLoginInt) => {
@@ -10,10 +10,12 @@ export const loginUserFn = async (userData: UserLoginInt) => {
 };
 
 export const userDetailsFn = async () => {
-  const response = await axios.get<ProfileIn>(userDetails, {
+  const response = await axios.get(userDetails, {
     withCredentials: true,
   });
-  return response;
+  console.log(response.data);
+  
+  return response.data;
 };
 
 

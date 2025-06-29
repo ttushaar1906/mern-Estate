@@ -20,6 +20,7 @@ export default function MyListing() {
   const { data, isLoading, isError } = useQuery<PropertyInt[]>({
     queryKey: ["properties"],
     queryFn: ownerPropertyFn,
+     retry: false
   });
 
   const [snackBar, setSnackBar] = useState<SnackBarState>({
@@ -43,7 +44,7 @@ export default function MyListing() {
         severity: "success",
         autoHideDuration: 3000,
       });
-      queryClient.invalidateQueries(["properties"]);
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
     },
     onError: () => {
       setSnackBar({
@@ -59,7 +60,7 @@ export default function MyListing() {
   });
 
   if (isLoading) return <Loading />;
-  if (isError) return <Error />;
+  if (isError) return <Error message="No Property Registered by the owner"/>;
 
   return (
     <div className="space-y-4 p-4">

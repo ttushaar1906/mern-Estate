@@ -8,7 +8,6 @@ import NotAvailable from "./components/NotAvailable";
 import ContactUs from "./pages/ContactUs";
 import Properties from "./pages/Properties";
 import User from "./pages/User";
-import ViewProperty from "./components/ViewProperty";
 import PropertyDetails from "./components/PropertyDetails";
 import AddPropertyForm from "./components/AddPropertyForm";
 import { useEffect } from "react";
@@ -21,8 +20,8 @@ export default function App() {
   useEffect(() => {
   const restoreUser = async () => {
     try {
-      const res = await userDetailsFn(); 
-      dispatch(signInSuccess(res.data?.data[0]));
+      const res = await userDetailsFn();       
+      dispatch(signInSuccess(res.data[0]));
     } catch (err) {
       console.error("User restore failed", err);
       // optional: redirect to login
@@ -41,7 +40,6 @@ export default function App() {
         <Route path="notAvailable" element={<NotAvailable />} />
         <Route path="contactUs" element={<ContactUs />} />
         <Route path="properties" element={<Properties />} />
-        <Route path="property" element={<ViewProperty />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/addProperty" element={<AddPropertyForm />} />
 

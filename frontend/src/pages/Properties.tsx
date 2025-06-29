@@ -75,13 +75,13 @@ export default function Properties() {
           </button>
           <button
             onClick={() => setPetFriendly(prev => !prev)}
-            className={`px-4 py-2 flex items-center gap-2 w-40 cursor-pointer rounded-lg ${petFriendly ? "bg-cyan-100 text-cyan-800" : "bg-gray-100 text-gray-700"} hover:bg-gray-200`}
+            className={`px-4 py-2 flex items-center gap-2 w-40 cursor-pointer rounded-lg ${petFriendly ? "bg-cyan-100 text-cyan-800" : "bg-gray-100 text-gray-700 hover:bg-gray-200"} `}
           >
             <TbCat /> Pet Friendly
           </button>
           <button
             onClick={() => setParking(prev => !prev)}
-            className={`px-4 py-2 flex items-center gap-2 w-44 cursor-pointer rounded-lg ${parking ? "bg-cyan-100 text-cyan-800" : "bg-gray-100 text-gray-700"} hover:bg-gray-200`}
+            className={`px-4 py-2 flex items-center gap-2 w-44 cursor-pointer rounded-lg ${parking ? "bg-cyan-100 text-cyan-800" : "bg-gray-100 text-gray-700 hover:bg-gray-200"} `}
           >
             <FaParking /> Parking Facility
           </button>
