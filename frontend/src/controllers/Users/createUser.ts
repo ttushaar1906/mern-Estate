@@ -1,6 +1,6 @@
 import axios from "axios"
 import { createUser, updateUser } from "../../apis/userAPI"
-import { ProfileIn } from "../../interfaces/ProfileInt"
+import { ProfileIn, updateUserInt } from "../../interfaces/ProfileInt"
 
 export const createUserFn = async(userData:ProfileIn) =>{
     const userResponse = await axios.post<ProfileIn>(createUser,userData)
@@ -12,7 +12,7 @@ export const createUserFn = async(userData:ProfileIn) =>{
 //     return updateUserResponse
 // }
 
-export const updateUserFn = async (userData: ProfileIn) => {
+export const updateUserFn = async (userData: updateUserInt) => {
   const formData = new FormData();
 
   if (userData.avatar && userData.avatar.startsWith("data:")) {

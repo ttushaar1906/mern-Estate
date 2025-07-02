@@ -2,9 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import userRouter from './routes/user.route.js';
-import authRouter from './routes/authRouter.js'; // Update the import path
+import authRouter from './routes/auth.route.js'; // Update the import path
 import listingRouter from './routes/listing.route.js'
 import contactUsRouter from './routes/contactUs.route.js'
+import homeVisitRouter from "./routes/homeTour.route.js"
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import connectDB from './db/index.js';
@@ -35,6 +36,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
 app.use('/api/contactUs', contactUsRouter)
 app.use('/api/user',userRouter)
+app.use('/api/homeVisit',homeVisitRouter)
 
 // app.use(express.static(path.join(__dirname,'/client/dist')));
 // app.get('*',(req,res)=>{

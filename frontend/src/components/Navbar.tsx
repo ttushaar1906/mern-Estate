@@ -6,16 +6,17 @@ import { useSelector } from "react-redux";
 import userAvatar from "../images/userAvatar.png"
 
 export default function Navbar() {
- const user = useSelector((state: any) => state.currentUser);
- 
+const user = useSelector((state: any) => state.user.currentUser);
+
   const avatar = user?.avatar || userAvatar;
-    
+  console.log(avatar);
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `hover:text-[#2DA8BE] ${isActive ? "text-[#2DA8BE] font-semibold" : "font-semibold"}`;
 
-  
+
   return (
     <div className="bg-gray-800 text-white">
       <div className="h-14 flex items-center justify-between px-4 relative">
@@ -29,21 +30,21 @@ export default function Navbar() {
           <NavLink to="/about" className={navLinkClass}><li>ABOUT US</li></NavLink>
           <NavLink to="/properties" className={navLinkClass}><li>Properties</li></NavLink>
           <NavLink to="/contactUs" className={navLinkClass}><li>Contact Us</li></NavLink>
-          {user === null ? (
-  <NavLink to="/signIn" className={navLinkClass}>
-    <li>Login</li>
-  </NavLink>
-) : (
-  <NavLink to="/user" className={navLinkClass}>
-    <li>
-      <img
-        src={avatar}
-        alt="User Avatar"
-        className="w-10 h-10 rounded-full object-cover"
-      />
-    </li>
-  </NavLink>
-)}
+          {!user ? (
+            <NavLink to="/signIn" className={navLinkClass}>
+              <li>Login</li>
+            </NavLink>
+          ) : (
+            <NavLink to="/user" className={navLinkClass}>
+              <li>
+                <img
+                  src={avatar}
+                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              </li>
+            </NavLink>
+          )}
         </ul>
 
         {/* Hamburger Button */}

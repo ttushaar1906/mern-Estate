@@ -10,6 +10,7 @@ import { logoutUser } from "../apis/userAPI";
 import { signOutUserSuccess } from "../redux/User/userSlice";
 import { updateUserFn } from "../controllers/Users/createUser";
 import { CircularProgress } from "@mui/material";
+import userAvatar from "../images/userAvatar.png"
 
 export default function UserDetail() {
   const navigate = useNavigate();
@@ -21,7 +22,9 @@ export default function UserDetail() {
     autoHideDuration: 3000,
   });
 
-  const user = useSelector((state: any) => state.currentUser);
+  const user = useSelector((state: any) => state.user.currentUser);
+   const avatar = user?.avatar || userAvatar;
+  
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     userName: user?.userName || "",
@@ -30,20 +33,6 @@ export default function UserDetail() {
     avatar: user?.avatar || "",
   });
   const [isLoading, setLoading] = useState<boolean>(false);
-
-  // if (!user) {
-  //   return (
-  //     <div className="mt-[35%] sm:mt-8 block m-auto sm:w-[500px] sm:h-[500px] text-center">
-  //       <LoginFirst />
-  //       <h1 className="text-xl font-semibold my-4">Please Login First to view Details</h1>
-  //       <Link to="/signIn">
-  //         <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-  //           Login
-  //         </button>
-  //       </Link>
-  //     </div>
-  //   );
-  // }
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -83,8 +72,7 @@ export default function UserDetail() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await updateUserFn(formData);
-      console.log("Success !!!", response);
+      await updateUserFn(formData);
       handleClose();
       setSnackBar({
         open: true,
@@ -128,9 +116,9 @@ export default function UserDetail() {
     <div className="bg-white rounded-xl gap-4 shadow-lg sm:flex sm:items-start mt-10 p-6 max-w-4xl mx-auto transition hover:shadow-xl">
       <div className="flex justify-center sm:justify-start">
         <img
-          src={user?.avatar || "/default-avatar.png"}
+          src={avatar}
           alt="User Avatar"
-          className="w-32 h-32 rounded-full object-cover border shadow-md"
+          className="w-40 h-32 rounded-full object-cover border shadow-md"
         />
       </div>
 
@@ -149,7 +137,7 @@ export default function UserDetail() {
         </p>
         <p className="flex items-center gap-2 mt-1 text-sm sm:text-base">
           <AiOutlinePhone className="text-pink-500" />
-          {user?.mobileNo}
+          {user?.mobileNo || "-"}
         </p>
 
         <div className="mt-6 flex gap-4 flex-wrap">
@@ -186,6 +174,7 @@ export default function UserDetail() {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
+              placeholder="image"
               className="block mx-auto border border-gray-300 rounded cursor-pointer p-2"
             />
           </div>
@@ -206,6 +195,7 @@ export default function UserDetail() {
                 name={detail.name}
                 value={detail.value}
                 onChange={handleChange}
+                placeholder={`Enter user's ${detail?.name ?? 'detail'}`}
                 className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
               />
             </div>

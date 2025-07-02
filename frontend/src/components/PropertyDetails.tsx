@@ -10,6 +10,8 @@ import { BsFillBuildingsFill, BsFillHouseHeartFill } from "react-icons/bs";
 import sqFT from "../images/sqft.png"
 import Balcony from "../images/balcony.png"
 import { LuLandPlot } from "react-icons/lu";
+import { useDispatch } from "react-redux";
+import { viewPropertySuccess } from "../redux/User/propertySlice";
 
 export default function PropertyDetails() {
     const { id } = useParams<{ id: string }>();
@@ -20,10 +22,24 @@ export default function PropertyDetails() {
         enabled: !!id,
     });
 
+    const dispatch = useDispatch()
+
     if (isLoading) return <Loading />;
     if (isError) return <Error />;
 
-    const property = data.data;
+    const property = data?.data;
+    console.log(property);
+
+    //   const handleBookHomeTour = (e: React.FormEvent<HTMLFormElement>) => {
+    //   e.preventDefault();
+    //   dispatch(viewPropertySuccess(property));
+    // }; //! For form onCLick use this
+
+    const handleBookHomeTour = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        dispatch(viewPropertySuccess(property));
+    };
+
 
     const featureIcons = [
         { key: 'parking', icon: <FaSquareParking size={24} />, label: 'Parking', color: 'text-slate-500 ' },
@@ -207,6 +223,8 @@ export default function PropertyDetails() {
                         )}
                     </div>
                 </section>
+
+                <button className="buttonStyle" onClick={handleBookHomeTour}>Book Home Tour</button>
             </div>
         </section>
     );

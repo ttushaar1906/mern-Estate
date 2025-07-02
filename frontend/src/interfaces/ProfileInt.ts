@@ -13,3 +13,9 @@ export interface UserLoginInt{
     userEmail : string,
     password: string
 }
+
+export interface updateUserInt{
+    userName: string,
+    mobileNo: number,
+    avatar: string
+}

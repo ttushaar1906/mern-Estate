@@ -30,7 +30,9 @@ export default function SignIn() {
 
     const userDetails = async () => {
         const response = await userDetailsFn()
-        const userData = response.data?.data[0];
+        const userData = response.data[0];
+        console.log(userData);
+
         return userData
     }
 
@@ -50,7 +52,7 @@ export default function SignIn() {
                 autoHideDuration: 3000
             })
             const user = await userDetails()
-            
+
             dispatch(signInSuccess(user))
             // Cookies.set("accessToken", response.data.accessToken, { secure: true, sameSite: "strict" });
             setTimeout(() => {
@@ -122,7 +124,7 @@ export default function SignIn() {
 
                         {isLoading ? (
                             <div className='buttonStyle w-[75%] text-center'>
-                                <CircularProgress color='white' size={18}/>
+                                <CircularProgress color='white' size={18} />
                             </div>
                         ) : (
                             <button onClick={handleLogin} className="buttonStyle w-[75%] block mx-auto">
@@ -136,8 +138,8 @@ export default function SignIn() {
                         <p className="my-2">
                             OR
                         </p>
-                       
-                         <GoogleLogin />   
+
+                        <GoogleLogin />
                         <div className="p-3 mt-2">
                             Don't have an Account ?
                             <Link to="/signUp">
