@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { userDetailsFn } from "./controllers/Users/loginUser";
 import { signInSuccess } from "./redux/User/userSlice";
+import ScheduleHomeTour from "./components/ScheduleHomeTour";
 
 export default function App() {
  const dispatch = useDispatch();
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="contactUs" element={<ContactUs />} />
         <Route path="properties" element={<Properties />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
+        <Route path="/property/:id/scheduleHomeTour" element={<ScheduleHomeTour />} />
         <Route path="/addProperty" element={<AddPropertyForm />} />
 
         <Route path="user" element={<User />} />

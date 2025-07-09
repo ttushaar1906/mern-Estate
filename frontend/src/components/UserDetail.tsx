@@ -23,8 +23,8 @@ export default function UserDetail() {
   });
 
   const user = useSelector((state: any) => state.user.currentUser);
-   const avatar = user?.avatar || userAvatar;
-  
+  const avatar = user?.avatar || userAvatar;
+
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     userName: user?.userName || "",
@@ -113,12 +113,12 @@ export default function UserDetail() {
   ];
 
   return (
-    <div className="bg-white rounded-xl gap-4 shadow-lg sm:flex sm:items-start mt-10 p-6 max-w-4xl mx-auto transition hover:shadow-xl">
+    <div className="bg-white rounded-xl gap-4 shadow-sm sm:flex sm:items-start mt-10 p-6  mx-auto transition hover:shadow-xl">
       <div className="flex justify-center sm:justify-start">
         <img
           src={avatar}
           alt="User Avatar"
-          className="w-40 h-32 rounded-full object-cover border shadow-md"
+          className="w-24 h-24 sm:w-40 sm:h-32 rounded-full object-cover border shadow-md"
         />
       </div>
 
@@ -129,16 +129,17 @@ export default function UserDetail() {
 
         <p className="flex items-center gap-2 mt-3 text-sm sm:text-base">
           <AiOutlineMail className="text-blue-500" />
-          {user?.userEmail}
-        </p>
-        <p className="flex items-center gap-2 mt-1 text-sm sm:text-base">
-          <AiOutlineCalendar className="text-green-500" />
-          {new Date(user?.createdAt).toLocaleDateString()}
+          <p className="text-slate-600"> {user?.userEmail} </p>
         </p>
         <p className="flex items-center gap-2 mt-1 text-sm sm:text-base">
           <AiOutlinePhone className="text-pink-500" />
-          {user?.mobileNo || "-"}
+          <p className="text-slate-600"> {user?.mobileNo || "-"} </p>
         </p>
+        <p className="flex items-center gap-2 mt-1 text-sm sm:text-base">
+          <AiOutlineCalendar className="text-green-500" />
+          <p className="text-slate-600"> {new Date(user?.createdAt).toLocaleDateString()} </p>
+        </p>
+
 
         <div className="mt-6 flex gap-4 flex-wrap">
           <button onClick={handleOpen} className="buttonStyle">

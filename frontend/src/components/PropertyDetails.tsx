@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getPropertyFn } from "../controllers/Property/getProperty";
 import Loading from "../components/Loading";
@@ -8,7 +8,6 @@ import { GiCctvCamera, GiElevator, GiPoliceOfficerHead, GiVillage } from "react-
 import { MdBalcony, MdBedroomChild, MdLiving, MdSportsCricket } from "react-icons/md";
 import { BsFillBuildingsFill, BsFillHouseHeartFill } from "react-icons/bs";
 import sqFT from "../images/sqft.png"
-import Balcony from "../images/balcony.png"
 import { LuLandPlot } from "react-icons/lu";
 import { useDispatch } from "react-redux";
 import { viewPropertySuccess } from "../redux/User/propertySlice";
@@ -23,21 +22,17 @@ export default function PropertyDetails() {
     });
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     if (isLoading) return <Loading />;
     if (isError) return <Error />;
 
     const property = data?.data;
-    console.log(property);
-
-    //   const handleBookHomeTour = (e: React.FormEvent<HTMLFormElement>) => {
-    //   e.preventDefault();
-    //   dispatch(viewPropertySuccess(property));
-    // }; //! For form onCLick use this
-
+    
     const handleBookHomeTour = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         dispatch(viewPropertySuccess(property));
+        navigate(`/property/${id}/scheduleHomeTour`)
     };
 
 
@@ -58,20 +53,25 @@ export default function PropertyDetails() {
     return (
         <section className="customeContainer p-4 ">
 
-            <div className="paraStyle">
-                <Link to="/">Home</Link>
-                {" -> "}
-                <Link to="/properties">Property</Link>
-                {" -> "}
-                {property.propertyName}
+            <div className="flex justify-between items-center">
+
+                <div className="paraStyle">
+                    <Link to="/">Home</Link>
+                    {" -> "}
+                    <Link to="/properties">Property</Link>
+                    {" -> "}
+                    {property?.propertyName}
+                </div>
+
+                <button className="buttonStyle" onClick={handleBookHomeTour}>Book Home Tour</button>
             </div>
 
             <div className="flex justify-evenly items-center flex-wrap sm:flex-nowrap sm:gap-6">
                 <div className="sm:w-1/2">
                     <img
-                        src={property.images[0]?.url}
+                        src={property?.images[0]?.url}
                         className="w-full sm:h-70 object-cover my-4"
-                        alt={property.propertyName}
+                        alt={property?.propertyName}
                     />
                 </div>
 
@@ -80,29 +80,29 @@ export default function PropertyDetails() {
                         <>
                             <div>
                                 <img
-                                    src={property.images[1]?.url}
+                                    src={property?.images[1]?.url}
                                     className="w-[90%] sm:h-20 object-cover my-4"
-                                    alt={property.propertyName}
+                                    alt={property?.propertyName}
                                 />
                             </div>
                             <div>
                                 <img
-                                    src={property.images[2]?.url}
+                                    src={property?.images[2]?.url}
                                     className="w-[90%] sm:h-20 object-cover my-4"
-                                    alt={property.propertyName}
+                                    alt={property?.propertyName}
                                 />
                             </div>
                             <div>
                                 <img
-                                    src={property.images[3]?.url}
+                                    src={property?.images[3]?.url}
                                     className="w-[90%] sm:h-20 object-cover my-4"
-                                    alt={property.propertyName}
+                                    alt={property?.propertyName}
                                 />
                             </div>
                         </>
                     )}
 
-                    {property.images.length === 3 && (
+                    {property?.images.length === 3 && (
                         <>
                             <div>
                                 <img
@@ -121,7 +121,7 @@ export default function PropertyDetails() {
                         </>
                     )}
 
-                    {property.images.length === 2 && (
+                    {property?.images.length === 2 && (
                         <div>
                             <img
                                 src={property.images[1]?.url}
@@ -134,23 +134,23 @@ export default function PropertyDetails() {
             </div>
 
             <div className="bg-white p-2 sm:p-6 rounded-xl shadow-sm space-y-4">
-                <h1 className="text-2xl font-semibold text-slate-700">{property.propertyName}</h1>
+                <h1 className="text-2xl font-semibold text-slate-700">{property?.propertyName}</h1>
 
-                <p className="text-slate-600">{property.propertyDesc}</p>
+                <p className="text-slate-600">{property?.propertyDesc}</p>
 
                 <div className="flex sm:items-center flex-col sm:flex-row py-2 gap-2">
-                    {property.features.propertyType === "residential" ? <div className="flex items-center gap-2 text-slate-700"> <FaBuilding /> Residential Proptery at </div> : property.features.propertyType === "commercial" ?
+                    {property?.features.propertyType === "residential" ? <div className="flex items-center gap-2 text-slate-700"> <FaBuilding /> Residential Proptery at </div> : property?.features.propertyType === "commercial" ?
                         <div className="flex items-center gap-2 text-slate-700"> <BsFillBuildingsFill />  Commercial Proptery at </div>
-                        : property.features.propertyType === "villas" ?
+                        : property?.features.propertyType === "villas" ?
                             <div className="flex items-center gap-2 text-slate-700">  <GiVillage /> Villa Proptery at </div>
-                            : property.features.propertyType === "industrial" ?
+                            : property?.features.propertyType === "industrial" ?
                                 <div className="flex items-center gap-2 text-slate-700"> <FaIndustry /> Industrial Proptery at </div>
                                 : <div className="flex items-center gap-2 text-slate-700"> <LuLandPlot /> Plot at </div>
                     }
 
                     <p className="text-slate-700">
                         <span className="font-medium">Price:</span>{" "}
-                        {property.discountedPrice && property.discountedPrice < property.price && property.discountedPrice > 0 ? (
+                        {property?.discountedPrice && property.discountedPrice < property.price && property.discountedPrice > 0 ? (
                             <>
                                 <span className="line-through mr-2 text-red-500 text-sm">
                                     ₹{property.price.toLocaleString()}
@@ -161,14 +161,14 @@ export default function PropertyDetails() {
                             </>
                         ) : (
                             <span className="font-semibold text-slate-700">
-                                ₹{property.price.toLocaleString()}
+                                ₹{property?.price.toLocaleString()}
                             </span>
                         )}
                     </p>
 
                     <p className="text-sm  py-1 px-2 rounded-full bg-slate-100 text-slate-600 w-fit">
                         <span className="text-xs font-medium">
-                            {property.features.forSell === false ? "For Rent" : "For Sale"}
+                            {property?.features.forSell === false ? "For Rent" : "For Sale"}
                         </span>
                     </p>
                 </div>
@@ -177,30 +177,30 @@ export default function PropertyDetails() {
                 <div className="flex items-start gap-2 text-slate-600">
                     <FaLocationDot className="mt-1 text-lg text-red-400" />
                     <p>
-                        {property.address.line1}, {property.address.line2 && `${property.address.line2}, `}
-                        {property.address.city}, {property.address.state}, {property.address.postalCode}
+                        {property?.address.line1}, {property?.address.line2 && `${property?.address.line2}, `}
+                        {property?.address.city}, {property?.address.state}, {property?.address.postalCode}
                     </p>
                 </div>
 
                 <div className="flex px-2 sm:px-0 flex-col sm:flex-row sm:items-center sm:gap-6 gap-2 text-slate-600 text-sm">
                     <div className="flex items-center gap-2">
                         <MdBedroomChild size={20} className="text-blue-500" />
-                        <span>{property.features.noOfRooms} Rooms</span>
+                        <span>{property?.features.noOfRooms} Rooms</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <FaRestroom size={20} className="text-pink-500" />
-                        <span>{property.features.noOfRestRooms} Bathrooms</span>
+                        <span>{property?.features.noOfRestRooms} Bathrooms</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <MdLiving size={20} className="text-yellow-500" />
-                        <span>{property.features.noOfLivingRoom} Living Rooms</span>
+                        <span>{property?.features.noOfLivingRoom} Living Rooms</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <img src={sqFT} alt="sqFT" className="w-5 h-5 " />
-                        <span>{property.features.sqFt} Square Feet</span>
+                        <span>{property?.features.sqFt} Square Feet</span>
                     </div>
                 </div>
 
@@ -223,8 +223,6 @@ export default function PropertyDetails() {
                         )}
                     </div>
                 </section>
-
-                <button className="buttonStyle" onClick={handleBookHomeTour}>Book Home Tour</button>
             </div>
         </section>
     );

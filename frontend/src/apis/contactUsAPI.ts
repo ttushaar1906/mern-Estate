@@ -1,4 +1,4 @@
-const dbHost = "http://localhost:3000";
+const dbHost = "http://localhost:3000/api/contactUs";
 
-export const createQuery = `${dbHost}/api/contactUs/createInequery`
-export const viewInEquirySend = `${dbHost}/api/contactUs/viewInequiry`
+export const createQuery = `${dbHost}/createInequery`
+export const viewInEquirySend = `${dbHost}/viewInequiry`

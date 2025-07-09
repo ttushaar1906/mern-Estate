@@ -69,19 +69,19 @@ export default function Properties() {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setSortOrder(prev => prev === "priceDesc" ? "default" : "priceDesc")}
-            className="px-4 py-2 flex items-center gap-2 w-40  bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+            className="px-4 py-2 flex items-center gap-2 w-full sm:w-40  bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
           >
             <FaIndianRupeeSign /> {sortOrder === "priceDesc" ? "Low to High" : "High to Low"}
           </button>
           <button
             onClick={() => setPetFriendly(prev => !prev)}
-            className={`px-4 py-2 flex items-center gap-2 w-40 cursor-pointer rounded-lg ${petFriendly ? "bg-cyan-100 text-cyan-800" : "bg-gray-100 text-gray-700 hover:bg-gray-200"} `}
+            className={`px-4 py-2 flex items-center gap-2 w-full sm:w-40 cursor-pointer rounded-lg ${petFriendly ? "bg-cyan-100 text-cyan-800" : "bg-gray-100 text-gray-700 hover:bg-gray-200"} `}
           >
             <TbCat /> Pet Friendly
           </button>
           <button
             onClick={() => setParking(prev => !prev)}
-            className={`px-4 py-2 flex items-center gap-2 w-44 cursor-pointer rounded-lg ${parking ? "bg-cyan-100 text-cyan-800" : "bg-gray-100 text-gray-700 hover:bg-gray-200"} `}
+            className={`px-4 py-2 flex items-center gap-2 w-full sm:w-44 cursor-pointer rounded-lg ${parking ? "bg-cyan-100 text-cyan-800" : "bg-gray-100 text-gray-700 hover:bg-gray-200"} `}
           >
             <FaParking /> Parking Facility
           </button>
@@ -140,7 +140,7 @@ export default function Properties() {
                   </p>
                 </div>
                 <Link to={`/property/${property._id}`}>
-                  <button className="mt-4 w-full py-2 bg-slate-700 text-white rounded-lg hover:bg-gray-800 hover:cursor-pointer">
+                  <button className="mt-4 w-full py-2 bg-slate-700 text-white rounded-lg hover:bg-gray-800 hover:cursor-pointer hover:scale-105 transition-all duration-300">
                     Explore Property
                   </button>
                 </Link>

@@ -29,7 +29,7 @@ export default function User() {
         <>
           <UserDetail />
 
-          <div className="flex justify-center gap-4 items-center my-4 text-xl font-semibold">
+          <div className="flex  justify-center gap-2 sm:gap-10 mt-6 items-center my-4 sm:text-xl text-md font-semibold">
             <button
               onClick={() => setActiveTab("myProperties")}
               className={`hover:text-cyan-600 cursor-pointer ${activeTab === "myProperties" ? "text-slate-700 font-bold underline" : ""
@@ -51,7 +51,7 @@ export default function User() {
               className={`hover:text-cyan-600 cursor-pointer ${activeTab === "tours" ? "text-slate-700 font-bold underline" : ""
                 }`}
             >
-              Upcoming Home Tour's
+               Home Tour's
             </button>
           </div>
 

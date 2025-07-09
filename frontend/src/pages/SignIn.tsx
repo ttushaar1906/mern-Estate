@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import SignInImg from "../images/SignIn.jpeg"
-import { AiFillGoogleCircle } from "react-icons/ai";
 import { useState } from "react";
 import { loginUserFn, userDetailsFn } from "../controllers/Users/loginUser";
 import { CircularProgress } from "@mui/material";
@@ -8,7 +7,6 @@ import Notification from "../components/Notification";
 import { SnackBarState } from "../interfaces/NotificationInt";
 import { signInSuccess } from "../redux/User/userSlice";
 import { useDispatch } from "react-redux";
-// import Cookies from "js-cookie";
 import GoogleLogin from "../components/GoogleLogin";
 
 export default function SignIn() {
@@ -40,7 +38,7 @@ export default function SignIn() {
         e.preventDefault()
         setLoading(true);
         try {
-            const response = await loginUserFn(formData)
+            await loginUserFn(formData)
             setFormData({
                 userEmail: "",
                 password: "",
@@ -124,10 +122,10 @@ export default function SignIn() {
 
                         {isLoading ? (
                             <div className='buttonStyle w-[75%] text-center'>
-                                <CircularProgress color='white' size={18} />
+                                <CircularProgress className="text-white text-md"/>
                             </div>
                         ) : (
-                            <button onClick={handleLogin} className="buttonStyle w-[75%] block mx-auto">
+                            <button onClick={handleLogin} className="buttonStyle w-[75%] block mx-auto ">
                                 Sign In
                             </button>)}
                     </div>

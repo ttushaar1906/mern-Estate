@@ -64,26 +64,28 @@ export default function MyListing() {
 
   return (
     <div className="space-y-4 p-4">
-      <h1 className="lgHeading">My Listings</h1>
+      <h1 className="mdHead text-center">My Listings</h1>
+
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
 
       {data?.map((item) => (
         <div
           key={item._id}
           className="p-4 rounded shadow transition-transform duration-200 hover:shadow-lg hover:scale-[1.02]"
         >
-          <div className="flex items-center gap-4 justify-between">
+          <div className="flex items-center sm:gap-4 justify-between flex-wrap sm:flex-nowrap">
             {/* Left: Property Info */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center flex-wrap sm:flex-nowrap gap-4">
               <img
                 src={item.images[0]?.url}
                 alt={item.propertyName}
-                className="w-20 h-20 object-cover rounded"
+                className="w-32 h-32 sm:w-20 sm:h-20 object-cover block mx-auto"
               />
-              <div>
-                <p className="text-lg font-semibold text-slate-700">
+              <div className="">
+                <p className="text-xl sm:text-lg font-semibold text-slate-700 text-center sm:text-left mb-2">
                   {item.propertyName}
                 </p>
-                <div className="flex items-center gap-1 text-sm text-slate-600 max-w-100">
+                <div className="flex items-center justify-center gap-2 sm:gap-1 text-sm text-slate-600 max-w-100 ">
                   <AiOutlineEnvironment />
                   <span>
                     {item.address.line1}, {item.address.line2}, {item.address.city}, {item.address.state}
@@ -93,7 +95,7 @@ export default function MyListing() {
             </div>
 
             {/* Right: Actions */}
-            <div className="flex gap-2 pr-2">
+            <div className="flex gap-4 sm:gap-2 pr-2 my-4 w-full sm:w-auto justify-center">
               <Link to={`/property/${item._id}`}>
                 <Tooltip title="View">
                   <IconButton>

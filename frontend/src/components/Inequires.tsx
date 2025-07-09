@@ -13,7 +13,7 @@ export default function Inquiries() {
   });
 
   if (isLoading) return <Loading />;
-  if (isError) return <Error message="No inquiries found for this user"/>;
+  if (isError) return <Error message="No inquiries found for this user" />;
 
   if (!data || data.length === 0) {
     return (
@@ -25,8 +25,11 @@ export default function Inquiries() {
   }
 
   return (
-    <div className="space-y-4 p-4">
-      <h1 className="lgHeading">Query send by</h1>
+    
+    <section className="space-y-4 p-4">
+      <h1 className="mdHead text-center">Query Send </h1>
+      <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+
       {data.map((info, index) => (
         <div
           key={index}
@@ -42,6 +45,6 @@ export default function Inquiries() {
           <p className="mt-2 p-3 bg-slate-100 rounded text-slate-700">{info.message}</p>
         </div>
       ))}
-    </div>
+    </section>
   );
 }

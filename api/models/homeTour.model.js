@@ -25,7 +25,14 @@ const homeTourSchema = new mongoose.Schema({
     visitingPropertyName:{
         type:String
     },
+    propertyImg:{
+        type:String
+    },
     propertyAddress:addressSchema,
+    isCancelled:{
+        type:Boolean,
+        default: false   
+    },
     loggedInUser: {
         type: String
     }
