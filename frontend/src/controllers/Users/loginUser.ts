@@ -12,9 +12,7 @@ export const loginUserFn = async (userData: UserLoginInt) => {
 export const userDetailsFn = async () => {
   const response = await axios.get(userDetails, {
     withCredentials: true,
-  });
-  console.log(response.data);
-  
+  });  
   return response.data;
 };
 

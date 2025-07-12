@@ -11,6 +11,7 @@ import { signOutUserSuccess } from "../redux/User/userSlice";
 import { updateUserFn } from "../controllers/Users/createUser";
 import { CircularProgress } from "@mui/material";
 import userAvatar from "../images/userAvatar.png"
+import CityPreference from "./CityPreference";
 
 export default function UserDetail() {
   const navigate = useNavigate();
@@ -24,13 +25,14 @@ export default function UserDetail() {
 
   const user = useSelector((state: any) => state.user.currentUser);
   const avatar = user?.avatar || userAvatar;
-
+  
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     userName: user?.userName || "",
     userEmail: user?.userEmail || "",
     mobileNo: user?.mobileNo || "",
     avatar: user?.avatar || "",
+    preferencedLocation: user?.preferencedLocation || ""
   });
   const [isLoading, setLoading] = useState<boolean>(false);
 
@@ -110,38 +112,44 @@ export default function UserDetail() {
   const details = [
     { label: "Username", name: "userName", type: "text", value: `${formData.userName}` },
     { label: "Mobile No", name: "mobileNo", type: "number", value: `${formData.mobileNo}` },
+    { label: "Prefered Location", name: "preferencedLocation", type: "text", value: `${formData.preferencedLocation}` },
+    
   ];
 
   return (
-    <div className="bg-white rounded-xl gap-4 shadow-sm sm:flex sm:items-start mt-10 p-6  mx-auto transition hover:shadow-xl">
-      <div className="flex justify-center sm:justify-start">
-        <img
-          src={avatar}
-          alt="User Avatar"
-          className="w-24 h-24 sm:w-40 sm:h-32 rounded-full object-cover border shadow-md"
-        />
-      </div>
+  <section className="bg-white rounded-xl mt-10 shadow-sm transition hover:shadow-xl p-4">
+  <div className="flex flex-col lg:flex-row gap-6">
+    {/* Left Section: Profile Info */}
+    <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start w-full lg:w-1/2">
+      <img
+        src={avatar}
+        alt="User Avatar"
+        className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border shadow-md"
+      />
 
-      <div className="sm:mt-0 p-4 w-full">
+      <div className="w-full sm:w-auto">
         <p className="text-2xl font-bold text-slate-700 text-center sm:text-left">
           {user?.userName}
         </p>
 
-        <p className="flex items-center gap-2 mt-3 text-sm sm:text-base">
-          <AiOutlineMail className="text-blue-500" />
-          <p className="text-slate-600"> {user?.userEmail} </p>
-        </p>
-        <p className="flex items-center gap-2 mt-1 text-sm sm:text-base">
-          <AiOutlinePhone className="text-pink-500" />
-          <p className="text-slate-600"> {user?.mobileNo || "-"} </p>
-        </p>
-        <p className="flex items-center gap-2 mt-1 text-sm sm:text-base">
-          <AiOutlineCalendar className="text-green-500" />
-          <p className="text-slate-600"> {new Date(user?.createdAt).toLocaleDateString()} </p>
-        </p>
+        <div className="mt-3 space-y-1 text-sm sm:text-base">
+          <div className="flex items-center gap-2">
+            <AiOutlineMail className="text-blue-500" />
+            <span className="text-slate-600 break-all">{user?.userEmail}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <AiOutlinePhone className="text-pink-500" />
+            <span className="text-slate-600">{user?.mobileNo || "-"}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <AiOutlineCalendar className="text-green-500" />
+            <span className="text-slate-600">
+              {new Date(user?.createdAt).toLocaleDateString()}
+            </span>
+          </div>
+        </div>
 
-
-        <div className="mt-6 flex gap-4 flex-wrap">
+        <div className="mt-6 flex flex-wrap gap-4 justify-center sm:justify-start">
           <button onClick={handleOpen} className="buttonStyle">
             Edit Profile
           </button>
@@ -163,61 +171,70 @@ export default function UserDetail() {
           />
         )}
       </div>
-
-      {/* Edit Modal */}
-      <Dialog open={open} onClose={handleClose}>
-        <div className="bg-white w-[95vw] max-w-lg rounded-lg shadow-lg p-6 border border-gray-300 mx-auto">
-          <h2 className="text-xl font-bold text-slate-700 mb-4 text-center">Edit Profile</h2>
-
-          <div className="mb-4 text-center">
-            <label className="block text-sm font-medium mb-2">Update Avatar</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              placeholder="image"
-              className="block mx-auto border border-gray-300 rounded cursor-pointer p-2"
-            />
-          </div>
-
-          <img
-            src={formData?.avatar || user?.avatar}
-            alt="Avatar Preview"
-            className="w-24 h-24 rounded-full object-cover mx-auto shadow mb-6"
-          />
-
-          {details.map((detail) => (
-            <div className="mb-4" key={detail.name}>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                {detail.label}
-              </label>
-              <input
-                type={detail.type}
-                name={detail.name}
-                value={detail.value}
-                onChange={handleChange}
-                placeholder={`Enter user's ${detail?.name ?? 'detail'}`}
-                className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              />
-            </div>
-          ))}
-
-          <div className="flex justify-center gap-4 mt-6">
-            {isLoading ? (
-              <div className="buttonStyle text-center">
-                <CircularProgress color="inherit" size={18} />
-              </div>
-            ) : (
-              <button className="buttonStyle" onClick={handleUpdate}>
-                Update
-              </button>
-            )}
-            <button className="cancelButtonStyle" onClick={handleClose}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      </Dialog>
     </div>
+
+    {/* Right Section: City Preference */}
+    <div className="w-full lg:w-1/2">
+      <CityPreference />
+    </div>
+  </div>
+
+  {/* Edit Modal */}
+  <Dialog open={open} onClose={handleClose}>
+    <div className="bg-white w-[95vw] max-w-lg rounded-lg shadow-lg p-6 border border-gray-300 mx-auto">
+      <h2 className="text-xl font-bold text-slate-700 mb-4 text-center">Edit Profile</h2>
+
+      <div className="mb-4 text-center">
+        <label className="block text-sm font-medium mb-2">Update Avatar</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          placeholder="image"
+          className="block mx-auto border border-gray-300 rounded cursor-pointer p-2"
+        />
+      </div>
+
+      <img
+        src={formData?.avatar || user?.avatar}
+        alt="Avatar Preview"
+        className="w-24 h-24 rounded-full object-cover mx-auto shadow mb-6"
+      />
+
+      {details.map((detail) => (
+        <div className="mb-4" key={detail.name}>
+          <label className="block text-sm font-medium text-slate-700 mb-1">
+            {detail.label}
+          </label>
+          <input
+            type={detail.type}
+            name={detail.name}
+            value={detail.value}
+            onChange={handleChange}
+            placeholder={`Enter user's ${detail?.name ?? 'detail'}`}
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+        </div>
+      ))}
+
+      <div className="flex justify-center gap-4 mt-6">
+        {isLoading ? (
+          <div className="buttonStyle text-center">
+            <CircularProgress color="inherit" size={18} />
+          </div>
+        ) : (
+          <button className="buttonStyle" onClick={handleUpdate}>
+            Update
+          </button>
+        )}
+        <button className="cancelButtonStyle" onClick={handleClose}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </Dialog>
+</section>
+
+
   );
 }

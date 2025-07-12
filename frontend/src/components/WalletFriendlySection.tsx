@@ -35,7 +35,7 @@ export default function WalletFriendlySection() {
                     <div className="p-4">
                         <div>
                             <h2 className="text-lg font-semibold text-slate-700">{property.propertyName}</h2>
-                            <p className="text-md text-slate-600 font-bold">₹ {property.discountedPrice.toLocaleString()}</p>
+                            <p className="text-md text-slate-600 font-bold">₹ {property?.discountedPrice?.toLocaleString()}</p>
                         </div>
 
                         <div className="flex items-start gap-2 text-slate-600 text-sm pt-2">

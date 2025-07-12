@@ -12,12 +12,8 @@ export const createListing = asyncHandler(async (req, res) => {
   // images
   const { propertyName, propertyDesc, address, price, discountedPrice, features, rules, RegisteredBy, images } = req.body
 
-  nameValidation(propertyName)
-
   const { line1, line2, city, state, postalCode } = address
-  nameValidation(city)
-  nameValidation(state)
-
+  
   const { parking, petFriendly, security, swimmingPool, playGround, garden, publicToilet, clubHouse, temple, balcony, cctv, lift, forSell, noOfRooms, noOfRestRooms, noOfLivingRoom, sqFt, propertyType } = features
 
   // 1. Handle multiple image uploads

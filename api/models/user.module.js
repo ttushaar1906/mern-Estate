@@ -1,31 +1,35 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    userName:{
-        type:String,
-        require:true,
+    userName: {
+        type: String,
+        require: true,
     },
-    userEmail:{
-        type:String,
-        require:true,
+    userEmail: {
+        type: String,
+        require: true,
     },
-    password:{
-        type:String,
-        require:true,
+    password: {
+        type: String,
+        require: true,
     },
-    avatar:{
-        type:String
+    avatar: {
+        type: String
     },
-    mobileNo:{
-        type:Number
+    mobileNo: {
+        type: Number
     },
     refreshToken: {
         type: String
     },
-    isLoggedIn:{
-        type:Boolean
-    }
-},{ timestamps : true});
+    isLoggedIn: {
+        type: Boolean
+    },
+    preferencedLocation: {
+        type: [String],
+        default: []
+    },
+}, { timestamps: true });
 
 //timestamps is used to keep record of account created and account updated
 

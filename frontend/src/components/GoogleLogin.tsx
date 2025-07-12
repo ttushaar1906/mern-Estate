@@ -29,13 +29,9 @@ export default function GoogleLogin() {
         name: user.displayName,
         photo: user.photoURL,
         token: idToken,
-      }, { withCredentials: true }); // for cookie support
-      console.log(response,"Response");
-      
+      }, { withCredentials: true }); 
       dispatch(signInSuccess(response.data.data))
       navigate("/")
-
-      console.log("Logged in:", response.data);
     } catch (error: any) {
       console.error("Google Sign-In Error:", error?.message || error);
     }
@@ -44,7 +40,7 @@ export default function GoogleLogin() {
   return (
     <button
       onClick={handleGoogleLogin}
-      className="flex border w-[75%] rounded-xl mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
+      className="flex border w-[75%] hover:scale-x-105 rounded-xl mt-2 darkColor items-center p-4 gap-2 justify-center hover:cursor-pointer hover:shadow-md">
       <AiFillGoogleCircle size={20} />
       <p>
         Continue with Google

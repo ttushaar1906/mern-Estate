@@ -45,7 +45,6 @@ export default function ScheduleHomeTour() {
     const { mutate, isPending } = useMutation({
         mutationFn: scheduleHomeTourFn,
         onSuccess: () => {
-            console.log("Success");
             setSnackBar({
                 open: true,
                 message: "Schedule Booked for home tour",

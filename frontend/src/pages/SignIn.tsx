@@ -29,8 +29,6 @@ export default function SignIn() {
     const userDetails = async () => {
         const response = await userDetailsFn()
         const userData = response.data[0];
-        console.log(userData);
-
         return userData
     }
 

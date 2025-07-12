@@ -38,10 +38,9 @@ const FeaturesSchema = new mongoose.Schema({
 })
 
 const RulesSchema = new mongoose.Schema({
-    rulesRegulation: {
         no: String,
         rules: String,
-      }
+      
 })
 
 const listingSchema = new mongoose.Schema({
@@ -67,7 +66,7 @@ const listingSchema = new mongoose.Schema({
         type:FeaturesSchema
     },
     rules:{
-        type:RulesSchema
+        type:[RulesSchema]
     },
     RegisteredBy:{
         type:String
