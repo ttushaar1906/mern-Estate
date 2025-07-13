@@ -11,6 +11,8 @@ import sqFT from "../images/sqft.png"
 import { LuLandPlot } from "react-icons/lu";
 import { useDispatch } from "react-redux";
 import { viewPropertySuccess } from "../redux/User/propertySlice";
+import Temple from "../images/temple2.png"
+import Garden from "../images/flower.png"
 
 export default function PropertyDetails() {
     const { id } = useParams<{ id: string }>();
@@ -28,7 +30,7 @@ export default function PropertyDetails() {
     if (isError) return <Error />;
 
     const property = data?.data;
-    
+
     const handleBookHomeTour = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         dispatch(viewPropertySuccess(property));
@@ -46,8 +48,9 @@ export default function PropertyDetails() {
         { key: 'clubHouse', icon: <BsFillHouseHeartFill size={24} />, label: 'Club House', color: 'text-slate-500' },
         { key: 'playGround', icon: <MdSportsCricket size={24} />, label: 'Play Ground', color: 'text-slate-500' },
         { key: 'lift', icon: <GiElevator size={24} />, label: 'Lift', color: 'text-slate-500' },
-        { key: 'balcony', icon: <MdBalcony size={24} />, label: 'Balcony', color: 'text-slate-500' }
-
+        { key: 'balcony', icon: <MdBalcony size={24} />, label: 'Balcony', color: 'text-slate-500' },
+        { key: 'temple', icon: <img src={Temple} alt="" className="w-6 h-6" />, label: 'Temple', color: 'text-slate-600' },
+        { key: 'garden', icon: <img src={Garden} alt="" className="w-6 h-6" />, label: 'Garden', color: 'text-slate-600' }
     ];
 
     return (
@@ -67,7 +70,7 @@ export default function PropertyDetails() {
             </div>
 
             <div className="flex justify-evenly items-center flex-wrap sm:flex-nowrap sm:gap-6">
-                <div className="sm:w-1/2">
+                <div className="">
                     <img
                         src={property?.images[0]?.url}
                         className="w-full sm:h-70 object-cover my-4"
@@ -76,7 +79,7 @@ export default function PropertyDetails() {
                 </div>
 
                 <div className="sm:w-1/2">
-                    {property.images.length >= 4 && (
+                    {property?.images.length === 4 && (
                         <>
                             <div>
                                 <img
@@ -211,7 +214,7 @@ export default function PropertyDetails() {
 
                     <div className="mt-2 p-4 rounded-xl bg-slate-50 flex items-center sm:justify-start flex-wrap gap-2 sm:gap-6">
                         {featureIcons.map(({ key, icon, label, color }) =>
-                            property.features[key] ? (
+                            property?.features[key] ? (
                                 <div
                                     key={key}
                                     className={`flex items-center gap-1 flex-wrap text-slate-600 hover:scale-105 transition transform duration-300`}

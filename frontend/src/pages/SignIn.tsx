@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import SignInImg from "../images/SignIn.jpeg"
+import SignInImg from "../images/SignIn.jpeg";
 import { useState } from "react";
 import { loginUserFn, userDetailsFn } from "../controllers/Users/loginUser";
 import { CircularProgress } from "@mui/material";
@@ -8,69 +8,64 @@ import { SnackBarState } from "../interfaces/NotificationInt";
 import { signInSuccess } from "../redux/User/userSlice";
 import { useDispatch } from "react-redux";
 import GoogleLogin from "../components/GoogleLogin";
-
 export default function SignIn() {
-
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const inputFields: string[] = ["Email", "Password"];
     const [formData, setFormData] = useState({
         userEmail: "",
-        password: ""
-    })
+        password: "",
+    });
     const [snackBar, setSnackBar] = useState<SnackBarState>({
         open: false,
         severity: "info",
         message: "",
-        autoHideDuration: 3000
+        autoHideDuration: 3000,
     });
-    const [isLoading, setLoading] = useState<Boolean>(false)
-    const navigate = useNavigate()
+    const [isLoading, setLoading] = useState<Boolean>(false);
+    const navigate = useNavigate();
 
     const userDetails = async () => {
-        const response = await userDetailsFn()
+        const response = await userDetailsFn();
         const userData = response.data[0];
-        return userData
-    }
+        return userData;
+    };
 
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
         setLoading(true);
         try {
-            await loginUserFn(formData)
+            await loginUserFn(formData);
             setFormData({
                 userEmail: "",
                 password: "",
-            })
+            });
             setSnackBar({
                 open: true,
                 message: "Logged In Successfully !!",
                 severity: "success",
-                autoHideDuration: 3000
-            })
-            const user = await userDetails()
+                autoHideDuration: 3000,
+            });
+            const user = await userDetails();
 
-            dispatch(signInSuccess(user))
+            dispatch(signInSuccess(user));
             // Cookies.set("accessToken", response.data.accessToken, { secure: true, sameSite: "strict" });
             setTimeout(() => {
-                navigate("/")
-            }, 1000)
-
+                navigate("/");
+            }, 1000);
         } catch (error: any) {
             console.log(error);
-
             setSnackBar({
                 open: true,
                 message: `Failed to Log in ${error.response?.data?.message || error.message}`,
                 severity: "error",
-                autoHideDuration: 3000
-            })
-        }
-        finally {
+                autoHideDuration: 3000,
+            });
+        } finally {
             setTimeout(() => {
                 setLoading(false);
             }, 1000);
         }
-    }
+    };
 
     return (
         <div className="container customeContainer pt-10 block sm:flex justify-center">
@@ -89,25 +84,34 @@ export default function SignIn() {
                             <div className="relative w-full">
                                 <input
                                     id={field}
-                                    type={field.toLowerCase() === "password" ? "password" : "email"}
+                                    type={
+                                        field.toLowerCase() === "password" ? "password" : "email"
+                                    }
                                     name={field.toLowerCase()}
-                                    value={formData[field.toLowerCase() as "userEmail" | "password"]}
+                                    value={
+                                        formData[field.toLowerCase() as "userEmail" | "password"]
+                                    }
                                     onChange={(e) =>
                                         setFormData({
                                             ...formData,
-                                            [field.toLowerCase() === "email" ? "userEmail" : "password"]: e.target.value,
+                                            [field.toLowerCase() === "email"
+                                                ? "userEmail"
+                                                : "password"]: e.target.value,
                                         })
                                     }
                                     className="peer inputFields "
-                                    placeholder={field === "Email" ? "Enter Email ID" : "Enter Password"}
+                                    placeholder={
+                                        field === "Email" ? "Enter Email ID" : "Enter Password"
+                                    }
                                     autoComplete="off"
                                 />
                                 <label
                                     htmlFor={field}
-                                    className={`absolute left-2 transition-all bg-white px-2
-          ${formData[field.toLowerCase() === "email" ? "userEmail" : "password"]
-                                            ? "top-[-0.5rem] text-sm text-cyan-600"
-                                            : "top-2 text-base text-slate-400 peer-focus:top-[-0.5rem] peer-focus:text-sm peer-focus:text-slate-700"
+                                    className={`absolute left-2 transition-all bg-white px-2 ${formData[
+                                        field.toLowerCase() === "email" ? "userEmail" : "password"
+                                    ]
+                                        ? "top-[-0.5rem] text-sm text-cyan-600"
+                                        : "top-2 text-base text-slate-400 peer-focus:top-[-0.5rem] peer-focus:text-sm peer-focus:text-slate-700"
                                         }`}
                                 >
                                     {field}
@@ -116,32 +120,34 @@ export default function SignIn() {
                         </div>
                     ))}
 
-                    <div className='my-4 flex justify-center'>
-
+                    <div className="my-4 flex justify-center">
                         {isLoading ? (
-                            <div className='buttonStyle w-[75%] text-center'>
-                                <CircularProgress className="text-white text-md"/>
+                            <div className="buttonStyle w-[75%] text-center">
+                                <CircularProgress size={16} />
                             </div>
                         ) : (
-                            <button onClick={handleLogin} className="buttonStyle w-[75%] block mx-auto ">
+                            <button
+                                onClick={handleLogin}
+                                className="buttonStyle w-[75%] block mx-auto "
+                            >
                                 Sign In
-                            </button>)}
+                            </button>
+                        )}
                     </div>
 
-                    <p className="p-2 text-slate-600 text-center">Forgot Password ?</p>
-
+                    <p className="p-2 text-slate-600 text-center">
+                        <Link to="/forgetPassword">
+                            Forgot Password ?
+                        </Link>
+                    </p>
                     <div className=" flex flex-col items-center ">
-                        <p className="my-2">
-                            OR
-                        </p>
+                        <p className="my-2">OR</p>
 
                         <GoogleLogin />
                         <div className="p-3 mt-2">
                             Don't have an Account ?
                             <Link to="/signUp">
-                                <span className="px-1 darkColor">
-                                    Create Now..
-                                </span>
+                                <span className="px-1 darkColor">Create Now..</span>
                             </Link>
                         </div>
                     </div>

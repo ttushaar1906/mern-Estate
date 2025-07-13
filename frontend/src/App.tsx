@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { userDetailsFn } from "./controllers/Users/loginUser";
 import { signInSuccess } from "./redux/User/userSlice";
 import ScheduleHomeTour from "./components/ScheduleHomeTour";
+import ForgetPassword from "./pages/ForgetPassword";
 
 export default function App() {
  const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="about" element={<AboutUs />} />
         <Route path="signIn" element={<SignIn />} />
         <Route path="signUp" element={<SignUp />} />
+        <Route path="forgetPassword" element={<ForgetPassword />} />
         <Route path="notAvailable" element={<NotAvailable />} />
         <Route path="contactUs" element={<ContactUs />} />
         <Route path="properties" element={<Properties />} />

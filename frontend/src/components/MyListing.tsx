@@ -20,7 +20,7 @@ export default function MyListing() {
   const { data, isLoading, isError } = useQuery<PropertyInt[]>({
     queryKey: ["properties"],
     queryFn: ownerPropertyFn,
-     retry: false
+    retry: false
   });
 
   const [snackBar, setSnackBar] = useState<SnackBarState>({
@@ -32,41 +32,43 @@ export default function MyListing() {
 
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      setDeletingId(id);
-      return await axios.delete(deleteProperty(id), { withCredentials: true });
-    },
-    onSuccess: (response) => {
-      setSnackBar({
-        open: true,
-        message: response.data.message,
-        severity: "success",
-        autoHideDuration: 3000,
-      });
-      queryClient.invalidateQueries({ queryKey: ["properties"] });
-    },
-    onError: () => {
-      setSnackBar({
-        open: true,
-        severity: "error",
-        message: "Failed to delete property",
-        autoHideDuration: 3000,
-      });
-    },
-    onSettled: () => {
-      setDeletingId(null);
-    },
-  });
+const deleteMutation = useMutation({
+  mutationFn: async (id: string) => {
+    return await axios.delete(deleteProperty(id), { withCredentials: true });
+  },
+  onMutate: (id: string) => {
+    setDeletingId(id);
+  },
+  onSuccess: (response) => {
+    setSnackBar({
+      open: true,
+      message: response.data.message,
+      severity: "success",
+      autoHideDuration: 3000,
+    });
+    queryClient.invalidateQueries({ queryKey: ["properties"] });
+  },
+  onError: () => {
+    setSnackBar({
+      open: true,
+      severity: "error",
+      message: "Failed to delete property",
+      autoHideDuration: 3000,
+    });
+  },
+  onSettled: () => {
+    setDeletingId(null);
+  },
+});
 
   if (isLoading) return <Loading />;
-  if (isError) return <Error message="No Property Registered by the owner"/>;
+  if (isError) return <Error message="No Property Registered by the owner" />;
 
   return (
     <div className="space-y-4 p-4">
       <h1 className="mdHead text-center">My Listings</h1>
 
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+      <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
 
       {data?.map((item) => (
         <div
@@ -88,7 +90,7 @@ export default function MyListing() {
                 <div className="flex items-center justify-center gap-2 sm:gap-1 text-sm text-slate-600 max-w-100 ">
                   <AiOutlineEnvironment />
                   <span>
-                    {item.address.line1}, {item.address.line2}, {item.address.city}, {item.address.state}
+                    {item.address.line1} {item.address.line2}, {item.address.city}, {item.address.state}
                   </span>
                 </div>
               </div>
@@ -117,9 +119,14 @@ export default function MyListing() {
                   onClick={() => deleteMutation.mutate(item._id)}
                   disabled={deletingId === item._id}
                 >
-                  {deletingId === item._id ? <CircularProgress size={20}/> : <MdDelete size={20} />}
+                  {deletingId === item._id ? (
+                    <CircularProgress size={14} />
+                  ) : (
+                    <MdDelete size={20} />
+                  )}
                 </IconButton>
               </Tooltip>
+
             </div>
           </div>
         </div>

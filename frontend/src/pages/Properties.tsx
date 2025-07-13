@@ -136,7 +136,7 @@ export default function Properties() {
                 <div className="flex items-start gap-2 h-16 text-slate-600 text-sm pt-2">
                   <AiOutlineEnvironment className="text-xl mt-0.5 text-slate-700" />
                   <p>
-                    {property.address.line1}, {property.address.line2}, {property.address.city}, {property.address.state}
+                    {property.address.line1} {property.address.line2}, {property.address.city}, {property.address.state}
                   </p>
                 </div>
                 <Link to={`/property/${property._id}`}>

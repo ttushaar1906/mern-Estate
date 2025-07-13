@@ -13,6 +13,8 @@ import { State, City, IState, ICity } from 'country-state-city';
 import { SnackBarState } from "../interfaces/NotificationInt";
 import Balcony from "../images/balcony.png"
 import sqFT from "../images/sqft.png"
+import Temple from "../images/temple.png"
+import Garden from "../images/garden.png"
 
 export default function AddPropertyForm() {
   const featureIcons = [
@@ -25,7 +27,9 @@ export default function AddPropertyForm() {
     { key: 'clubHouse', icon: <BsFillHouseHeartFill size={24} />, label: 'Club House', color: 'text-rose-500' },
     { key: 'playGround', icon: <MdSportsCricket size={24} />, label: 'Play Ground', color: 'text-amber-500' },
     { key: 'lift', icon: <GiElevator size={24} />, label: 'Lift', color: 'text-slate-600' },
-    { key: 'balcony', icon: <img src={Balcony} alt="" className="w-6 h-6" />, label: 'Balcony', color: 'text-slate-600' }
+    { key: 'balcony', icon: <img src={Balcony} alt="" className="w-6 h-6" />, label: 'Balcony', color: 'text-slate-600' },
+    { key: 'temple', icon: <img src={Temple} alt="" className="w-6 h-6" />, label: 'Temple', color: 'text-slate-600' },
+    { key: 'garden', icon: <img src={Garden} alt="" className="w-6 h-6" />, label: 'Garden', color: 'text-slate-600' }  
   ];
 
   const [dragActive, setDragActive] = useState(false);
@@ -44,7 +48,7 @@ export default function AddPropertyForm() {
 
     const selectedState = states.find((s) => s.isoCode === selectedStateCode);
 
-    if (!selectedState) return; // Optional: handle the error case if needed
+    if (!selectedState) return;
 
     const fetchedCities = City.getCitiesOfState('IN', selectedStateCode);
     setCities(fetchedCities);
@@ -227,7 +231,6 @@ export default function AddPropertyForm() {
       }));
     }
   };
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -421,7 +424,7 @@ export default function AddPropertyForm() {
                 <input
                   type="text"
                   placeholder="Enter property name"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   value={formData.propertyName}
                   name="propertyName"
                   onChange={handleInputChange}
@@ -436,7 +439,7 @@ export default function AddPropertyForm() {
                 <textarea
                   // rows="4"
                   placeholder="Describe your property..."
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                  className="addPropertyStyle resize-none"
                   value={formData.propertyDesc}
                   onChange={handleInputChange}
                   name="propertyDesc"
@@ -454,7 +457,7 @@ export default function AddPropertyForm() {
                 <input
                   type="number"
                   placeholder="0"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   value={formData.features.noOfLivingRoom}
                   name="noOfLivingRoom"
                   onChange={handleInputChange}
@@ -472,7 +475,7 @@ export default function AddPropertyForm() {
                 <input
                   type="number"
                   placeholder="0"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   value={formData.features.noOfRooms}
                   name="noOfRooms"
                   onChange={handleInputChange}
@@ -490,7 +493,7 @@ export default function AddPropertyForm() {
                 <input
                   type="number"
                   placeholder="0"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   value={formData.features.noOfRestRooms}
                   onChange={handleInputChange}
                   name="noOfRestRooms"
@@ -508,7 +511,7 @@ export default function AddPropertyForm() {
                 <input
                   type="number"
                   placeholder="0"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   value={formData.features.sqFt}
                   onChange={handleInputChange}
                   name="sqFt"
@@ -569,7 +572,7 @@ export default function AddPropertyForm() {
                       },
                     }))
                   }
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                 >
                   <option value="">Select Property Type</option>
                   <option value={PropertyType.residential}>Residential</option>
@@ -596,9 +599,8 @@ export default function AddPropertyForm() {
                       },
                     }))
                   }
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                 >
-                  <option value="">Select Property Selling Type</option>
                   <option value="false">For Rent</option>
                   <option value="true">For Sale</option>
                 </select>
@@ -622,7 +624,7 @@ export default function AddPropertyForm() {
                 <input
                   type="number"
                   placeholder="₹10,000 /month"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   value={formData.price}
                   onChange={handleInputChange}
                   name="price"
@@ -638,7 +640,7 @@ export default function AddPropertyForm() {
                 <input
                   type="text"
                   placeholder="₹8,000 /month"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   value={formData.discountedPrice}
                   onChange={handleInputChange}
                   name="discountedPrice"
@@ -661,7 +663,7 @@ export default function AddPropertyForm() {
                 <input
                   type="text"
                   placeholder="Street address"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   value={formData.address.line1}
                   name="line1"
                   onChange={handleInputChange}
@@ -676,7 +678,7 @@ export default function AddPropertyForm() {
                 <input
                   type="text"
                   placeholder="Apartment, suite, etc."
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   name="line2"
                   value={formData.address.line2}
                   onChange={handleInputChange}
@@ -730,7 +732,7 @@ export default function AddPropertyForm() {
                 <input
                   type="text"
                   placeholder="Enter postal code"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="addPropertyStyle"
                   name="postalCode"
                   value={formData.address.postalCode}
                   onChange={handleInputChange}
@@ -787,7 +789,6 @@ export default function AddPropertyForm() {
             </div>
           </div>
 
-
           {/* Submit Button */}
           <div className="pt-6 border-t border-slate-200">
             <button
@@ -798,7 +799,7 @@ export default function AddPropertyForm() {
 
               {isPending ? (
                 <div className='buttonStyle w-[75%] text-center'>
-                  <CircularProgress className="w-5 h-5 text-white" size={12} />
+                  <CircularProgress className="text-white" size={10} />
                 </div>
               ) : (<>
                 Register Property

@@ -17,8 +17,7 @@ export const getUser = asyncHandler(async(req,res)=>{
 export const updateUser = asyncHandler(async(req,res)=>{
     const userId = req.user.id
 
-    
-    if(!userId) console.log("not hit");
+    if(!userId) return res.status(400).json({statusCode:400, message:"User not found"})
     
     const user = await User.findOne({_id:userId}).select("-password -refreshToken")
     

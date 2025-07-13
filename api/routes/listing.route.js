@@ -5,7 +5,7 @@ import { upload } from '../middleware/multer.middleware.js';
 
 const router = express.Router();
 
-router.post('/create',verifyJWT, upload.fields([{ name: "coverImages", maxCount: 10 }]), createListing);
+router.post('/create',verifyJWT, upload.fields([{ name: "coverImages", maxCount: 4 }]), createListing);
 router.get('/getListing/:id', viewListing);
 router.get('/gets', getlisting)
 router.get('/viewOwnersProperty', verifyJWT,viewOwnerProperty)

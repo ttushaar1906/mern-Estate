@@ -112,8 +112,7 @@ export default function UserDetail() {
   const details = [
     { label: "Username", name: "userName", type: "text", value: `${formData.userName}` },
     { label: "Mobile No", name: "mobileNo", type: "number", value: `${formData.mobileNo}` },
-    { label: "Prefered Location", name: "preferencedLocation", type: "text", value: `${formData.preferencedLocation}` },
-    
+    { label: "Prefered Location", name: "preferencedLocation", type: "text", value: `${formData.preferencedLocation}` }, 
   ];
 
   return (
