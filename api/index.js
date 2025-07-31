@@ -33,6 +33,10 @@ app.use(cors({
   credentials: true
 }));
 
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+});
+
 // API routes
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);

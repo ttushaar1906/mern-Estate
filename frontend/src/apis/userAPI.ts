@@ -1,4 +1,5 @@
-const dbHost = "http://localhost:3000";
+// const dbHost = "http://localhost:3000";
+const dbHost = "https://findstay.onrender.com";
 
 export const createUser = `${dbHost}/api/auth/signUp`
 export const loginUser = `${dbHost}/api/auth/signIn`
