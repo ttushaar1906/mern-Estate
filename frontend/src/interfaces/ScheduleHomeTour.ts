@@ -12,6 +12,6 @@ export interface scheduleHomeTourInt {
     state: string;
     postalCode: string;
   };
-  isCancelled:boolean,
-  _id:string
+  isCancelled:boolean | "",
+  _id:string |""
 }

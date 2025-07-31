@@ -106,7 +106,7 @@ const deleteMutation = useMutation({
                 </Tooltip>
               </Link>
 
-              <Link to={`/edit-property/${item._id}`}>
+              <Link to={`property/${item._id}/editProperty`}>
                 <Tooltip title="Edit">
                   <IconButton>
                     <MdEdit size={20} />

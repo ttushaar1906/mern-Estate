@@ -42,6 +42,12 @@ export const updateUser = asyncHandler(async(req,res)=>{
   return res.status(200).json({statusCode:200, message:"User Found and Updated !!", user:updatedUser})
 })
 
+
+export const forgotPassword = asyncHandler(async(req,res)=>{
+  
+  return res.status(200, "Security Pass")
+})
+
 // export const test = (req, res) => {
 //   res.send("Hello World!")
 // }

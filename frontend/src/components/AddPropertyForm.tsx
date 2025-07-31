@@ -3,7 +3,7 @@ import { FaDog, FaPersonSwimming, FaRestroom, FaSquareParking, FaUpload, FaTrash
 import { GiCctvCamera, GiElevator, GiPoliceOfficerHead } from "react-icons/gi";
 import { MdBedroomChild, MdLiving, MdSportsCricket, MdClose } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { PropertyInt, PropertyType } from "../interfaces/PropertyInt";
+import { Features, PropertyInt, PropertyType } from "../interfaces/PropertyInt";
 import Notification from "./Notification";
 import { useMutation } from "@tanstack/react-query";
 import { createPropertyFn } from "../controllers/Property/createProperty";
@@ -15,26 +15,35 @@ import Balcony from "../images/balcony.png"
 import sqFT from "../images/sqft.png"
 import Temple from "../images/temple.png"
 import Garden from "../images/garden.png"
-
 export default function AddPropertyForm() {
-  const featureIcons = [
-    { key: 'parking', icon: <FaSquareParking size={24} />, label: 'Parking', color: 'text-blue-500' },
-    { key: 'petFriendly', icon: <FaDog size={24} />, label: 'Pet Friendly', color: 'text-green-500' },
-    { key: 'cctv', icon: <GiCctvCamera size={24} />, label: 'CCTV', color: 'text-purple-500' },
-    { key: 'publicToilet', icon: <FaRestroom size={24} />, label: 'Public Restroom', color: 'text-pink-500' },
-    { key: 'security', icon: <GiPoliceOfficerHead size={24} />, label: 'Security', color: 'text-red-500' },
-    { key: 'swimmingPool', icon: <FaPersonSwimming size={24} />, label: 'Swimming Pool', color: 'text-sky-500' },
-    { key: 'clubHouse', icon: <BsFillHouseHeartFill size={24} />, label: 'Club House', color: 'text-rose-500' },
-    { key: 'playGround', icon: <MdSportsCricket size={24} />, label: 'Play Ground', color: 'text-amber-500' },
-    { key: 'lift', icon: <GiElevator size={24} />, label: 'Lift', color: 'text-slate-600' },
-    { key: 'balcony', icon: <img src={Balcony} alt="" className="w-6 h-6" />, label: 'Balcony', color: 'text-slate-600' },
-    { key: 'temple', icon: <img src={Temple} alt="" className="w-6 h-6" />, label: 'Temple', color: 'text-slate-600' },
-    { key: 'garden', icon: <img src={Garden} alt="" className="w-6 h-6" />, label: 'Garden', color: 'text-slate-600' }  
-  ];
+
+  type BooleanFeatureKey = Extract<{
+    [K in keyof Features]: Features[K] extends boolean ? K : never;
+  }[keyof Features], string>;
+
+  const featureIcons: {
+    key: BooleanFeatureKey;
+    icon: React.ReactNode;
+    label: string;
+    color: string;
+  }[] = [
+      { key: 'parking', icon: <FaSquareParking size={24} />, label: 'Parking', color: 'text-blue-500' },
+      { key: 'petFriendly', icon: <FaDog size={24} />, label: 'Pet Friendly', color: 'text-green-500' },
+      { key: 'cctv', icon: <GiCctvCamera size={24} />, label: 'CCTV', color: 'text-purple-500' },
+      { key: 'publicToilet', icon: <FaRestroom size={24} />, label: 'Public Restroom', color: 'text-pink-500' },
+      { key: 'security', icon: <GiPoliceOfficerHead size={24} />, label: 'Security', color: 'text-red-500' },
+      { key: 'swimmingPool', icon: <FaPersonSwimming size={24} />, label: 'Swimming Pool', color: 'text-sky-500' },
+      { key: 'clubHouse', icon: <BsFillHouseHeartFill size={24} />, label: 'Club House', color: 'text-rose-500' },
+      { key: 'playGround', icon: <MdSportsCricket size={24} />, label: 'Play Ground', color: 'text-amber-500' },
+      { key: 'lift', icon: <GiElevator size={24} />, label: 'Lift', color: 'text-slate-600' },
+      { key: 'balcony', icon: <img src={Balcony} alt="" className="w-6 h-6" />, label: 'Balcony', color: 'text-slate-600' },
+      { key: 'temple', icon: <img src={Temple} alt="" className="w-6 h-6" />, label: 'Temple', color: 'text-slate-600' },
+      { key: 'garden', icon: <img src={Garden} alt="" className="w-6 h-6" />, label: 'Garden', color: 'text-slate-600' }
+    ];
 
   const [dragActive, setDragActive] = useState(false);
   const [selectedFeatures, setSelectedFeatures] = useState(new Set());
-  const [states, setStates] = useState<IState[]>([]);;
+  const [states, setStates] = useState<IState[]>([]);
   const [cities, setCities] = useState<ICity[]>([]);
   const [images, setImages] = useState<{ id: string; preview: string }[]>([]);
 
@@ -165,7 +174,7 @@ export default function AddPropertyForm() {
           noOfRestRooms: 0,
           noOfLivingRoom: 0,
           sqFt: "",
-          propertyType: "" // This now matches the updated interface
+          propertyType: ""
         },
         rules: [],
         _id: ""
@@ -399,6 +408,7 @@ export default function AddPropertyForm() {
                         type="button"
                         onClick={() => removeImage(image.id)}
                         className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        aria-label="Close"
                       >
                         <MdClose size={16} />
                       </button>
@@ -562,6 +572,7 @@ export default function AddPropertyForm() {
                 </label>
                 <select
                   name="propertyType"
+                  aria-label="propertyType"
                   value={formData.features.propertyType}
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -589,6 +600,7 @@ export default function AddPropertyForm() {
                 </label>
                 <select
                   name="propertySellingType"
+                  aria-label="propertyType"
                   value={formData.features.forSell ? "true" : "false"}
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -693,6 +705,7 @@ export default function AddPropertyForm() {
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg"
                   onChange={handleStateChange}
                   value={states.find(s => s.name === formData.address.state)?.isoCode || ''}
+                  aria-label="state"
                 >
                   <option value="">Select state</option>
                   {states.map((state) => (
@@ -712,6 +725,7 @@ export default function AddPropertyForm() {
                   onChange={handleCityChange}
                   value={formData.address.city}
                   disabled={!formData.address.state}
+                  aria-label="city"
                 >
                   <option value="">Select city</option>
                   {cities.map((city, idx) => (
@@ -721,9 +735,6 @@ export default function AddPropertyForm() {
                   ))}
                 </select>
               </div>
-
-
-
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
@@ -771,6 +782,7 @@ export default function AddPropertyForm() {
                         type="button"
                         onClick={() => handleRemoveRule(index)}
                         className="text-red-500 hover:text-red-700 p-2"
+                        aria-label="delete"
                       >
                         <FaTrash size={16} />
                       </button>

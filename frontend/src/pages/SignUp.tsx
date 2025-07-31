@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom'
 import SignInImg from '../images/SignIn.jpeg'
-import { AiFillGoogleCircle } from 'react-icons/ai'
 import { createUserFn } from '../controllers/Users/createUser'
 import { useState } from 'react'
 import { ProfileIn } from '../interfaces/ProfileInt'
 import Notification from '../components/Notification'
 import CircularProgress from '@mui/material/CircularProgress';
 import GoogleLogin from '../components/GoogleLogin'
+import { SnackBarState } from '../interfaces/NotificationInt'
 
 export default function SignUp() {
     const [formData, setFormData] = useState<ProfileIn>({
@@ -18,7 +18,7 @@ export default function SignUp() {
         avatar: ""
     })
     const [isLoading, setLoading] = useState<boolean>(false);
-    const [snackBar, setSnackBar] = useState({
+    const [snackBar, setSnackBar] = useState<SnackBarState>({
         open: false,
         severity: "info",
         message: "",
@@ -93,13 +93,13 @@ export default function SignUp() {
                                     onChange={handleChange}
                                     className="peer inputFields"
                                     autoComplete="off"
-                                    placeholder={`Enter ${field.label}`} 
+                                    placeholder={`Enter ${field.label}`}
                                 />
                                 <label
                                     htmlFor={field.name}
                                     className={`absolute left-2 transition-all bg-white px-2  
         ${((formData as any)[field.name])
-                                            ? 'top-[-0.5rem] text-sm text-cyan-600' 
+                                            ? 'top-[-0.5rem] text-sm text-cyan-600'
                                             : 'top-2 text-base text-slate-400 peer-focus:top-[-0.5rem] peer-focus:text-sm peer-focus:text-slate-700'}`}
                                 >
                                     {field.label}
@@ -111,10 +111,9 @@ export default function SignUp() {
 
                     <div className='my-4 flex justify-center'>
                         {isLoading ? (
-                            <div className='buttonStyle w-[75%]'>
-                                <CircularProgress color='white' size={18} />
+                            <div className="buttonStyle w-[75%] text-white text-center">
+                                <CircularProgress size={16} color="inherit" />
                             </div>
-
                         ) : (
                             <button onClick={handleSubmit} className="buttonStyle w-[75%] ">
                                 Sign Up
@@ -128,7 +127,7 @@ export default function SignUp() {
                             OR
                         </span>
 
-                      <GoogleLogin />
+                        <GoogleLogin />
 
                         <div className="p-3">
                             Already have an account ?

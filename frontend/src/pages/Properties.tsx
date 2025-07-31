@@ -39,7 +39,7 @@ export default function Properties() {
   // apply frontend filters
   const filteredProperties = rawProperties
     .filter((property: PropertyInt) => !petFriendly || property.features.petFriendly)
-    .sort((a, b) => {
+    .sort((a: PropertyInt, b: PropertyInt) => {
       if (sortOrder === "priceDesc") return b.price - a.price;
       return 0;
     });

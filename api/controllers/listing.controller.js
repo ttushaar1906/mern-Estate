@@ -5,34 +5,32 @@ import { apiErrorHandler } from "../utils/error.js";
 import { cloudinaryUpload } from "../utils/cloudinary.js";
 import { v2 as cloudinary } from 'cloudinary'; // assuming you're using this
 
-// for update use redux and for delete also
-
 export const createListing = asyncHandler(async (req, res) => {
   const { propertyName, propertyDesc, price, discountedPrice, RegisteredBy, images } = req.body
   const address = JSON.parse(req.body.address);
   const features = JSON.parse(req.body.features);
   const rules = JSON.parse(req.body.rules);
 
- const nonZeroFields = [
-  { name: "price", value: price },
-  { name: "discountedPrice", value: discountedPrice },
-  { name: "noOfRooms", value: features.noOfRooms },
-  { name: "noOfRestRooms", value: features.noOfRestRooms },
-  { name: "No of Living Room", value: features.noOfLivingRoom },
-  { name: "sqFt", value: features.sqFt }
-];
+  const nonZeroFields = [
+    { name: "price", value: price },
+    { name: "discountedPrice", value: discountedPrice },
+    { name: "noOfRooms", value: features.noOfRooms },
+    { name: "noOfRestRooms", value: features.noOfRestRooms },
+    { name: "No of Living Room", value: features.noOfLivingRoom },
+    { name: "sqFt", value: features.sqFt }
+  ];
 
-const errorList = nonZeroFields
-  .filter(field => Number(field.value) < 0)
-  .map(field => field.name);
+  const errorList = nonZeroFields
+    .filter(field => Number(field.value) < 0)
+    .map(field => field.name);
 
-if (errorList.length > 0) {
-  return res.status(400).json({
-    statusCode: 400,
-    message: `The following fields must be non-negative: ${errorList.join(", ")}`
-  });
-}
- 
+  if (errorList.length > 0) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: `The following fields must be non-negative: ${errorList.join(", ")}`
+    });
+  }
+
   // 1. Handle multiple image uploads
   const coverImageFiles = req.files?.coverImages || [];
   const coverImageUrls = [];
@@ -125,3 +123,80 @@ export const deletePropety = asyncHandler(async (req, res) => {
   return res.status(200).json({ statusCode: 200, message: "Listing Deleted Successfully !!" })
 
 })
+
+// export const updateProperty = asyncHandler(async (req, res) => {
+//   const { id } = req.params;
+//   const {
+//     propertyName,
+//     propertyDesc,
+//     price,
+//     discountedPrice,
+//     features,
+//     address,
+//     rules,
+//   } = req.body;
+//   console.log(id);
+
+//   console.log(propertyName);
+
+//   const listing = await Listing.findById(id);
+//   console.log(listing);
+
+
+//   if (!listing) {
+//     return res.status(404).json({ statusCode: 404, message: "Property not found" });
+//   }
+
+//   // Validate non-negative numeric fields if they exist
+//   const nonZeroFields = [
+//     { name: "price", value: price },
+//     { name: "discountedPrice", value: discountedPrice },
+//     { name: "noOfRooms", value: features?.noOfRooms },
+//     { name: "noOfRestRooms", value: features?.noOfRestRooms },
+//     { name: "noOfLivingRoom", value: features?.noOfLivingRoom },
+//     { name: "sqFt", value: features?.sqFt },
+//   ];
+
+//   const errorList = nonZeroFields
+//     .filter(field => field.value !== undefined && Number(field.value) < 0)
+//     .map(field => field.name);
+
+//   if (errorList.length > 0) {
+//     return res.status(400).json({
+//       statusCode: 400,
+//       message: `The following fields must be non-negative: ${errorList.join(", ")}`,
+//     });
+//   }
+
+//   // Only update fields if provided
+//   if (propertyName !== undefined) listing.propertyName = propertyName;
+//   if (propertyDesc !== undefined) listing.propertyDesc = propertyDesc;
+//   if (price !== undefined) listing.price = price;
+//   if (discountedPrice !== undefined) listing.discountedPrice = discountedPrice;
+
+//   if (features !== undefined) {
+//     // Validate propertyType only if provided
+//     if (features?.propertyType !== undefined && typeof features.propertyType !== "string") {
+//       return res.status(400).json({
+//         statusCode: 400,
+//         message: "propertyType must be a string",
+//       });
+//     }
+
+//     const existingFeatures = listing.features?.toObject?.() || {};
+
+//     listing.features = {
+//       ...existingFeatures,
+//       ...features,
+//     };
+//   }
+
+//   if (address !== undefined) listing.address = address;
+//   if (rules !== undefined) listing.rules = rules;
+
+//   await listing.save();
+
+//   return res.status(200).json(new apiResponse(200, listing, "Property Updated Successfully"));
+// });
+
+

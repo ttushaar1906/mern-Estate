@@ -6,11 +6,11 @@ import Loading from "./Loading";
 import { MdApartment } from "react-icons/md";
 
 export default function Inquiries() {
-  const { data, isLoading, isError } = useQuery<ContactUsInt[]>({
-    queryKey: ["inquiries"],
-    queryFn: viewInequeryFn,
-    retry: false, // Prevents retrying on error
-  });
+ const { data, isLoading, isError } = useQuery<ContactUsInt[]>({
+  queryKey: ["inquiries"],
+  queryFn: viewInequeryFn,
+  retry: false,
+});
 
   if (isLoading) return <Loading />;
   if (isError) return <Error message="No inquiries found for this user" />;

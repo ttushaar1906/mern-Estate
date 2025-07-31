@@ -16,6 +16,7 @@ import { userDetailsFn } from "./controllers/Users/loginUser";
 import { signInSuccess } from "./redux/User/userSlice";
 import ScheduleHomeTour from "./components/ScheduleHomeTour";
 import ForgetPassword from "./pages/ForgetPassword";
+import EditProperty from "./components/EditProperty";
 
 export default function App() {
  const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export default function App() {
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/property/:id/scheduleHomeTour" element={<ScheduleHomeTour />} />
         <Route path="/addProperty" element={<AddPropertyForm />} />
-
+        <Route path="/user/property/:id/editProperty" element={<EditProperty />} />
         <Route path="user" element={<User />} />
       </Route>
     ))

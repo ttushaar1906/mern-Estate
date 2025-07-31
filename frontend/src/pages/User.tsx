@@ -38,6 +38,14 @@ export default function User() {
               My Properties
             </button>
 
+            <Link to="/addProperty">
+              <button
+                onClick={() => setActiveTab("addProperty")}
+                className={`hover:text-cyan-600 cursor-pointer ${activeTab === "addProperty" ? "text-slate-700 font-bold underline" : ""
+                  }`}
+              >
+                Add Property
+              </button></Link>
             <button
               onClick={() => setActiveTab("inquiries")}
               className={`hover:text-cyan-600 cursor-pointer ${activeTab === "inquiries" ? "text-slate-700 font-bold underline" : ""
@@ -51,7 +59,7 @@ export default function User() {
               className={`hover:text-cyan-600 cursor-pointer ${activeTab === "tours" ? "text-slate-700 font-bold underline" : ""
                 }`}
             >
-               Home Tour's
+              Home Tour's
             </button>
           </div>
 

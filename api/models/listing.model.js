@@ -33,7 +33,7 @@ const FeaturesSchema = new mongoose.Schema({
       sqFt: String,
       propertyType: {
         type:String,
-        enum: ["residential", "commercial","industrial","land", "villas"]
+        // enum: ["residential", "commercial","industrial","land", "villas"]
       },
 })
 

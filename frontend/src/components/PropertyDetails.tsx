@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { viewPropertySuccess } from "../redux/User/propertySlice";
 import Temple from "../images/temple2.png"
 import Garden from "../images/flower.png"
+import { Features } from "../interfaces/PropertyInt";
 
 export default function PropertyDetails() {
     const { id } = useParams<{ id: string }>();
@@ -37,21 +38,29 @@ export default function PropertyDetails() {
         navigate(`/property/${id}/scheduleHomeTour`)
     };
 
+    type BooleanFeatureKey = Extract<{
+        [K in keyof Features]: Features[K] extends boolean ? K : never;
+    }[keyof Features], string>;
 
-    const featureIcons = [
-        { key: 'parking', icon: <FaSquareParking size={24} />, label: 'Parking', color: 'text-slate-500 ' },
-        { key: 'petFriendly', icon: <FaDog size={24} />, label: 'Pet Friendly', color: 'text-slate-500' },
-        { key: 'cctv', icon: <GiCctvCamera size={24} />, label: 'CCTV', color: 'text-slate-500' },
-        { key: 'publicToilet', icon: <FaRestroom size={24} />, label: 'Public Restroom', color: 'text-slate-500' },
-        { key: 'security', icon: <GiPoliceOfficerHead size={24} />, label: 'Security', color: 'text-slate-500' },
-        { key: 'swimmingPool', icon: <FaPersonSwimming size={24} />, label: 'Swimming Pool', color: 'text-slate-500' },
-        { key: 'clubHouse', icon: <BsFillHouseHeartFill size={24} />, label: 'Club House', color: 'text-slate-500' },
-        { key: 'playGround', icon: <MdSportsCricket size={24} />, label: 'Play Ground', color: 'text-slate-500' },
-        { key: 'lift', icon: <GiElevator size={24} />, label: 'Lift', color: 'text-slate-500' },
-        { key: 'balcony', icon: <MdBalcony size={24} />, label: 'Balcony', color: 'text-slate-500' },
-        { key: 'temple', icon: <img src={Temple} alt="" className="w-6 h-6" />, label: 'Temple', color: 'text-slate-600' },
-        { key: 'garden', icon: <img src={Garden} alt="" className="w-6 h-6" />, label: 'Garden', color: 'text-slate-600' }
-    ];
+    const featureIcons: {
+        key: BooleanFeatureKey;
+        icon: React.ReactNode;
+        label: string;
+        color: string;
+    }[] = [
+            { key: 'parking', icon: <FaSquareParking size={24} />, label: 'Parking', color: 'text-slate-500 ' },
+            { key: 'petFriendly', icon: <FaDog size={24} />, label: 'Pet Friendly', color: 'text-slate-500' },
+            { key: 'cctv', icon: <GiCctvCamera size={24} />, label: 'CCTV', color: 'text-slate-500' },
+            { key: 'publicToilet', icon: <FaRestroom size={24} />, label: 'Public Restroom', color: 'text-slate-500' },
+            { key: 'security', icon: <GiPoliceOfficerHead size={24} />, label: 'Security', color: 'text-slate-500' },
+            { key: 'swimmingPool', icon: <FaPersonSwimming size={24} />, label: 'Swimming Pool', color: 'text-slate-500' },
+            { key: 'clubHouse', icon: <BsFillHouseHeartFill size={24} />, label: 'Club House', color: 'text-slate-500' },
+            { key: 'playGround', icon: <MdSportsCricket size={24} />, label: 'Play Ground', color: 'text-slate-500' },
+            { key: 'lift', icon: <GiElevator size={24} />, label: 'Lift', color: 'text-slate-500' },
+            { key: 'balcony', icon: <MdBalcony size={24} />, label: 'Balcony', color: 'text-slate-500' },
+            { key: 'temple', icon: <img src={Temple} alt="" className="w-6 h-6" />, label: 'Temple', color: 'text-slate-600' },
+            { key: 'garden', icon: <img src={Garden} alt="" className="w-6 h-6" />, label: 'Garden', color: 'text-slate-600' }
+        ];
 
     return (
         <section className="customeContainer p-4 ">

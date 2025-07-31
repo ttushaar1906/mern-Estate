@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { scheduleHomeTourFn } from "../controllers/HomeTour/homeTour";
-import {  FaHome } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { FaCalendar, FaClock, FaLocationDot, FaUser, FaUsers } from "react-icons/fa6";
 import { IoIosSend } from "react-icons/io";
 import { SnackBarState } from "../interfaces/NotificationInt";
@@ -38,8 +38,10 @@ export default function ScheduleHomeTour() {
             line2: "",
             city: "",
             state: "",
-            postalCode: ""
-        }
+            postalCode: "",
+        },
+        isCancelled: false,
+        _id: ""
     });
 
     const { mutate, isPending } = useMutation({
@@ -64,19 +66,22 @@ export default function ScheduleHomeTour() {
                     city: "",
                     state: "",
                     postalCode: "",
-                }
+                },
+                isCancelled: false,
+                _id: ""
+
             })
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 navigate("/user")
-            },1000)
+            }, 1000)
         },
-        onError: (error:any) => {
+        onError: (error: any) => {
             console.log(error.response.data.message);
-            
+
             setSnackBar({
                 open: true,
-                message:`${error?.response.data.message || "Failed to Schedule home tour"}`,
+                message: `${error?.response.data.message || "Failed to Schedule home tour"}`,
                 // message: "Failed to Schedule home tour",
                 severity: "error",
                 autoHideDuration: 3000
@@ -207,7 +212,7 @@ export default function ScheduleHomeTour() {
                                     />
                                 </div>
 
-                                <input type="text" value={formData.propertyImg} className="hidden" placeholder="image"/>
+                                <input type="text" value={formData.propertyImg} className="hidden" placeholder="image" />
 
                                 <div className="space-y-2">
                                     <label className="scheduleTourLabel">

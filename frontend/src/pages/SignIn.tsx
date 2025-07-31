@@ -122,8 +122,8 @@ export default function SignIn() {
 
                     <div className="my-4 flex justify-center">
                         {isLoading ? (
-                            <div className="buttonStyle w-[75%] text-center">
-                                <CircularProgress size={16} />
+                            <div className="buttonStyle w-[75%] text-white text-center">
+                                <CircularProgress size={16} color="inherit" />
                             </div>
                         ) : (
                             <button

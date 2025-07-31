@@ -11,7 +11,7 @@ export default function CityPreference() {
 
   useEffect(() => {
     const fetchedCities = City.getCitiesOfCountry('IN');
-    setCities(fetchedCities);
+    setCities(fetchedCities ?? []);
   }, []);
 
   const getCityId = (city: ICity) =>
@@ -60,7 +60,7 @@ export default function CityPreference() {
           >
             <div className="flex flex-col">
               <span className="font-medium text-gray-800">{city.name}</span>
-              <span className="text-sm text-gray-500">{city.countryName}</span>
+              <span className="text-sm text-gray-500">{city.countryCode}</span>
             </div>
             <button
               onClick={() => removeCity(getCityId(city))}
@@ -106,7 +106,7 @@ export default function CityPreference() {
                         {city.name}
                       </span>
                       <span className="text-sm text-gray-500">
-                        {city.stateCode}, {city.countryName}
+                        {city.stateCode}, {city.countryCode}
                       </span>
                     </div>
                   </button>

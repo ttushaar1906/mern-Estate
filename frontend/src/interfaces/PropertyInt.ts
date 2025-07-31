@@ -23,7 +23,7 @@ export enum PropertyType {
   Villas = "villas"
 }
 
-interface Features {
+export interface Features {
   parking: boolean;
   petFriendly: boolean;
   security: boolean;
@@ -41,7 +41,7 @@ interface Features {
   noOfRestRooms: number;
   noOfLivingRoom : number;
   sqFt: string
-  propertyType: PropertyType;
+  propertyType: PropertyType | "";
 }
 
 export interface PropertyInt {
