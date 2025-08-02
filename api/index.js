@@ -12,6 +12,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from './db/index.js';
+import { sendMailFn } from './utils/mailSender.js';
 
 // Connect DB
 connectDB();
@@ -27,11 +28,24 @@ app.use(express.json({ limit: '5kb' }));
 app.use(express.urlencoded({ extended: true, limit: '5kb' }));
 app.use(cookieParser());
 
-// CORS config — allow frontend on Vercel (and localhost in dev)
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: [process.env.CLIENT_URL || 'http://localhost:5173' ||'http://localhost:3000' ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
+
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
@@ -63,6 +77,8 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
+// sendMailFn()
 
 // Start server
 const PORT = process.env.PORT || 3000;

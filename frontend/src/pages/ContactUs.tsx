@@ -217,7 +217,7 @@ export default function ContactUs() {
 
               <div className="flex justify-end">
                 {mutation.isPending ? (
-                  <div className='buttonStyle w-25'>
+                  <div className='buttonStyle w-25 text-lg'>
                     <CircularProgress color='inherit' />
                   </div>
                 ) : (

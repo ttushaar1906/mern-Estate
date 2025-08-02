@@ -3,6 +3,7 @@ import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { cloudinaryUpload } from "../utils/cloudinary.js";
 import { apiErrorHandler } from "../utils/error.js";
+import { sendMailFn } from "../utils/mailSender.js";
 
 export const getUser = asyncHandler(async(req,res)=>{
     const userId = req.user.id
@@ -42,15 +43,25 @@ export const updateUser = asyncHandler(async(req,res)=>{
   return res.status(200).json({statusCode:200, message:"User Found and Updated !!", user:updatedUser})
 })
 
-
 export const forgotPassword = asyncHandler(async(req,res)=>{
+  const userEmail = req.body
+
+  const user = await User.findOne(userEmail)
+   if(!user) throw new apiErrorHandler(404,"User Not Found with provide email address")
   
-  return res.status(200, "Security Pass")
+  const OTP = Math.floor(100000 + Math.random() * 900000); 
+  user.otp = OTP
+
+  await user.save()
+
+  sendMailFn({
+    to:user.userEmail,
+      reason: "otpSend",
+      otp:user.otp
+  })
+  return res.status(200).json(new apiResponse(200,user,"OTP send"))
 })
 
-// export const test = (req, res) => {
-//   res.send("Hello World!")
-// }
 
 // export const updateUser = async (req, res, next) => {
 //   if (req.user.id !== req.params.id)

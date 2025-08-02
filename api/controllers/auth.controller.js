@@ -8,6 +8,7 @@ import { apiResponse } from "../utils/apiResponse.js";
 import dotenv from 'dotenv';
 dotenv.config({ path: "../.env", });
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js"
+import { sendMailFn } from "../utils/mailSender.js";
 
 const generateAccessTokenRefreshToken = async (id) => {
     try {
@@ -56,7 +57,21 @@ export const signUp = asyncHandler(async (req, res) => {
         mobileNo,
         password: hashedPassword,
     });
+    const createdAt = new Date(user.createdAt);
 
+    const rDate = createdAt.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    sendMailFn({
+        to: user.userEmail,
+        reason: "newReg",
+        userName: user.userName,
+        userEmail: user.userEmail,
+        rDate
+    });
     return res.status(200).json(new apiResponse(200, user, "User created"));
 });
 
@@ -124,6 +139,22 @@ export const googleLogIn = asyncHandler(async (req, res) => {
     });
 
     await newUser.save();
+
+    const createdAt = new Date(newUser.createdAt);
+
+    const rDate = createdAt.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    sendMailFn({
+        to: newUser.userEmail,
+        reason: "newReg",
+        userName: newUser.userName,
+        userEmail: newUser.userEmail,
+        rDate
+    });
 
     const { accessToken, refreshToken } = await generateAccessTokenRefreshToken(newUser._id);
 

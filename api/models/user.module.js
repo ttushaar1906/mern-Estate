@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema({
         type: [String],
         default: []
     },
+    otp:{
+        type:String
+    }
 }, { timestamps: true });
 
 //timestamps is used to keep record of account created and account updated
