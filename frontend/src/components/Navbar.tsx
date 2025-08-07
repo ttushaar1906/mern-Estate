@@ -9,6 +9,7 @@ export default function Navbar() {
 const user = useSelector((state: any) => state.user.currentUser);
 
   const avatar = user?.avatar || userAvatar;
+  console.log("Avatar:", avatar);
   
   const [isOpen, setIsOpen] = useState(false);
 

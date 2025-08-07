@@ -25,10 +25,6 @@ const userSchema = new mongoose.Schema({
     isLoggedIn: {
         type: Boolean
     },
-    preferencedLocation: {
-        type: [String],
-        default: []
-    },
     otp:{
         type:String
     }

@@ -1,3 +1,4 @@
+import bcryptjs from "bcryptjs";
 import User from "../models/user.module.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -46,7 +47,7 @@ export const updateUser = asyncHandler(async(req,res)=>{
 export const forgotPassword = asyncHandler(async(req,res)=>{
   const userEmail = req.body
 
-  const user = await User.findOne(userEmail)
+  const user = await User.findOne(userEmail)  
    if(!user) throw new apiErrorHandler(404,"User Not Found with provide email address")
   
   const OTP = Math.floor(100000 + Math.random() * 900000); 
@@ -62,8 +63,36 @@ export const forgotPassword = asyncHandler(async(req,res)=>{
   return res.status(200).json(new apiResponse(200,user,"OTP send"))
 })
 
+export const verifyOTP = asyncHandler(async(req,res)=>{
+  const {userEmail, otp} = req.body
 
-// export const updateUser = async (req, res, next) => {
+  const user = await User.findOne({userEmail})
+
+  if(!user) throw new apiErrorHandler(404, "User Not Found this Email address")
+
+   if(!otp) throw new apiErrorHandler(400, "Please enter a valid OTP") 
+
+  if(user.otp === otp) {
+    user.otp = ""
+    await user.save()
+    return res.status(200).json(new apiResponse(200, user, "OTP verified successfully"))
+  } 
+    throw new apiErrorHandler(400, "OTP doesn't match")
+})
+
+export const newPassword = asyncHandler(async(req,res)=>{
+  const {userEmail,password} = req.body
+  const user = await User.findOne({userEmail})
+  
+  if(!user) throw new apiErrorHandler(400,"User not found with provided email")
+
+  const hashedPassword = await bcryptjs.hash(password, 10);
+  user.password = hashedPassword 
+  await user.save()
+  
+  return res.status(200).json(new apiResponse(200,user, "Password Reset successfully !"))
+})
+
 //   if (req.user.id !== req.params.id)
 //     return next(errorHandler(401, 'You can only update your own account!'));
 

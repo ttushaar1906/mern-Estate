@@ -1,4 +1,4 @@
-import { AiOutlineMail, AiOutlinePhone, AiOutlineCalendar } from "react-icons/ai";
+import { AiOutlineMail, AiOutlinePhone, AiOutlineCalendar, AiOutlineEdit, AiOutlineLogout, AiOutlineUser } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -11,7 +11,6 @@ import { signOutUserSuccess } from "../redux/User/userSlice";
 import { updateUserFn } from "../controllers/Users/createUser";
 import { CircularProgress } from "@mui/material";
 import userAvatar from "../images/userAvatar.png"
-import CityPreference from "./CityPreference";
 
 export default function UserDetail() {
   const navigate = useNavigate();
@@ -25,14 +24,13 @@ export default function UserDetail() {
 
   const user = useSelector((state: any) => state.user.currentUser);
   const avatar = user?.avatar || userAvatar;
-  
+
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     userName: user?.userName || "",
     userEmail: user?.userEmail || "",
     mobileNo: user?.mobileNo || "",
     avatar: user?.avatar || "",
-    preferencedLocation: user?.preferencedLocation || ""
   });
   const [isLoading, setLoading] = useState<boolean>(false);
 
@@ -53,7 +51,7 @@ export default function UserDetail() {
 
       setTimeout(() => {
         navigate("/");
-      }, 1000); // Wait for snackbar to fully show before navigating
+      }, 1000);
 
     } catch (error) {
       console.log("Failed to Logout!!", error);
@@ -110,130 +108,201 @@ export default function UserDetail() {
   };
 
   const details = [
-    { label: "Username", name: "userName", type: "text", value: `${formData.userName}` },
-    { label: "Mobile No", name: "mobileNo", type: "number", value: `${formData.mobileNo}` },
-    { label: "Prefered Location", name: "preferencedLocation", type: "text", value: `${formData.preferencedLocation}` }, 
+    { label: "Username", name: "userName", type: "text", value: `${formData.userName}`, icon: AiOutlineUser },
+    { label: "Mobile No", name: "mobileNo", type: "tel", value: `${formData.mobileNo}`, icon: AiOutlinePhone },
+    // { label: "Preferred Location", name: "preferencedLocation", type: "text", value: `${formData.preferencedLocation}`, icon: AiOutlineEnvironment },
+  ];
+
+  const profileStats = [
+    { label: "Email", value: user?.userEmail, icon: AiOutlineMail, color: "text-blue-500" },
+    { label: "Mobile", value: user?.mobileNo || "Not provided", icon: AiOutlinePhone, color: "text-green-500" },
+    { label: "Member Since", value: new Date(user?.createdAt).toLocaleDateString(), icon: AiOutlineCalendar, color: "text-orange-500" },
   ];
 
   return (
-  <section className="bg-white rounded-xl mt-10 shadow-sm transition hover:shadow-xl p-4">
-  <div className="flex flex-col lg:flex-row gap-6">
-    {/* Left Section: Profile Info */}
-    <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start w-full lg:w-1/2">
-      <img
-        src={avatar}
-        alt="User Avatar"
-        className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border shadow-md"
-      />
+    <div className="min-h-screen customeContainer p-4 sm:p-6 lg:p-8">
+      <div className="mx-auto">
+        {/* Header Section */}
+        <div className="bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 rounded-2xl shadow-xl p-6 sm:p-8 mb-8 text-white">
+          <div className="flex flex-col items-center space-y-6">
+            {/* Avatar Section */}
+            <div className="relative">
+              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1 shadow-2xl">
+                <img
+                  src={avatar}
+                  alt="User Avatar"
+                  className="w-full h-full rounded-full object-cove"
+                />
+              </div>
+              <div className="absolute -bottom-0 -right-0 bg-green-500 w-8 h-8 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                <div className="w-3 h-3 bg-white rounded-full"></div>
+              </div>
+            </div>
 
-      <div className="w-full sm:w-auto">
-        <p className="text-2xl font-bold text-slate-700 text-center sm:text-left">
-          {user?.userName}
-        </p>
+            {/* User Name */}
+            <div className="text-center">
+              <h1 className="text-3xl sm:text-4xl font-bold mb-2 darkColor">
+                {user?.userName}
+              </h1>
+              <p className="text-slate-300 text-lg">Active User</p>
+            </div>
 
-        <div className="mt-3 space-y-1 text-sm sm:text-base">
-          <div className="flex items-center gap-2">
-            <AiOutlineMail className="text-blue-500" />
-            <span className="text-slate-600 break-all">{user?.userEmail}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <AiOutlinePhone className="text-pink-500" />
-            <span className="text-slate-600">{user?.mobileNo || "-"}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <AiOutlineCalendar className="text-green-500" />
-            <span className="text-slate-600">
-              {new Date(user?.createdAt).toLocaleDateString()}
-            </span>
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button
+                onClick={handleOpen}
+                className="flex items-center gap-2 px-6 py-3 text-white font-semibold rounded-xl transform hover:scale-105 transition-all duration-200 shadow-lg"
+                style={{ backgroundColor: "#2da8be" }}
+              >
+                <AiOutlineEdit className="text-lg" />
+                Edit Profile
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-6 py-3 cancelButtonStyle text-white font-semibold rounded-xl duration-200 shadow-lg transform hover:scale-105 transition-all"
+              >
+                <AiOutlineLogout className="text-lg" />
+                Logout
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-4 justify-center sm:justify-start">
-          <button onClick={handleOpen} className="buttonStyle">
-            Edit Profile
-          </button>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 cancelButtonStyle"
-          >
-            Logout
-          </button>
+        {/* Profile Details Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 mb-8">
+          {profileStats.map((stat, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border-l-4 border-gradient-to-b from-yellow-400 to-orange-500"
+            >
+              <div className="flex items-start gap-4">
+                <div className={`p-3 rounded-lg bg-slate-50 ${stat.color}`}>
+                  <stat.icon className="text-xl" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-slate-500 uppercase tracking-wide">
+                    {stat.label}
+                  </p>
+                  <p className="text-lg font-semibold text-slate-700 mt-1 break-words">
+                    {stat.value}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {snackBar.open && (
-          <Notification
-            open={snackBar.open}
-            severity={snackBar.severity}
-            message={snackBar.message}
-            onClose={() => setSnackBar({ ...snackBar, open: false })}
-            autoHideDuration={snackBar.autoHideDuration}
-          />
-        )}
+        {/* Additional Info Card */}
+        <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
+          <h3 className="text-xl font-bold text-slate-700 mb-4 flex items-center gap-2">
+            <div className="w-1 h-6 bg-gradient-to-b from-yellow-400 to-orange-500 rounded"></div>
+            Account Information
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div className="flex items-center gap-4 py-2 border-b border-slate-100 ">
+              <p className="text-slate-500">Account Status:</p>
+              <p className="font-semibold text-green-600">Active</p>
+            </div>
+            <div className="flex items-center gap-4 py-2 border-b border-slate-100">
+              <p className="text-slate-500">Profile Complete:</p>
+              <p className="font-semibold text-slate-700">
+                {user?.mobileNo && user?.userEmail ? '100%' : '75%'}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    {/* Right Section: City Preference */}
-    <div className="w-full lg:w-1/2">
-      <CityPreference />
-    </div>
-  </div>
+      {/* Edit Modal */}
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+        <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 m-4">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-slate-700 mb-2">Edit Profile</h2>
+            <p className="text-slate-500">Update your profile information</p>
+          </div>
 
-  {/* Edit Modal */}
-  <Dialog open={open} onClose={handleClose}>
-    <div className="bg-white w-[95vw] max-w-lg rounded-lg shadow-lg p-6 border border-gray-300 mx-auto">
-      <h2 className="text-xl font-bold text-slate-700 mb-4 text-center">Edit Profile</h2>
+          <form onSubmit={handleUpdate} className="space-y-6">
+            {/* Avatar Upload Section */}
+            <div className="text-center">
+              <div className="relative inline-block mb-4">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 p-1 shadow-lg">
+                  <img
+                    src={formData?.avatar || user?.avatar}
+                    alt="Avatar Preview"
+                    className="w-full h-full rounded-full object-cover bg-white"
+                  />
+                </div>
+                <label className="absolute -bottom-2 -right-2 bg-slate-700 hover:bg-slate-800 text-white p-2 rounded-full cursor-pointer shadow-lg transition-colors duration-200">
+                  <AiOutlineEdit className="text-sm" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                    placeholder="update image"
+                  />
+                </label>
+              </div>
+              <p className="text-sm text-slate-500">Click the edit icon to update your avatar</p>
+            </div>
 
-      <div className="mb-4 text-center">
-        <label className="block text-sm font-medium mb-2">Update Avatar</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          placeholder="image"
-          className="block mx-auto border border-gray-300 rounded cursor-pointer p-2"
+            {/* Form Fields */}
+            <div className="space-y-4">
+              {details.map((detail) => (
+                <div key={detail.name} className="relative">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    <detail.icon className="inline mr-2 text-slate-500" />
+                    {detail.label}
+                  </label>
+                  <input
+                    type={detail.type}
+                    name={detail.name}
+                    value={detail.value}
+                    onChange={handleChange}
+                    placeholder={`Enter your ${detail.label.toLowerCase()}`}
+                    className="w-full border-2 border-slate-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200 bg-slate-50 hover:bg-white"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-6">
+              {isLoading ? (
+                <div className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-slate-900 font-semibold py-3 px-6 rounded-xl flex items-center justify-center">
+                  <CircularProgress color="inherit" size={20} className="mr-2" />
+                  Updating...
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-slate-900 font-semibold py-3 px-6 rounded-xl transform hover:scale-105 transition-all duration-200 shadow-lg"
+                >
+                  Update Profile
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleClose}
+                className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </Dialog>
+
+      {/* Notification */}
+      {snackBar.open && (
+        <Notification
+          open={snackBar.open}
+          severity={snackBar.severity}
+          message={snackBar.message}
+          onClose={() => setSnackBar({ ...snackBar, open: false })}
+          autoHideDuration={snackBar.autoHideDuration}
         />
-      </div>
-
-      <img
-        src={formData?.avatar || user?.avatar}
-        alt="Avatar Preview"
-        className="w-24 h-24 rounded-full object-cover mx-auto shadow mb-6"
-      />
-
-      {details.map((detail) => (
-        <div className="mb-4" key={detail.name}>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
-            {detail.label}
-          </label>
-          <input
-            type={detail.type}
-            name={detail.name}
-            value={detail.value}
-            onChange={handleChange}
-            placeholder={`Enter user's ${detail?.name ?? 'detail'}`}
-            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          />
-        </div>
-      ))}
-
-      <div className="flex justify-center gap-4 mt-6">
-        {isLoading ? (
-          <div className="buttonStyle text-center">
-            <CircularProgress color="inherit" size={18} />
-          </div>
-        ) : (
-          <button className="buttonStyle" onClick={handleUpdate}>
-            Update
-          </button>
-        )}
-        <button className="cancelButtonStyle" onClick={handleClose}>
-          Cancel
-        </button>
-      </div>
+      )}
     </div>
-  </Dialog>
-</section>
-
-
   );
 }
