@@ -53,7 +53,7 @@ export default function GoogleLogin() {
       console.error("Google Sign-In Error:", error?.message || error);
       setSnackBar({
         open: true,
-        severity: "success",
+        severity: "error",
         message: `Failed to signup with google account`,
         autoHideDuration: 3000
       })
