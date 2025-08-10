@@ -5,7 +5,8 @@ import { otpSend } from "./mailTemplates/otpSend.js";
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: process.env.MAILEMAIL,
+        // user: process.env.MAILEMAIL,
+        user: "test.tushar19@gmail.com",
         pass: process.env.MAILPASSWORD,
     },
 });
@@ -15,7 +16,7 @@ export const sendMailFn = async ({ to, reason, userName, userEmail, rDate,otp })
         console.error("❌ No recipient email address provided.");
         return;
     }
-console.log(process.env.MAILEMAIL);
+// console.log(process.env.MAILEMAIL);
 console.log(process.env.MAILPASSWORD);
 
     
@@ -39,7 +40,7 @@ console.log(process.env.MAILPASSWORD);
     }
 
     const mailOptions = {
-        from: `"FindStay Admin" <${process.env.MAILEMAIL}>`,
+        from: `"FindStay Admin" <"test.tushar19@gmail.com">`,
         to,
         subject,
         html: htmlbody,
