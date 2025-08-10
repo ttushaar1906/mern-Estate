@@ -8,19 +8,28 @@ import { googleLogin } from '../apis/userAPI';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redux/User/userSlice";
+import { useState } from 'react';
+import { SnackBarState } from '../interfaces/NotificationInt';
+import Notification from './Notification';
 
 export default function GoogleLogin() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [snackBar, setSnackBar] = useState<SnackBarState>({
+    open: false,
+    severity: "info",
+    message: "",
+    autoHideDuration: 3000,
+  });
 
   const handleGoogleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {
       const result = await signInWithPopup(auth, googleProvider);
-     
+
       const user = result.user;
-          
+
       const idToken = await user.getIdToken();
 
       // ✅ Send token and user data to your backend
@@ -29,11 +38,25 @@ export default function GoogleLogin() {
         name: user.displayName,
         photo: user.photoURL,
         token: idToken,
-      }, { withCredentials: true }); 
+      }, { withCredentials: true });
       dispatch(signInSuccess(response.data.data))
-      navigate("/")
+      setTimeout(() => {
+        navigate("/")
+      }, 3000)
+      setSnackBar({
+        open: true,
+        severity: "success",
+        message: `${response.data.message}`,
+        autoHideDuration: 3000
+      })
     } catch (error: any) {
       console.error("Google Sign-In Error:", error?.message || error);
+      setSnackBar({
+        open: true,
+        severity: "success",
+        message: `Failed to signup with google account`,
+        autoHideDuration: 3000
+      })
     }
   };
 
@@ -45,6 +68,15 @@ export default function GoogleLogin() {
       <p>
         Continue with Google
       </p>
+      {snackBar.open && (
+        <Notification
+          open={snackBar.open}
+          severity={snackBar.severity}
+          message={snackBar.message}
+          onClose={() => setSnackBar({ ...snackBar, open: false })}
+          autoHideDuration={snackBar.autoHideDuration}
+        />
+      )}
     </button>
   )
 }

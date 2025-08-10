@@ -15,6 +15,8 @@ export const sendMailFn = async ({ to, reason, userName, userEmail, rDate,otp })
         console.error("❌ No recipient email address provided.");
         return;
     }
+    console.log(to);
+    
     let subject = "";
     let htmlbody = "";
 
