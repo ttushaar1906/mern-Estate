@@ -71,7 +71,7 @@ export const getlisting = asyncHandler(async (req, res) => {
   if (query) {
     searchConditions.push({
       $or: [
-        { name: { $regex: `^${query}`, $options: "i" } },
+        { propertyName: { $regex: `^${query}`, $options: "i" } },
         { "address.city": { $regex: `${query}`, $options: "i" } },
         { "address.state": { $regex: `${query}`, $options: "i" } },
       ]
@@ -79,6 +79,7 @@ export const getlisting = asyncHandler(async (req, res) => {
   }
 
   const finalFilter = searchConditions.length ? { $and: searchConditions } : {};
+
 
   const skip = (page - 1) * limit;
 

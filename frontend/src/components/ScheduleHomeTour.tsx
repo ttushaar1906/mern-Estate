@@ -196,7 +196,7 @@ export default function ScheduleHomeTour() {
 
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
+                                <div className="space-y-6 sm:space-y-2">
                                     <label className="scheduleTourLabel">
                                         <FaUser className="w-4 h-4 text-cyan-600" />
                                         Visitor Name
@@ -206,7 +206,7 @@ export default function ScheduleHomeTour() {
                                         name="visitorName"
                                         value={formData.visitorName}
                                         onChange={handleChange}
-                                        className="scheduleTourInput0"
+                                        className="scheduleTourInput"
                                         placeholder="Your full name"
                                         required
                                     />
@@ -214,7 +214,7 @@ export default function ScheduleHomeTour() {
 
                                 <input type="text" value={formData.propertyImg} className="hidden" placeholder="image" />
 
-                                <div className="space-y-2">
+                                <div className="space-y-6 sm:space-y-2">
                                     <label className="scheduleTourLabel">
                                         <FaUsers className="w-4 h-4 text-cyan-600" />
                                         Number of Visitors
@@ -224,7 +224,7 @@ export default function ScheduleHomeTour() {
                                         name="noOfVisitingPeople"
                                         value={formData.noOfVisitingPeople}
                                         onChange={handleChange}
-                                        className="scheduleTourInput0"
+                                        className="scheduleTourInput"
                                         placeholder="1"
                                         min="1"
                                         max="10"
@@ -235,7 +235,7 @@ export default function ScheduleHomeTour() {
 
                             {/* Date and Time */}
                             <div className="grid md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
+                                <div className="space-y-6 sm:space-y-2">
                                     <label className="scheduleTourLabel">
                                         <FaCalendar className="w-4 h-4 text-cyan-600" />
                                         Visiting Date
@@ -252,7 +252,7 @@ export default function ScheduleHomeTour() {
                                     />
                                 </div>
 
-                                <div className="space-y-2">
+                                <div className="space-y-6 sm:space-y-2">
                                     <label className="scheduleTourLabel">
                                         <FaClock className="w-4 h-4 text-cyan-600" />
                                         Visiting Time
@@ -271,7 +271,7 @@ export default function ScheduleHomeTour() {
 
                             {/* Property Information */}
                             <div className="space-y-4">
-                                <div className="space-y-2">
+                                <div className="space-y-6 sm:space-y-2">
                                     <label className="scheduleTourLabel">
                                         <FaHome className="w-4 h-4 text-cyan-600" />
                                         Property Name
@@ -287,7 +287,7 @@ export default function ScheduleHomeTour() {
                                 </div>
 
                                 <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="space-y-2">
+                                    <div className="space-y-6 sm:space-y-2">
                                         <label className="text-sm font-medium text-gray-700">Address Line 1</label>
                                         <input
                                             type="text"
@@ -300,7 +300,7 @@ export default function ScheduleHomeTour() {
                                         />
                                     </div>
 
-                                    <div className="space-y-2">
+                                    <div className="space-y-6 sm:space-y-2">
                                         <label className="text-sm font-medium text-gray-700">Address Line 2</label>
                                         <input
                                             type="text"
@@ -315,7 +315,7 @@ export default function ScheduleHomeTour() {
                                 </div>
 
                                 <div className="grid md:grid-cols-3 gap-4">
-                                    <div className="space-y-2">
+                                    <div className="space-y-6 sm:space-y-2">
                                         <label className="text-sm font-medium text-gray-700">City</label>
                                         <input
                                             type="text"
@@ -328,7 +328,7 @@ export default function ScheduleHomeTour() {
                                         />
                                     </div>
 
-                                    <div className="space-y-2">
+                                    <div className="space-y-6 sm:space-y-2">
                                         <label className="text-sm font-medium text-gray-700">State</label>
                                         <input
                                             type="text"
@@ -341,7 +341,7 @@ export default function ScheduleHomeTour() {
                                         />
                                     </div>
 
-                                    <div className="space-y-2">
+                                    <div className="space-y-6 sm:space-y-2">
                                         <label className="text-sm font-medium text-gray-700">Postal Code</label>
                                         <input
                                             type="text"
@@ -360,18 +360,18 @@ export default function ScheduleHomeTour() {
                             <button
                                 type="submit"
                                 disabled={isPending}
-                                className="w-full buttonStyle  font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                                className="w-full buttonStyle font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
                             >
-
                                 {isPending ? (
-                                    <div className='buttonStyle w-[75%] text-center'>
-                                        <CircularProgress className="w-5 h-5 text-white" size={12} />
-                                    </div>
-                                ) : (<>
-                                    <IoIosSend className="w-5 h-5" />
-                                    Schedule Now
-                                </>)}
+                                    <CircularProgress size={18} className="text-white" />
+                                ) : (
+                                    <>
+                                        <IoIosSend className="w-5 h-5" />
+                                        Schedule Now
+                                    </>
+                                )}
                             </button>
+
                         </form>
                     </div>
                 </div>

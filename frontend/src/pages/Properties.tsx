@@ -4,7 +4,7 @@ import { getPropertiesFn } from "../controllers/Property/getProperty";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import { AiOutlineEnvironment, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import {  useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { debounce } from "lodash";
 import { TbCat } from "react-icons/tb";
@@ -53,7 +53,6 @@ export default function Properties() {
 
   return (
     <section className="customeContainer">
-
       <div className="p-4 rounded-lg shadow flex flex-wrap items-center justify-between gap-4 bg-white">
         <input
           type="text"
@@ -87,11 +86,12 @@ export default function Properties() {
           </button>
         </div>
 
-        <Link to="/addProperty">
-          <button className="w-40 px-4 py-2 cursor-pointer bg-slate-700 text-white rounded-lg hover:bg-gray-800">
+        <Link to="/addProperty" className="block w-full sm:w-44">
+          <button className="w-full px-4 py-2 cursor-pointer bg-slate-700 text-white rounded-lg hover:bg-gray-800">
             Add Property
           </button>
         </Link>
+
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 my-4">
@@ -101,7 +101,7 @@ export default function Properties() {
             🔍 No properties found. Try adjusting your filters or search keywords.
           </div>
         ) : (
-          filteredProperties.map((property:PropertyInt, index:number) => (
+          filteredProperties.map((property: PropertyInt, index: number) => (
             <div
               key={index}
               className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white"

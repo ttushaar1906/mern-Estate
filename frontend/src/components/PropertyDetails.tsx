@@ -65,7 +65,7 @@ export default function PropertyDetails() {
     return (
         <section className="customeContainer p-4 ">
 
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between sm:items-center flex-col sm:flex-row py-4 sm:py-0">
 
                 <div className="paraStyle">
                     <Link to="/">Home</Link>
@@ -75,7 +75,7 @@ export default function PropertyDetails() {
                     {property?.propertyName}
                 </div>
 
-                <button className="buttonStyle" onClick={handleBookHomeTour}>Book Home Tour</button>
+                <button className="buttonStyle " onClick={handleBookHomeTour}>Book Home Tour</button>
             </div>
 
             <div className="flex justify-evenly items-center flex-wrap sm:flex-nowrap sm:gap-6">

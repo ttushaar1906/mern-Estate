@@ -75,8 +75,8 @@ export default function ContactUs() {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+      <div className="max-w-7xl mx-auto px-4 py-6 sm:py-12 sm:px-6 lg:px-8">
+        <div className="text-center sm:mb-16 mb-4">
           <h1 className="lgHeading">Contact Us</h1>
           <p className="paraStyle">
             Have questions about buying, selling, or renting properties? Get in touch with our team of experts.
@@ -87,7 +87,7 @@ export default function ContactUs() {
         <div className="grid grid-cols-1 text-center lg:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="mdHead mb-6">Get In Touch</h2>
-            <div className="space-y-6 flex items-center justify-evenly gap-4 lg:block">
+            <div className="sm:space-y-6 flex sm:items-center justify-evenly gap-4 lg:block flex-col sm:flex-row">
               <div className="flex items-center">
                 <AiOutlinePhone className="h-6 w-6 text-slate-700" />
                 <div className="ml-4 text-left">
@@ -217,22 +217,26 @@ export default function ContactUs() {
 
               <div className="flex justify-end">
                 {mutation.isPending ? (
-                  <div className='buttonStyle w-25 text-lg'>
-                    <CircularProgress color='inherit' />
+                  <div className="buttonStyle text-white min-w-[5rem] px-3 py-2 text-sm sm:text-lg flex items-center justify-center">
+                    <CircularProgress size={20} color="inherit" />
                   </div>
                 ) : (
-                  <button type="submit" className="buttonStyle">
+                  <button
+                    type="submit"
+                    className="buttonStyle min-w-[5rem] px-3 py-2 text-sm sm:text-lg"
+                  >
                     Send Message
                   </button>
                 )}
               </div>
+
             </form>
           </div>
         </div>
 
         {/* FAQ Section */}
         <div className="mt-8">
-          <h2 className="lgHeading">Frequently Asked Questions</h2>
+          <h2 className="lgHeading mb-6 sm:mb-12">Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto">
             {freqAskQues.map((item, index) => (
               <div key={index} className="mb-4">

@@ -120,14 +120,14 @@ export default function UserDetail() {
   ];
 
   return (
-    <div className="min-h-screen customeContainer p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen py-4 sm:p-6 lg:p-8">
       <div className="mx-auto">
         {/* Header Section */}
         <div className="bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 rounded-2xl shadow-xl p-6 sm:p-8 mb-8 text-white">
           <div className="flex flex-col items-center space-y-6">
             {/* Avatar Section */}
             <div className="relative">
-              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1 shadow-2xl">
+              <div className="w-20 h-20 sm:w-40 sm:h-40 rounded-full p-1 shadow-2xl">
                 <img
                   src={avatar}
                   alt="User Avatar"
@@ -141,7 +141,7 @@ export default function UserDetail() {
 
             {/* User Name */}
             <div className="text-center">
-              <h1 className="text-3xl sm:text-4xl font-bold mb-2 darkColor">
+              <h1 className="text-xl sm:text-4xl font-bold mb-2 darkColor">
                 {user?.userName}
               </h1>
               <p className="text-slate-300 text-lg">Active User</p>
@@ -151,7 +151,7 @@ export default function UserDetail() {
             <div className="flex flex-wrap gap-4 justify-center">
               <button
                 onClick={handleOpen}
-                className="flex items-center gap-2 px-6 py-3 text-white font-semibold rounded-xl transform hover:scale-105 transition-all duration-200 shadow-lg"
+                className="flex items-center gap-2 px-6 py-3 w-42 justify-center text-white font-semibold rounded-xl transform hover:scale-105 transition-all duration-200 shadow-lg"
                 style={{ backgroundColor: "#2da8be" }}
               >
                 <AiOutlineEdit className="text-lg" />
@@ -159,7 +159,7 @@ export default function UserDetail() {
               </button>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-6 py-3 cancelButtonStyle text-white font-semibold rounded-xl duration-200 shadow-lg transform hover:scale-105 transition-all"
+                className="flex items-center gap-2 px-6 py-3 w-42 justify-center cancelButtonStyle text-white font-semibold rounded-xl duration-200 shadow-lg transform hover:scale-105 transition-all"
               >
                 <AiOutlineLogout className="text-lg" />
                 Logout
@@ -183,7 +183,7 @@ export default function UserDetail() {
                   <p className="text-sm font-medium text-slate-500 uppercase tracking-wide">
                     {stat.label}
                   </p>
-                  <p className="text-lg font-semibold text-slate-700 mt-1 break-words">
+                  <p className="text-sm sm:text-lg font-semibold text-slate-700 mt-1 break-words">
                     {stat.value}
                   </p>
                 </div>

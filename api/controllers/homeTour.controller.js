@@ -46,7 +46,6 @@ export const cancelHomeVisit = asyncHandler(async (req, res) => {
         { isCancelled: true },
         { new: true }
     );
-    console.log(response);
     
     if (!response)  res.status(400).json({ statusCode: 400, message: "Failed to cancel Meeting" })
 

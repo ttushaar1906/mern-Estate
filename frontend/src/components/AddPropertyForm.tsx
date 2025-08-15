@@ -760,21 +760,21 @@ export default function AddPropertyForm() {
               <span className="text-sm text-slate-500 ml-2">(Optional)</span>
             </h2>
 
-            <div className="bg-slate-50 rounded-lg p-6">
+            <div className="bg-slate-50 rounded-lg p-2 sm:p-6">
               <div className="space-y-4">
                 {formData.rules.map((rule, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-4 bg-white p-4 rounded-lg border border-slate-200"
+                    className="flex items-center sm:gap-4 bg-white p-2 sm:p-4 rounded-lg border border-slate-200"
                   >
-                    <span className="text-sm font-medium text-slate-600 w-8">
+                    <span className="text-sm font-medium text-slate-600 w-4 sm:w-8">
                       {index + 1}.
                     </span>
                     <input
                       type="text"
                       value={rule.rules}
                       onChange={(e) => handleRuleChange(index, e.target.value)}
-                      className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="flex-1 sm:px-3 p-2 sm:py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                       placeholder="Enter rule or regulation"
                     />
                     {formData.rules.length > 1 && (
@@ -810,8 +810,8 @@ export default function AddPropertyForm() {
             >
 
               {isPending ? (
-                <div className='buttonStyle w-[75%] text-center'>
-                  <CircularProgress className="text-white" size={10} />
+                <div className='buttonStyle w-[75%] text-center text-white'>
+                  <CircularProgress size={10} color="inherit" />
                 </div>
               ) : (<>
                 Register Property

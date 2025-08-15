@@ -39,8 +39,6 @@ export default function UpcomingHomeTours() {
       autoHideDuration: 3000,
     });
 
-    // ✅ Refresh the tour list
-    // QueryClient.invalidateQueries(["homeTours"]);
   } catch (error) {
     console.error("Error cancelling tour:", error);
     setSnackBar({
@@ -51,7 +49,6 @@ export default function UpcomingHomeTours() {
     });
   }
 };
-
 
   const formatAddress = (address:any) => {
     const parts = [

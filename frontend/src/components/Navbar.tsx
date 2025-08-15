@@ -9,7 +9,6 @@ export default function Navbar() {
 const user = useSelector((state: any) => state.user.currentUser);
 
   const avatar = user?.avatar || userAvatar;
-  console.log("Avatar:", avatar);
   
   const [isOpen, setIsOpen] = useState(false);
 
@@ -63,8 +62,22 @@ const user = useSelector((state: any) => state.user.currentUser);
           <NavLink to="/about" className={navLinkClass} onClick={() => setIsOpen(false)}><li className="py-2">ABOUT US</li></NavLink>
           <NavLink to="/properties" className={navLinkClass} onClick={() => setIsOpen(false)}><li className="py-2">Properties</li></NavLink>
           <NavLink to="/contactUs" className={navLinkClass} onClick={() => setIsOpen(false)}><li className="py-2">Contact Us</li></NavLink>
-          <NavLink to="/user" className={navLinkClass} onClick={() => setIsOpen(false)}><li className="py-2">User</li></NavLink>
-        </ul>
+          {!user ? (
+            <NavLink to="/signIn" className={navLinkClass}>
+              <li>Login</li>
+            </NavLink>
+          ) : (
+            <NavLink to="/user" className={navLinkClass}>
+              <li>
+                <img
+                  src={avatar}
+                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              </li>
+            </NavLink>
+          )}
+          </ul>
       </div>
     </div>
   );

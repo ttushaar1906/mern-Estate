@@ -3,7 +3,7 @@ import { PropertyInt } from "../../interfaces/PropertyInt";
 import axios from "axios";
 
 export const getPropertiesFn = async (page = 1, search = "") => {
-  const response = await axios.get(getProperties(page, search));
+  const response = await axios.get(getProperties(page, search));  
   return response.data; // Keep full object with { data, total, page, pages }
 };
 
