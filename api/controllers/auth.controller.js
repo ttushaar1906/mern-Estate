@@ -136,6 +136,7 @@ export const googleLogIn = asyncHandler(async (req, res) => {
         userEmail: email,
         password: hashedPassword,
         avatar: photo,
+        isLoggedIn:true
     });
 
     await newUser.save();
