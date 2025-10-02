@@ -136,7 +136,7 @@ export const googleLogIn = asyncHandler(async (req, res) => {
         userEmail: email,
         password: hashedPassword,
         avatar: photo,
-        isLoggedIn:true
+        isLoggedIn: true
     });
 
     await newUser.save();
@@ -192,4 +192,36 @@ export const logout = asyncHandler(async (req, res) => {
     res.clearCookie("refreshToken", options);
 
     return res.status(200).json({ statusCode: 200, message: "User Logged out successfully !!" })
+})
+
+export const refreshAccessToken = asyncHandler(async (req, res) => {
+    const incomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken
+
+    if (!incomingRefreshToken) {
+        throw new apiErrorHandler(401, "Unauthorized")
+    }
+
+    const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_KEY)
+
+    const user = await User.findById(decodedToken._id)
+
+    if (!user) {
+        throw new apiErrorHandler(400, "Token Does not match")
+    }
+
+    if (decodedToken !== user.refreshToken) {
+        throw new apiErrorHandler(401, "Token Expired")
+    }
+
+    const options = {
+        httpOnly: true,
+        secure: true,
+    };
+
+    const { accessToken, newRefreshToken } = generateAccessTokenRefreshToken()
+
+    return res.status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", newRefreshToken, options)
+        .json(new apiResponse(200, "Access Token Regenerated Successfully"))
 })

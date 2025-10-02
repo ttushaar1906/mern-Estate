@@ -646,14 +646,14 @@ export default function AddPropertyForm() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Discounted Price
+                  Selling Price after discounted
                   <span className="text-xs text-slate-500 ml-1">(Optional)</span>
                 </label>
                 <input
                   type="text"
                   placeholder="₹8,000 /month"
                   className="addPropertyStyle"
-                  value={formData.discountedPrice}
+                  value={formData.discountedPrice == 0 ? formData.price : formData.discountedPrice}
                   onChange={handleInputChange}
                   name="discountedPrice"
                 />
