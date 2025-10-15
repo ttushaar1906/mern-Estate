@@ -4,6 +4,7 @@ import { apiResponse } from "../utils/apiResponse.js"
 import { apiErrorHandler } from "../utils/error.js";
 import { cloudinaryUpload } from "../utils/cloudinary.js";
 import { v2 as cloudinary } from 'cloudinary'; // assuming you're using this
+import client from "../utils/redis.js";
 
 export const createListing = asyncHandler(async (req, res) => {
   const { propertyName, propertyDesc, price, discountedPrice, RegisteredBy, images } = req.body
@@ -65,9 +66,17 @@ export const viewListing = asyncHandler(async (req, res) => {
 })
 
 export const getlisting = asyncHandler(async (req, res) => {
-  const { query, limit = 15, page = 1 } = req.query
+  const { query, limit = 15, page = 1 } = req.query;
+  const cacheKey = `propertyList:${query || 'all'}:page${page}:limit${limit}`;
 
-  const searchConditions = []
+  // Check cache
+  const cachedData = await client.get(cacheKey);
+  if (cachedData) {
+    return res.status(200).json(JSON.parse(cachedData));
+  }
+
+  // Fetch from MongoDB
+  const searchConditions = [];
   if (query) {
     searchConditions.push({
       $or: [
@@ -75,36 +84,44 @@ export const getlisting = asyncHandler(async (req, res) => {
         { "address.city": { $regex: `${query}`, $options: "i" } },
         { "address.state": { $regex: `${query}`, $options: "i" } },
       ]
-    })
+    });
   }
 
   const finalFilter = searchConditions.length ? { $and: searchConditions } : {};
-
-
   const skip = (page - 1) * limit;
 
-  const result = await Listing.find(finalFilter)
-    .skip(skip)
-    .limit(Number(limit));
-
+  const result = await Listing.find(finalFilter).skip(skip).limit(Number(limit));
   const total = await Listing.countDocuments(finalFilter);
 
-  return res.status(200).json({
+  const responseData = {
     data: result,
     total,
     page: Number(page),
     pages: Math.ceil(total / limit),
-  });
+  };
+
+  // Store in cache for 5 minutes
+  await client.set(cacheKey, JSON.stringify(responseData), { EX: 300 });
+  // console.log(`🗄️ Cached key: ${cacheKey}`);
+  return res.status(200).json(responseData);
 });
 
 export const viewOwnerProperty = asyncHandler(async (req, res) => {
   const { userName } = req.user
+  const cacheKey = "ownerProperty";
 
+  // Check cache
+  const cachedData = await client.get(cacheKey);
+  if (cachedData) {
+    return res.status(200).json(JSON.parse(cachedData));
+  }
+  
   const propertyResponse = await Listing.find({ RegisteredBy: userName })
 
   if (!propertyResponse || propertyResponse.length === 0) return res.status(400).json({ statusCode: 400, message: "No Property Registered by the owner" })
 
-  return res.status(200).json({ statusCode: 200, message: "Property Found with current user", propertyResponse })
+  await client.set(cacheKey,JSON.stringify(propertyResponse), { EX: 300 })
+ return res.status(200).json({ statusCode: 200, message: "Property Found with current user", propertyResponse })
 })
 
 export const deletePropety = asyncHandler(async (req, res) => {
