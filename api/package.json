@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --testEnvironment=node",
     "dev": "nodemon api/index.js",
     "start": "node index.js",
     "build": "npm install && npm install --prefix client && npm run build --prefix client"
@@ -26,5 +26,10 @@
     "multer": "^2.0.0",
     "nodemailer": "^7.0.5",
     "redis": "^5.8.3"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4"
   }
 }

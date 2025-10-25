@@ -132,7 +132,7 @@ export const googleLogIn = asyncHandler(async (req, res) => {
     const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
 
     const newUser = new User({
-        userName: name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4),
+        userName: name?.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4),
         userEmail: email,
         password: hashedPassword,
         avatar: photo,

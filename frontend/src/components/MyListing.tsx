@@ -22,7 +22,9 @@ export default function MyListing() {
     queryFn: ownerPropertyFn,
     retry: false
   });
-
+  
+  console.log(data);
+  
   const [snackBar, setSnackBar] = useState<SnackBarState>({
     open: false,
     severity: "info",

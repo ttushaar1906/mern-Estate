@@ -1,17 +1,17 @@
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
-import userRouter from './routes/user.route.js';
-import authRouter from './routes/auth.route.js';
-import listingRouter from './routes/listing.route.js';
-import contactUsRouter from './routes/contactUs.route.js';
-import homeVisitRouter from './routes/homeTour.route.js';
+import userRouter from './src/routes/user.route.js';
+import authRouter from './src/routes/auth.route.js';
+import listingRouter from './src/routes/listing.route.js';
+import contactUsRouter from './src/routes/contactUs.route.js';
+import homeVisitRouter from './src/routes/homeTour.route.js';
 
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import connectDB from './db/index.js';
+import connectDB from './src/db/index.js';
 
 // Connect DB
 connectDB();

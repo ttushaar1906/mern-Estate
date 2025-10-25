@@ -1,5 +1,5 @@
 import express from 'express'
-import { createListing, deletePropety, getlisting, viewListing, viewOwnerProperty } from '../controllers/listing.controller.js';
+import { createListing, deletePropety, getlisting, updateProperty, viewListing, viewOwnerProperty } from '../controllers/listing.controller.js';
 import { verifyJWT } from '../middleware/verifyJWT.middleware.js';
 import { upload } from '../middleware/multer.middleware.js';
 
@@ -10,7 +10,7 @@ router.get('/getListing/:id', viewListing);
 router.get('/gets', getlisting)
 router.get('/viewOwnersProperty', verifyJWT, viewOwnerProperty)
 router.delete('/deletePropety/:id', verifyJWT, deletePropety)
-// router.post('/updateProperty/:id', verifyJWT, updateProperty)
+router.patch('/updateProperty/:id', verifyJWT, updateProperty)
 // router.patch('/updateProperty/:id', verifyJWT,upload.fields([{ name: "coverImages", maxCount: 4 }]), updateProperty)
 
 export default router;

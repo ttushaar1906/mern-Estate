@@ -115,13 +115,13 @@ export const viewOwnerProperty = asyncHandler(async (req, res) => {
   if (cachedData) {
     return res.status(200).json(JSON.parse(cachedData));
   }
-  
+
   const propertyResponse = await Listing.find({ RegisteredBy: userName })
 
   if (!propertyResponse || propertyResponse.length === 0) return res.status(400).json({ statusCode: 400, message: "No Property Registered by the owner" })
 
-  await client.set(cacheKey,JSON.stringify(propertyResponse), { EX: 300 })
- return res.status(200).json({ statusCode: 200, message: "Property Found with current user", propertyResponse })
+  await client.set(cacheKey, JSON.stringify(propertyResponse), { EX: 300 })
+  return res.status(200).json({ statusCode: 200, message: "Property Found with current user", propertyResponse })
 })
 
 export const deletePropety = asyncHandler(async (req, res) => {
@@ -142,79 +142,20 @@ export const deletePropety = asyncHandler(async (req, res) => {
 
 })
 
-// export const updateProperty = asyncHandler(async (req, res) => {
-//   const { id } = req.params;
-//   const {
-//     propertyName,
-//     propertyDesc,
-//     price,
-//     discountedPrice,
-//     features,
-//     address,
-//     rules,
-//   } = req.body;
-//   console.log(id);
+export const updateProperty = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  
+  const fieldsToUpdate = ["propertyName", "propertyDesc",  "price", "discountedPrice"]
+  // const address = { line1, line2, city, state, postalCode }
+  const updateFields = {}
 
-//   console.log(propertyName);
+  fieldsToUpdate.map((field) => {
+    if (req.body[field] !== undefined) {
+      updateFields[field] = req.body[field]      
+    }
+  })
 
-//   const listing = await Listing.findById(id);
-//   console.log(listing);
+  const updatedResult = await Listing.findByIdAndUpdate(id, updateFields, { new: true })
 
-
-//   if (!listing) {
-//     return res.status(404).json({ statusCode: 404, message: "Property not found" });
-//   }
-
-//   // Validate non-negative numeric fields if they exist
-//   const nonZeroFields = [
-//     { name: "price", value: price },
-//     { name: "discountedPrice", value: discountedPrice },
-//     { name: "noOfRooms", value: features?.noOfRooms },
-//     { name: "noOfRestRooms", value: features?.noOfRestRooms },
-//     { name: "noOfLivingRoom", value: features?.noOfLivingRoom },
-//     { name: "sqFt", value: features?.sqFt },
-//   ];
-
-//   const errorList = nonZeroFields
-//     .filter(field => field.value !== undefined && Number(field.value) < 0)
-//     .map(field => field.name);
-
-//   if (errorList.length > 0) {
-//     return res.status(400).json({
-//       statusCode: 400,
-//       message: `The following fields must be non-negative: ${errorList.join(", ")}`,
-//     });
-//   }
-
-//   // Only update fields if provided
-//   if (propertyName !== undefined) listing.propertyName = propertyName;
-//   if (propertyDesc !== undefined) listing.propertyDesc = propertyDesc;
-//   if (price !== undefined) listing.price = price;
-//   if (discountedPrice !== undefined) listing.discountedPrice = discountedPrice;
-
-//   if (features !== undefined) {
-//     // Validate propertyType only if provided
-//     if (features?.propertyType !== undefined && typeof features.propertyType !== "string") {
-//       return res.status(400).json({
-//         statusCode: 400,
-//         message: "propertyType must be a string",
-//       });
-//     }
-
-//     const existingFeatures = listing.features?.toObject?.() || {};
-
-//     listing.features = {
-//       ...existingFeatures,
-//       ...features,
-//     };
-//   }
-
-//   if (address !== undefined) listing.address = address;
-//   if (rules !== undefined) listing.rules = rules;
-
-//   await listing.save();
-
-//   return res.status(200).json(new apiResponse(200, listing, "Property Updated Successfully"));
-// });
-
-
+  return res.status(200).json(new apiResponse(200, updatedResult, "Property Updated Successfully"));
+});
