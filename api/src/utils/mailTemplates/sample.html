@@ -1,293 +1,561 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reset Your Password - Find Stay</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's New This Month - PropertyHub</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            background-color: #f5f5f5;
             color: #333;
+            background-color: #f5f5f5;
         }
-
+        
         .email-container {
-            max-width: 600px;
+            max-width: 650px;
             margin: 20px auto;
-            background-color: #fff;
+            background-color: #ffffff;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(45, 168, 190, 0.1);
         }
-
+        
         .header {
-            background: linear-gradient(135deg, #2da8be 0%, #1e7a8c 100%);
-            padding: 30px 20px;
-            text-align: center;
+            background: linear-gradient(135deg, #2da8be 0%, #1e8ba0 100%);
             color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-
-        .logo img {
-            width: 70px;
-            height: auto;
-            border-radius: 8px;
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s infinite;
         }
-
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
         .header-subtitle {
-            font-size: 14px;
-            font-weight: 300;
-            opacity: 0.9;
-            margin-top: 10px;
+            font-size: 16px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
         }
-
+        
         .content {
-            padding: 40px 30px;
+            padding: 45px 40px;
+        }
+        
+        .greeting {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .greeting strong {
+            color: #2da8be;
+            font-size: 22px;
+        }
+        
+        .badge-container {
+            text-align: center;
+            margin: 25px 0 35px 0;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #2da8be 0%, #1e8ba0 100%);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(45, 168, 190, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .intro-text {
+            font-size: 17px;
+            color: #555;
+            margin-bottom: 35px;
+            line-height: 1.8;
             text-align: center;
         }
-
-        .icon {
-            width: 80px;
-            height: 80px;
-            background-color: #f0f9fb;
-            border-radius: 50%;
-            margin: 0 auto 25px;
+        
+        .intro-text strong {
+            color: #2da8be;
+            font-weight: 600;
+        }
+        
+        .updates-section {
+            background: linear-gradient(135deg, #f8fffe 0%, #e8f9fb 100%);
+            border-radius: 12px;
+            padding: 35px;
+            margin: 35px 0;
+            box-shadow: 0 5px 20px rgba(45, 168, 190, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .updates-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #2da8be 0%, #1e8ba0 100%);
+        }
+        
+        .updates-title {
+            color: #2da8be;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 3px solid #2da8be;
+            gap: 10px;
         }
-
-        .icon svg {
-            width: 40px;
-            height: 40px;
-            fill: #2da8be;
+        
+        .update-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
-
-        .title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #2da8be;
+        
+        .update-item {
+            background: white;
+            padding: 20px 20px 20px 55px;
             margin-bottom: 15px;
-        }
-
-        .message {
+            color: #555;
             font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-
-        .otp-container {
-            background: linear-gradient(135deg, #f0f9fb 0%, #e6f4f7 100%);
-            border: 2px dashed #2da8be;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 30px 0;
-        }
-
-        .otp-label {
-            font-size: 14px;
-            color: #2da8be;
-            font-weight: 600;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .otp-code {
-            font-size: 32px;
-            font-weight: bold;
-            color: #2da8be;
-            letter-spacing: 8px;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 10px;
-        }
-
-        .otp-validity {
-            font-size: 13px;
-            color: #888;
-            font-style: italic;
-        }
-
-        .warning {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
+            position: relative;
+            line-height: 1.7;
             border-radius: 8px;
-            padding: 15px;
-            margin: 25px 0;
-            font-size: 14px;
-            color: #856404;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
         }
-
-        .security-tips {
-            text-align: left;
-            background-color: #f8f9fa;
+        
+        .update-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(45, 168, 190, 0.15);
+        }
+        
+        .update-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .update-item::before {
+            content: "✓";
+            position: absolute;
+            left: 18px;
+            top: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            background: linear-gradient(135deg, #2da8be 0%, #1e8ba0 100%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(45, 168, 190, 0.3);
+        }
+        
+        .update-item strong {
+            color: #2da8be;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 17px;
+        }
+        
+        .update-item .description {
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+            border-left: 4px solid #ffc107;
             border-radius: 8px;
             padding: 20px;
-            margin: 25px 0;
+            margin: 30px 0;
+            text-align: center;
         }
-
-        .security-tips h4 {
+        
+        .highlight-box .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box .text {
+            color: #856404;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 45px 0;
+            padding: 35px;
+            background: linear-gradient(135deg, #f0f9fa 0%, #e1f4f6 100%);
+            border-radius: 12px;
+        }
+        
+        .cta-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #2da8be 0%, #1e8ba0 100%);
+            color: white;
+            padding: 18px 50px;
+            text-decoration: none;
+            border-radius: 35px;
+            font-weight: 700;
+            font-size: 17px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(45, 168, 190, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(45, 168, 190, 0.5);
+            background: linear-gradient(135deg, #1e8ba0 0%, #2da8be 100%);
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 35px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .stat-box {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fffe 0%, #e8f9fb 100%);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(45, 168, 190, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
             color: #2da8be;
-            margin-bottom: 12px;
-            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
         }
-
-        .security-tips ul {
-            margin-left: 18px;
+        
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .closing-section {
+            margin-top: 40px;
+            padding-top: 35px;
+            border-top: 2px solid #e8f4f5;
+            text-align: center;
+        }
+        
+        .closing-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .signature {
+            font-size: 17px;
+            color: #2da8be;
+            font-weight: 700;
+            margin-top: 15px;
+            letter-spacing: 0.3px;
+        }
+        
+        .team-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #f0f9fa 0%, #e1f4f6 100%);
+            padding: 40px 30px;
+            text-align: center;
+            border-top: 4px solid #2da8be;
+        }
+        
+        .footer-text {
             color: #666;
             font-size: 14px;
-        }
-
-        .security-tips li {
-            margin-bottom: 6px;
-        }
-
-        .footer {
-            background-color: #f8f9fa;
-            padding: 25px 30px;
-            text-align: center;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .footer-text {
-            font-size: 13px;
-            color: #888;
             margin-bottom: 15px;
         }
-
-        .contact-info {
-            font-size: 12px;
-            color: #aaa;
-            margin-bottom: 20px;
-        }
-
-        .contact-info a {
-            color: #2da8be;
-            text-decoration: none;
-        }
-
+        
         .social-links {
-            margin: 20px 0;
+            margin: 25px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
-
+        
         .social-link {
-            display: inline-block;
-            margin: 0 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: white;
             color: #2da8be;
             text-decoration: none;
             font-weight: 600;
-            font-size: 13px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
         }
-
+        
+        .social-link:hover {
+            background: #2da8be;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(45, 168, 190, 0.3);
+        }
+        
+        .contact-info {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
         .unsubscribe {
-            font-size: 12px;
             color: #999;
-            margin-top: 15px;
+            font-size: 12px;
+            margin-top: 25px;
+            line-height: 1.6;
         }
-
-        @media only screen and (max-width: 600px) {
+        
+        .unsubscribe a {
+            color: #2da8be;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .unsubscribe a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
             .email-container {
                 margin: 10px;
                 border-radius: 8px;
             }
-
-            .content {
-                padding: 30px 20px;
+            
+            .header, .content, .footer {
+                padding: 25px 20px;
             }
-
-            .otp-code {
-                font-size: 28px;
-                letter-spacing: 6px;
+            
+            .logo {
+                font-size: 26px;
             }
-
-            .header {
-                padding: 25px 15px;
+            
+            .updates-section {
+                padding: 25px 20px;
+            }
+            
+            .update-item {
+                padding: 18px 18px 18px 50px;
+                font-size: 15px;
+            }
+            
+            .update-item::before {
+                left: 15px;
+                width: 26px;
+                height: 26px;
+                font-size: 16px;
+            }
+            
+            .cta-section {
+                padding: 25px 20px;
+            }
+            
+            .cta-button {
+                padding: 15px 35px;
+                font-size: 15px;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+            }
+            
+            .stat-box {
+                min-width: 100%;
+            }
+            
+            .social-links {
+                gap: 10px;
             }
         }
     </style>
 </head>
-
 <body>
     <div class="email-container">
         <!-- Header -->
         <div class="header">
-            <div class="logo">
-                <img src="https://res.cloudinary.com/tushartharwani/image/upload/v1754050041/logo_zubn02.jpg"
-                    alt="logo" />
-            </div>
-            <div class="header-subtitle">Your Perfect Home Awaits</div>
+            <div class="logo">🏠 PropertyHub</div>
+            <div class="header-subtitle">Your Gateway to Premium Real Estate</div>
         </div>
-
-        <!-- Main Content -->
+        
+        <!-- Content -->
         <div class="content">
-            <div class="icon">
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11H16V19H8V11H9.2V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.4,8.7 10.4,10V11H13.6V10C13.6,8.7 12.8,8.2 12,8.2Z" />
-                </svg>
+            <!-- Greeting -->
+            <p class="greeting">Hello <strong>John</strong>,</p>
+            
+            <!-- Badge -->
+            <div class="badge-container">
+                <span class="badge">✨ What's New This Month</span>
             </div>
-
-            <h1 class="title">Password Reset Request</h1>
-            <p class="message">We received a request to reset your password for your Find Stay account. Use the one-time
-                password (OTP) below to complete your password reset.</p>
-
-            <div class="otp-container">
-                <div class="otp-label">Your OTP Code</div>
-                <div class="otp-code">123456</div>
-                <div class="otp-validity">Valid for 10 minutes</div>
-            </div>
-
-            <div class="warning">
-                <strong>⚠️ Security Notice:</strong> If you didn't request this password reset, please ignore this email
-                and consider changing your password immediately.
-            </div>
-
-            <div class="security-tips">
-                <h4>🔒 Security Tips</h4>
-                <ul>
-                    <li>Never share your OTP with anyone</li>
-                    <li>Find Stay will never ask for your OTP via phone or email</li>
-                    <li>This code expires in 10 minutes for your security</li>
-                    <li>Use a strong, unique password for your account</li>
+            
+            <!-- Intro Text -->
+            <p class="intro-text">
+                Here's what's new this month at <strong>PropertyHub</strong>:
+            </p>
+            
+            <!-- Updates Section -->
+            <div class="updates-section">
+                <h2 class="updates-title">🎉 Latest Updates & Features</h2>
+                <ul class="update-list">
+                    <li class="update-item">
+                        <strong>New features and updates live now</strong>
+                        <span class="description">Experience our latest enhancements designed to make your property search easier and more efficient than ever before.</span>
+                    </li>
+                    <li class="update-item">
+                        <strong>Improved performance and better user experience</strong>
+                        <span class="description">Enjoy lightning-fast loading times, smoother navigation, and a completely redesigned intuitive interface.</span>
+                    </li>
+                    <li class="update-item">
+                        <strong>Exciting offers available exclusively for members</strong>
+                        <span class="description">Take advantage of special deals and premium promotions available only to our valued community members like you.</span>
+                    </li>
                 </ul>
             </div>
+            
+            <!-- Stats Section -->
+            <div class="stats-container">
+                <div class="stat-box">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">New Features</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">2x</span>
+                    <span class="stat-label">Faster Speed</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Free Updates</span>
+                </div>
+            </div>
+            
+            <!-- Highlight Box -->
+            <div class="highlight-box">
+                <div class="icon">🎁</div>
+                <div class="text">Limited Time: Exclusive member benefits expire in 7 days!</div>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <p class="cta-text">Don't miss out — explore now 👇</p>
+                <a href="#" class="cta-button">Visit Website</a>
+            </div>
+            
+            <!-- Closing Section -->
+            <div class="closing-section">
+                <div class="team-icon">👥</div>
+                <p class="closing-text">
+                    Thank you for being a part of our community. We're constantly working to bring you the best real estate experience possible.
+                </p>
+                <p class="signature">
+                    The PropertyHub Team
+                </p>
+            </div>
         </div>
-
+        
         <!-- Footer -->
         <div class="footer">
-            <p class="footer-text">
-                Need help? Contact our support team at
-                <a href="mailto:support@findstay.com">support@findstay.com</a>
-            </p>
-
-            <div class="contact-info">
-                <p>Find Stay Real Estate Platform</p>
-                <p>Making property search simple and secure</p>
-                <p>123 Main Street, Suite 400, Pune, India</p>
-            </div>
-
+            <p class="footer-text"><strong>Stay connected with us for more updates and exclusive offers!</strong></p>
+            
             <div class="social-links">
-                <a href="https://tushartharwani.netlify.app/" class="social-link">Portfolio</a>
-                <a href="https://x.com/tushaar_19" class="social-link">Twitter</a>
-                <a href="https://www.linkedin.com/in/tushar-tharwani/" class="social-link">LinkedIn</a>
-                <a href="https://www.instagram.com/_tushaar_19/" class="social-link">Instagram</a>
+                <a href="#" class="social-link" title="Facebook">f</a>
+                <a href="#" class="social-link" title="Twitter">𝕏</a>
+                <a href="#" class="social-link" title="LinkedIn">in</a>
+                <a href="#" class="social-link" title="Instagram">📷</a>
             </div>
-
+            
+            <div class="contact-info">
+                <p class="footer-text">
+                    <strong>PropertyHub Inc.</strong><br>
+                    123 Real Estate Avenue, Suite 500<br>
+                    Property City, PC 12345<br>
+                    📧 support@propertyhub.com | 📞 +1 (555) 123-4567
+                </p>
+            </div>
+            
             <div class="unsubscribe">
-                Find Stay Real Estate Platform<br />
-                Making property search simple and secure
+                <p>You received this email as a valued member of PropertyHub.</p>
+                <p><a href="#">Unsubscribe</a> | <a href="#">Update Preferences</a> | <a href="#">Privacy Policy</a></p>
             </div>
         </div>
     </div>
 </body>
-
 </html>

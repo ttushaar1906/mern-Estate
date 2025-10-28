@@ -12,17 +12,17 @@ export default function WalletFriendlySection() {
         queryKey: ['properties'],
         queryFn: getCheapPropertiesFn,
     });
-    
+
     if (isLoading) return <Loading />;
     if (isError) return <Error />;
 
-  const recentProperties = data
-  ? data.sort((a, b) => a.discountedPrice - b.discountedPrice).slice(0, 3)
-  : [];
+    const recentProperties = data
+        ? data.sort((a, b) => a.discountedPrice - b.discountedPrice).slice(0, 3)
+        : [];
 
     return (
         <div className="flex justify-evenly flex-wrap items-center gap-8 sm:gap-4 p-4 ">
-            {recentProperties?.map((property:PropertyInt, index:number) => (
+            {recentProperties?.map((property: PropertyInt, index: number) => (
                 <div
                     key={index}
                     className="rounded-xl overflow-hidden bg-white w-[350px] transition-transform duration-200 hover:scale-[1.02] shadow hover:shadow-lg "
@@ -35,7 +35,7 @@ export default function WalletFriendlySection() {
                     <div className="p-4">
                         <div>
                             <h2 className="text-lg font-semibold text-slate-700">{property.propertyName}</h2>
-                            <p className="text-md text-slate-600 font-bold">₹ {property?.discountedPrice?.toLocaleString()}</p>
+                            <p className="text-md text-slate-600 font-bold">₹ {property?.discountedPrice === 0 ? property?.price : property?.discountedPrice?.toLocaleString()}</p>
                         </div>
 
                         <div className="flex items-start gap-2 text-slate-600 text-sm pt-2">

@@ -144,14 +144,14 @@ export const deletePropety = asyncHandler(async (req, res) => {
 
 export const updateProperty = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  
-  const fieldsToUpdate = ["propertyName", "propertyDesc",  "price", "discountedPrice"]
+
+  const fieldsToUpdate = ["propertyName", "propertyDesc", "price", "discountedPrice"]
   // const address = { line1, line2, city, state, postalCode }
   const updateFields = {}
 
   fieldsToUpdate.map((field) => {
     if (req.body[field] !== undefined) {
-      updateFields[field] = req.body[field]      
+      updateFields[field] = req.body[field]
     }
   })
 
@@ -159,3 +159,18 @@ export const updateProperty = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new apiResponse(200, updatedResult, "Property Updated Successfully"));
 });
+
+
+export const toggleSold = asyncHandler(async (req, res) => {
+  // const { isSold } = req.body
+  const _id  = req.params.id  
+
+  const result = await Listing.findByIdAndUpdate(_id, [{ $set: { isSold: { $not: "$isSold" } } }], { new: true })
+  
+  if (!result) {
+    throw new apiErrorHandler(400, "Failed to change status");
+  }
+
+  return res.status(200).json(new apiResponse(200, result, "Status Changed"))
+
+})

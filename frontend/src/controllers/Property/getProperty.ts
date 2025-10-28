@@ -20,7 +20,5 @@ export const getPropertyFn = async (id: string) => {
 
 export const ownerPropertyFn = async ()=>{
   const response = await axios.get(ownerProperty,{withCredentials:true})
-  console.log(response);
-  
   return response.data
 }

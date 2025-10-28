@@ -11,6 +11,7 @@ import { TbCat } from "react-icons/tb";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaParking } from "react-icons/fa";
 import PropertyNotFound from "../images/notFound2.png"
+// import VoiceSearch from "../components/VoiceSearch";
 
 export default function Properties() {
   const [liked, setLiked] = useState<{ [key: number]: boolean }>({});
@@ -51,6 +52,12 @@ export default function Properties() {
     setLiked(prev => ({ ...prev, [index]: !prev[index] }));
   };
 
+// const handleVoiceSearch = (text: string) => {
+//   setSearchInput(text);
+//   debouncedSetSearchQuery.cancel(); // cancel pending debounce
+//   setSearchQuery(text); // immediate search after voice input
+// };
+
   return (
     <section className="customeContainer">
       <div className="p-4 rounded-lg shadow flex flex-wrap items-center justify-between gap-4 bg-white">
@@ -64,6 +71,7 @@ export default function Properties() {
           }}
           className="flex-grow min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
         />
+        {/* <VoiceSearch onSearch={handleVoiceSearch} /> */}
 
         <div className="flex flex-wrap gap-2">
           <button

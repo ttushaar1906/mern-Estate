@@ -10,37 +10,37 @@ const addressSchema = new mongoose.Schema({
 
 const ImageSchema = new mongoose.Schema({
     url: String,
-    public_id:String
+    public_id: String
 })
 
 const FeaturesSchema = new mongoose.Schema({
-      parking: Boolean,
-      petFriendly: Boolean,
-      security: Boolean,
-      swimmingPool: Boolean,
-      playGround: Boolean,
-      garden: Boolean,
-      publicToilet: Boolean,
-      clubHouse: Boolean,
-      temple: Boolean,
-      balcony: Boolean,
-      cctv: Boolean,
-      lift: Boolean,
-      forSell : Boolean,  // use ! for rent 
-      noOfRooms: Number,
-      noOfRestRooms: Number,
-      noOfLivingRoom : Number,
-      sqFt: String,
-      propertyType: {
-        type:String,
+    parking: Boolean,
+    petFriendly: Boolean,
+    security: Boolean,
+    swimmingPool: Boolean,
+    playGround: Boolean,
+    garden: Boolean,
+    publicToilet: Boolean,
+    clubHouse: Boolean,
+    temple: Boolean,
+    balcony: Boolean,
+    cctv: Boolean,
+    lift: Boolean,
+    forSell: Boolean,  // use ! for rent 
+    noOfRooms: Number,
+    noOfRestRooms: Number,
+    noOfLivingRoom: Number,
+    sqFt: String,
+    propertyType: {
+        type: String,
         // enum: ["residential", "commercial","industrial","land", "villas"]
-      },
+    },
 })
 
 const RulesSchema = new mongoose.Schema({
-        no: String,
-        rules: String,
-      
+    no: String,
+    rules: String,
+
 })
 
 const listingSchema = new mongoose.Schema({
@@ -56,23 +56,25 @@ const listingSchema = new mongoose.Schema({
         type: [ImageSchema]
     },
     address: addressSchema,
-    price:{
-        type:Number
+    price: {
+        type: Number
     },
     discountedPrice: {
         type: Number,
     },
-    features:{
-        type:FeaturesSchema
+    features: {
+        type: FeaturesSchema
     },
-    rules:{
-        type:[RulesSchema]
+    rules: {
+        type: [RulesSchema]
     },
-    RegisteredBy:{
-        type:String
+    RegisteredBy: {
+        type: String
+    },
+    isSold: {
+        type: Boolean,
+        default: false
     }
-
-
 
     // userRef: {
     //     type: String,
