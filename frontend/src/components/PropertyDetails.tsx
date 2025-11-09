@@ -38,6 +38,11 @@ export default function PropertyDetails() {
         navigate(`/property/${id}/scheduleHomeTour`)
     };
 
+    const viewOnMap = (e: React.MouseEvent<HTMLButtonElement>)=>{
+        e.preventDefault();
+        navigate(`/property/${id}/viewOnMap`)
+    }
+
     type BooleanFeatureKey = Extract<{
         [K in keyof Features]: Features[K] extends boolean ? K : never;
     }[keyof Features], string>;
@@ -74,8 +79,10 @@ export default function PropertyDetails() {
                     {" -> "}
                     {property?.propertyName}
                 </div>
-
-                <button className="buttonStyle " onClick={handleBookHomeTour}>Book Home Tour</button>
+                <div className="flex gap-6">
+                    <button className="buttonStyle " onClick={viewOnMap}>View On Map</button>
+                    <button className="buttonStyle " onClick={handleBookHomeTour}>Book Home Tour</button>
+                </div>
             </div>
 
             <div className="flex justify-evenly items-center flex-wrap sm:flex-nowrap sm:gap-6">

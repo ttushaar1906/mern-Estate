@@ -225,7 +225,7 @@ export default function UserDetail() {
             {/* Avatar Upload Section */}
             <div className="text-center">
               <div className="relative inline-block mb-4">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 p-1 shadow-lg">
+                <div className="w-24 h-24 rounded-full border shadow-lg">
                   <img
                     src={formData?.avatar || user?.avatar}
                     alt="Avatar Preview"
@@ -267,16 +267,16 @@ export default function UserDetail() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-6">
+            <div className="flex justify-evenly">
               {isLoading ? (
-                <div className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-slate-900 font-semibold py-3 px-6 rounded-xl flex items-center justify-center">
+                <div className="buttonStyle text-slate-900 flex items-center justify-center w-48">
                   <CircularProgress color="inherit" size={20} className="mr-2" />
                   Updating...
                 </div>
               ) : (
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-slate-900 font-semibold py-3 px-6 rounded-xl transform hover:scale-105 transition-all duration-200 shadow-lg"
+                  className="buttonStyle w-48"
                 >
                   Update Profile
                 </button>
@@ -284,7 +284,7 @@ export default function UserDetail() {
               <button
                 type="button"
                 onClick={handleClose}
-                className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+                className="text-slate-700 cancelButtonStyle w-48"
               >
                 Cancel
               </button>

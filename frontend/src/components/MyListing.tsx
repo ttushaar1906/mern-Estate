@@ -13,6 +13,7 @@ import { SnackBarState } from "../interfaces/NotificationInt";
 import Notification from "./Notification";
 import axios from "axios";
 import { deleteProperty } from "../apis/properiesAPI";
+// import SoldToggleSwitch from "./SoldToggleSwitch";
 
 export default function MyListing() {
   const queryClient = useQueryClient();
@@ -23,7 +24,8 @@ export default function MyListing() {
     retry: false
   });
 
-  console.log(data);
+  // console.log(data);
+  
   
   const [snackBar, setSnackBar] = useState<SnackBarState>({
     open: false,
@@ -128,6 +130,8 @@ const deleteMutation = useMutation({
                   )}
                 </IconButton>
               </Tooltip>
+
+              {/* <SoldToggleSwitch />   */}
 
             </div>
           </div>

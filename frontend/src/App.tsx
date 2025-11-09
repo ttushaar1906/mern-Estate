@@ -18,6 +18,7 @@ const Properties = lazy(() => import("./pages/Properties"));
 const User = lazy(() => import("./pages/User"));
 const PropertyDetails = lazy(() => import("./components/PropertyDetails"));
 const ScheduleHomeTour = lazy(() => import("./components/ScheduleHomeTour"));
+const ViewOnMap = lazy (()=> import("./components/ViewOnMap"));
 const AddPropertyForm = lazy(() => import("./components/AddPropertyForm"));
 const UpdatePropertyForm = lazy(() => import("./components/UpdatePropertyForm"));
 
@@ -45,6 +46,7 @@ const LoadablePropertyDetails = Loadable(PropertyDetails);
 const LoadableScheduleHomeTour = Loadable(ScheduleHomeTour);
 const LoadableAddProperty = Loadable(AddPropertyForm);
 const LoadableUpdateProperty = Loadable(UpdatePropertyForm);
+const LoadableViewOnMap = Loadable(ViewOnMap);
 
 export default function App() {
   const dispatch = useDispatch();
@@ -78,6 +80,10 @@ export default function App() {
         <Route
           path="property/:id/scheduleHomeTour"
           element={<LoadableScheduleHomeTour />}
+        />
+        <Route
+          path="property/:id/viewOnMap"
+          element={<LoadableViewOnMap />}
         />
         <Route path="addProperty" element={<LoadableAddProperty />} />
         <Route

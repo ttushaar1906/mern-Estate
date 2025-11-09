@@ -11,7 +11,6 @@ import { TbCat } from "react-icons/tb";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaParking } from "react-icons/fa";
 import PropertyNotFound from "../images/notFound2.png"
-// import VoiceSearch from "../components/VoiceSearch";
 
 export default function Properties() {
   const [liked, setLiked] = useState<{ [key: number]: boolean }>({});
@@ -23,12 +22,12 @@ export default function Properties() {
   const [parking, setParking] = useState<"" | true | false>("")
   const debouncedSetSearchQuery = useMemo(
     () => debounce((val: string) => {
-      setSearchQuery(val);
+      setSearchQuery(val)
       setCurrentPage(1);
     }, 500),
     []
   );
-
+  
   const { data, isLoading, isError } = useQuery({
     queryKey: ["properties", currentPage, searchQuery],
     queryFn: () => getPropertiesFn(currentPage, searchQuery),
@@ -51,12 +50,6 @@ export default function Properties() {
   const toggleLike = (index: number) => {
     setLiked(prev => ({ ...prev, [index]: !prev[index] }));
   };
-
-// const handleVoiceSearch = (text: string) => {
-//   setSearchInput(text);
-//   debouncedSetSearchQuery.cancel(); // cancel pending debounce
-//   setSearchQuery(text); // immediate search after voice input
-// };
 
   return (
     <section className="customeContainer">

@@ -63,11 +63,11 @@ body {
 }
 
 .buttonStyle {
-  @apply bg-slate-700 py-2 px-6  text-white rounded-xl cursor-pointer shadow hover:scale-105 transition-all duration-300;
+  @apply bg-slate-700 py-2 px-6 text-white rounded-xl cursor-pointer shadow hover:scale-105 transition-all duration-300;
 }
 
 .cancelButtonStyle {
-  @apply bg-red-700 py-2 px-6 text-white rounded-xl cursor-pointer transition shadow;
+  @apply bg-red-700 py-2 px-6 text-white rounded-xl cursor-pointer shadow hover:scale-105 transition-all duration-300;
 }
 .cancelButtonStyle:hover {
   @apply bg-red-800;
