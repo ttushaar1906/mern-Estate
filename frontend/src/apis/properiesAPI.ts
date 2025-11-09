@@ -1,5 +1,5 @@
-const dbHost = "http://localhost:3000/api/listing";
-// const dbHost = "https://findstay.onrender.com/api/listing";
+// const dbHost = "http://localhost:3000/api/listing";
+const dbHost = "https://findstay.onrender.com/api/listing";
 
 export const getCheapProperties = `${dbHost}/gets`;
 export const getProperties = (page = 1, search = "") =>
