@@ -38,9 +38,9 @@ export default function PropertyDetails() {
         navigate(`/property/${id}/scheduleHomeTour`)
     };
 
-    const viewOnMap = (e: React.MouseEvent<HTMLButtonElement>)=>{
-        e.preventDefault();
-        navigate(`/property/${id}/viewOnMap`)
+    const viewOnMap = (address: string) => {
+        const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(address)}`;
+        window.open(mapUrl, "_blank");
     }
 
     type BooleanFeatureKey = Extract<{
@@ -80,7 +80,7 @@ export default function PropertyDetails() {
                     {property?.propertyName}
                 </div>
                 <div className="flex gap-6">
-                    <button className="buttonStyle " onClick={viewOnMap}>View On Map</button>
+                    <button className="buttonStyle " onClick={() => viewOnMap(`${property?.address.line1}, ${property?.address.line2},${property?.address.city},${property?.address.state}`)}>View On Map</button>
                     <button className="buttonStyle " onClick={handleBookHomeTour}>Book Home Tour</button>
                 </div>
             </div>
