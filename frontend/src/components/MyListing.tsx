@@ -12,8 +12,8 @@ import { useState } from "react";
 import { SnackBarState } from "../interfaces/NotificationInt";
 import Notification from "./Notification";
 import axios from "axios";
-import { deleteProperty } from "../apis/properiesAPI";
-// import SoldToggleSwitch from "./SoldToggleSwitch";
+import { deleteProperty, toggleSold } from "../apis/properiesAPI";
+import SoldToggleSwitch from "./SoldToggleSwitch";
 
 export default function MyListing() {
   const queryClient = useQueryClient();
@@ -24,9 +24,8 @@ export default function MyListing() {
     retry: false
   });
 
-  // console.log(data);
-  
-  
+  console.log(data);
+
   const [snackBar, setSnackBar] = useState<SnackBarState>({
     open: false,
     severity: "info",
@@ -36,34 +35,34 @@ export default function MyListing() {
 
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-const deleteMutation = useMutation({
-  mutationFn: async (id: string) => {
-    return await axios.delete(deleteProperty(id), { withCredentials: true });
-  },
-  onMutate: (id: string) => {
-    setDeletingId(id);
-  },
-  onSuccess: (response) => {
-    setSnackBar({
-      open: true,
-      message: response.data.message,
-      severity: "success",
-      autoHideDuration: 3000,
-    });
-    queryClient.invalidateQueries({ queryKey: ["properties"] });
-  },
-  onError: () => {
-    setSnackBar({
-      open: true,
-      severity: "error",
-      message: "Failed to delete property",
-      autoHideDuration: 3000,
-    });
-  },
-  onSettled: () => {
-    setDeletingId(null);
-  },
-});
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return await axios.delete(deleteProperty(id), { withCredentials: true });
+    },
+    onMutate: (id: string) => {
+      setDeletingId(id);
+    },
+    onSuccess: (response) => {
+      setSnackBar({
+        open: true,
+        message: response.data.message,
+        severity: "success",
+        autoHideDuration: 3000,
+      });
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+    },
+    onError: () => {
+      setSnackBar({
+        open: true,
+        severity: "error",
+        message: "Failed to delete property",
+        autoHideDuration: 3000,
+      });
+    },
+    onSettled: () => {
+      setDeletingId(null);
+    },
+  });
 
   if (isLoading) return <Loading />;
   if (isError) return <Error message="No Property Registered by the owner" />;
@@ -101,7 +100,7 @@ const deleteMutation = useMutation({
             </div>
 
             {/* Right: Actions */}
-            <div className="flex gap-4 sm:gap-2 pr-2 my-4 w-full sm:w-auto justify-center">
+            <div className="flex gap-4 sm:gap-2 pr-2 my-4 w-full sm:w-auto justify-center items-center">
               <Link to={`/property/${item._id}`}>
                 <Tooltip title="View">
                   <IconButton>
@@ -110,7 +109,7 @@ const deleteMutation = useMutation({
                 </Tooltip>
               </Link>
 
-              <Link to={`property/${item._id}/editProperty`}>
+              <Link to={`/property/${item._id}/editProperty`}>
                 <Tooltip title="Edit">
                   <IconButton>
                     <MdEdit size={20} />
@@ -131,9 +130,14 @@ const deleteMutation = useMutation({
                 </IconButton>
               </Tooltip>
 
-              {/* <SoldToggleSwitch />   */}
-
+              <div className="flex items-center">
+                <SoldToggleSwitch
+                  apiEndpoint={toggleSold(item._id)}
+                  defaultChecked={!!item?.isSold}
+                />
+              </div>
             </div>
+
           </div>
         </div>
       ))}

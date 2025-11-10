@@ -122,7 +122,8 @@ export default function AddPropertyForm() {
       rules: ""
     }
     ],
-    _id: ""
+    _id: "",
+    isSold:false
   });
 
   const [snackBar, setSnackBar] = useState<SnackBarState>({
@@ -177,7 +178,8 @@ export default function AddPropertyForm() {
           propertyType: ""
         },
         rules: [],
-        _id: ""
+        _id: "",
+        isSold:false,
       })
 
       setTimeout(() => {

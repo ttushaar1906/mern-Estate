@@ -53,5 +53,6 @@ export interface PropertyInt {
   discountedPrice: number;
   features: Features;
   rules: rulesRegulation[];
+  isSold:Boolean;
   _id: string;
 }
