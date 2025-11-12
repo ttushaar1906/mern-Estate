@@ -3,13 +3,15 @@ import { newReg } from "./mailTemplates/newReg.js";
 import { otpSend } from "./mailTemplates/otpSend.js";
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        // user: process.env.MAILEMAIL,
-        user: "test.tushar19@gmail.com",
-        pass: process.env.MAILPASSWORD,
-    },
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "test.tushar19@gmail.com",
+    pass: process.env.MAILPASSWORD,
+  },
 });
+
 
 export const sendMailFn = async ({ to, reason, userName, userEmail, rDate,otp }) => {
     if (!to) {
