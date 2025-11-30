@@ -10,7 +10,7 @@ router.get('/getListing/:id', viewListing);
 router.get('/gets', getlisting)
 router.get('/viewOwnersProperty', verifyJWT, viewOwnerProperty)
 router.delete('/deletePropety/:id', verifyJWT, deletePropety)
-router.patch('/updateProperty/:id', verifyJWT, updateProperty)
-// router.patch('/updateProperty/:id', verifyJWT,upload.fields([{ name: "coverImages", maxCount: 4 }]), updateProperty)
+// router.patch('/updateProperty/:id', verifyJWT, updateProperty)
+router.patch('/updateProperty/:id', verifyJWT,upload.array("images", 4), updateProperty)
 router.patch('/changeStatus/:id',verifyJWT,toggleSold)
 export default router;

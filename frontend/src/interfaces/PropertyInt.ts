@@ -1,5 +1,7 @@
 interface Image {
   url: string;
+  public_id?: string;
+  _id?: string;
 }
 
 interface rulesRegulation {
@@ -20,7 +22,7 @@ export enum PropertyType {
   Commercial = "commercial",
   Industrial = "industrial",
   Land = "land",
-  Villas = "villas"
+  Villas = "villas",
 }
 
 export interface Features {
@@ -36,11 +38,11 @@ export interface Features {
   balcony: boolean;
   cctv: boolean;
   lift: boolean;
-  forSell : boolean;  // use ! for rent 
+  forSell: boolean; // use ! for rent
   noOfRooms: number;
   noOfRestRooms: number;
-  noOfLivingRoom : number;
-  sqFt: string
+  noOfLivingRoom: number;
+  sqFt: string;
   propertyType: PropertyType | "";
 }
 
@@ -53,6 +55,6 @@ export interface PropertyInt {
   discountedPrice: number;
   features: Features;
   rules: rulesRegulation[];
-  isSold:Boolean;
+  isSold: Boolean;
   _id: string;
 }

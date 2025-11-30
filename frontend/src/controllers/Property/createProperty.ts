@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createProperty } from "../../apis/properiesAPI";
+import { createProperty, updateProperty } from "../../apis/properiesAPI";
 import { PropertyInt } from "../../interfaces/PropertyInt";
 
 export const createPropertyFn = async (propertyData: PropertyInt) => {
@@ -36,4 +36,39 @@ export const createPropertyFn = async (propertyData: PropertyInt) => {
   });
 
   return response;
+};
+
+export const updatePropertyFn = async (
+  id: string,
+  data: {
+    formValues: PropertyInt;
+    newImages: File[];
+    removeImages: string[];
+  }
+) => {
+  const formData = new FormData();
+
+  // 1️⃣ Append JSON "data" as string (backend parses req.body.data)
+  formData.append(
+    "data",
+    JSON.stringify({
+      ...data.formValues,
+      removeImages: data.removeImages,
+    })
+  );
+
+  // 2️⃣ Append new image files (backend reads req.files[])
+  data.newImages.forEach((img: File) => {
+    formData.append("images", img);
+  });
+
+  // 3️⃣ API call
+  const response = await axios.patch(updateProperty(id!), formData, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
 };

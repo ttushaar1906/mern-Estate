@@ -81,7 +81,7 @@ export default function App() {
         />
         <Route path="addProperty" element={<LoadableAddProperty />} />
         <Route
-          path="user/property/:id/editProperty"
+          path="property/editProperty/:id"
           element={<LoadableUpdateProperty />}
         />
         <Route path="user" element={<LoadableUser />} />

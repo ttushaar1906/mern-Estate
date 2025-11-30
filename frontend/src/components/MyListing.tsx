@@ -24,8 +24,6 @@ export default function MyListing() {
     retry: false
   });
 
-  console.log(data);
-
   const [snackBar, setSnackBar] = useState<SnackBarState>({
     open: false,
     severity: "info",
@@ -109,7 +107,7 @@ export default function MyListing() {
                 </Tooltip>
               </Link>
 
-              <Link to={`/property/${item._id}/editProperty`}>
+              <Link to={`/property/editProperty/${item._id}`}>
                 <Tooltip title="Edit">
                   <IconButton>
                     <MdEdit size={20} />

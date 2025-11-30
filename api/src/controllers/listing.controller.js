@@ -152,24 +152,23 @@ export const deletePropety = asyncHandler(async (req, res) => {
 
 })
 
-export const updateProperty = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+// export const updateProperty = asyncHandler(async (req, res) => {
+//   const { id } = req.params;
 
-  const fieldsToUpdate = ["propertyName", "propertyDesc", "price", "discountedPrice"]
-  // const address = { line1, line2, city, state, postalCode }
-  const updateFields = {}
+//   const fieldsToUpdate = ["propertyName", "propertyDesc", "price", "discountedPrice"]
+//   // const address = { line1, line2, city, state, postalCode }
+//   const updateFields = {}
 
-  fieldsToUpdate.map((field) => {
-    if (req.body[field] !== undefined) {
-      updateFields[field] = req.body[field]
-    }
-  })
+//   fieldsToUpdate.map((field) => {
+//     if (req.body[field] !== undefined) {
+//       updateFields[field] = req.body[field]
+//     }
+//   })
 
-  const updatedResult = await Listing.findByIdAndUpdate(id, updateFields, { new: true })
+//   const updatedResult = await Listing.findByIdAndUpdate(id, updateFields, { new: true })
 
-  return res.status(200).json(new apiResponse(200, updatedResult, "Property Updated Successfully"));
-});
-
+//   return res.status(200).json(new apiResponse(200, updatedResult, "Property Updated Successfully"));
+// });
 
 export const toggleSold = asyncHandler(async (req, res) => {
   // const { isSold } = req.body
@@ -184,3 +183,70 @@ export const toggleSold = asyncHandler(async (req, res) => {
   return res.status(200).json(new apiResponse(200, result, "Status Changed"))
 
 })
+
+
+export const updateProperty = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  let propertyData = {};
+  if (req.body.data) {
+    propertyData = JSON.parse(req.body.data); // JSON string sent from frontend
+  }
+
+  let updatedProperty = await Listing.findById(id);
+  if (!updatedProperty) {
+    return res.status(404).json({ success: false, message: "Property not found" });
+  }
+
+  // 1️⃣ Remove images if any
+  if (propertyData.removeImages && propertyData.removeImages.length > 0) {
+    for (const public_id of propertyData.removeImages) {
+      await cloudinary.uploader.destroy(public_id);
+    }
+
+    // Remove from DB
+    updatedProperty.images = updatedProperty.images.filter(
+      img => !propertyData.removeImages.includes(img.public_id)
+    );
+  }
+
+  // 2️⃣ Add new images if any
+  if (req.files && req.files.length > 0) {
+    const uploadedImages = [];
+    for (const file of req.files) {
+      const result = await cloudinary.uploader.upload(file.path);
+      uploadedImages.push({ url: result.secure_url, public_id: result.public_id });
+    }
+
+    // Merge new images
+    updatedProperty.images = [...(updatedProperty.images || []), ...uploadedImages];
+  }
+
+  // 3️⃣ Update other form fields
+  const fieldsToUpdate = [
+    "propertyName",
+    "propertyDesc",
+    "price",
+    "discountedPrice",
+    "address",
+    "features",
+    "rules",
+    "isSold"
+  ];
+
+  fieldsToUpdate.forEach(field => {    
+    if (propertyData[field] !== undefined) {
+      updatedProperty[field] = propertyData[field];
+    }
+  });
+
+  // 4️⃣ Save changes
+  await updatedProperty.save();
+
+  return res.status(200).json({
+    success: true,
+    data: updatedProperty,
+    message: "Property updated successfully"
+  });
+});
+
