@@ -5,7 +5,7 @@ import { nameValidation } from "../utils/validationFile.js";
 export const viewUpcomingTours = asyncHandler(async (req, res) => {
     const userId = req.user.id;
 
-    const response = await HomeTour.find({ loggedInUser: userId }).sort({ createdAt: -1 })
+    const response = await HomeTour.find({ loggedInUser: userId }).sort({ createdAt: -1 }).select("-createdAt -updatedAt")
 
     if (!response || response.length === 0) return res.status(400).json({ statusCode: 400, message: "No home tour for current user " })
     return res.status(200).json({ statusCode: 200, message: "Home visit schedule !!", response })

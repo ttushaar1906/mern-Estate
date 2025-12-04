@@ -81,7 +81,7 @@ export default function ScheduleHomeTour() {
 
             setSnackBar({
                 open: true,
-                message: `${error?.response.data.message || "Failed to Schedule home tour"}`,
+                message: `${error?.response.data.message || error.response.data || "Failed to Schedule home tour"}`,
                 // message: "Failed to Schedule home tour",
                 severity: "error",
                 autoHideDuration: 3000

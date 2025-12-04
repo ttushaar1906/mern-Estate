@@ -6,12 +6,12 @@ import authRouter from './src/routes/auth.route.js';
 import listingRouter from './src/routes/listing.route.js';
 import contactUsRouter from './src/routes/contactUs.route.js';
 import homeVisitRouter from './src/routes/homeTour.route.js';
-
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from './src/db/index.js';
+import helmet from "helmet"
 
 // Connect DB
 connectDB();
@@ -26,6 +26,7 @@ const app = express();
 app.use(express.json({ limit: '5kb' }));
 app.use(express.urlencoded({ extended: true, limit: '5kb' }));
 app.use(cookieParser());
+app.use(helmet());
 
 const allowedOrigins = [
   process.env.CLIENT_URL,

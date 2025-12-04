@@ -55,10 +55,12 @@ export default function ContactUs() {
       });
     },
     onError: (error: any) => {
+      console.log(error);
+      
       setSnackBar({
         open: true,
         severity: "error",
-        message: error?.response?.data?.message || "Something went wrong",
+        message: error?.response?.data?.message || error.response.data || "Something went wrong",
         autoHideDuration: 3000
       });
     },

@@ -50,11 +50,11 @@ export default function GoogleLogin() {
         autoHideDuration: 3000
       })
     } catch (error: any) {
-      console.error("Google Sign-In Error:", error?.message || error);
+      console.error("Google Sign-In Error:", error?.message || error);      
       setSnackBar({
         open: true,
         severity: "error",
-        message: `Failed to signup with google account`,
+        message: error.response.data || `Failed to signup with google account`,
         autoHideDuration: 3000
       })
     }

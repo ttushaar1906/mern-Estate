@@ -90,7 +90,15 @@ export const getlisting = asyncHandler(async (req, res) => {
   const finalFilter = searchConditions.length ? { $and: searchConditions } : {};
   const skip = (page - 1) * limit;
 
-  const result = await Listing.find(finalFilter).skip(skip).limit(Number(limit));
+  const result = await Listing.find(finalFilter).skip(skip).limit(Number(limit)).select({
+    rules: 0,
+    features: 0,
+    isSold: 0,
+    RegisteredBy: 0,
+    createdAt: 0,
+    updatedAt: 0,
+    images: { $slice: 1 }, // 👈 returns only the first image
+  });
   const total = await Listing.countDocuments(finalFilter);
 
   const responseData = {
@@ -109,29 +117,27 @@ export const getlisting = asyncHandler(async (req, res) => {
 export const viewOwnerProperty = asyncHandler(async (req, res) => {
   const { userName } = req.user
   const cacheKey = "ownerProperty";
-  
+
   // Check cache
   const cachedData = await client.get(cacheKey);
   if (cachedData) {
     return res.status(200).json(JSON.parse(cachedData));
   }
 
-  const propertyResponse = await Listing.find({ RegisteredBy: userName })
+  const propertyResponse = await Listing.find({ RegisteredBy: userName },{propertyName:1,address:1,images:{ $slice: 1 }})
 
   if (!propertyResponse || propertyResponse.length === 0) return res.status(400).json({ statusCode: 400, message: "No Property Registered by the owner" })
-    
 
-   const responseData = {
-  statusCode: 200,
-  message: "Property Found with current user",
-  propertyResponse
-};
 
-await client.set(cacheKey, JSON.stringify(responseData), { EX: 300 });
-return res.status(200).json(responseData);
+  const responseData = {
+    statusCode: 200,
+    message: "Property Found with current user",
+    propertyResponse
+  };
 
-  // await client.set(cacheKey, JSON.stringify(propertyResponse), { EX: 300 })
-  // return res.status(200).json({ statusCode: 200, message: "Property Found with current user", propertyResponse })
+  await client.set(cacheKey, JSON.stringify(responseData), { EX: 300 });
+  return res.status(200).json(responseData);
+
 })
 
 export const deletePropety = asyncHandler(async (req, res) => {
@@ -172,10 +178,10 @@ export const deletePropety = asyncHandler(async (req, res) => {
 
 export const toggleSold = asyncHandler(async (req, res) => {
   // const { isSold } = req.body
-  const _id  = req.params.id  
+  const _id = req.params.id
 
   const result = await Listing.findByIdAndUpdate(_id, [{ $set: { isSold: { $not: "$isSold" } } }], { new: true })
-  
+
   if (!result) {
     throw new apiErrorHandler(400, "Failed to change status");
   }
@@ -234,7 +240,7 @@ export const updateProperty = asyncHandler(async (req, res) => {
     "isSold"
   ];
 
-  fieldsToUpdate.forEach(field => {    
+  fieldsToUpdate.forEach(field => {
     if (propertyData[field] !== undefined) {
       updatedProperty[field] = propertyData[field];
     }

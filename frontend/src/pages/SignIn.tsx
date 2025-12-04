@@ -56,7 +56,7 @@ export default function SignIn() {
             console.log(error);
             setSnackBar({
                 open: true,
-                message: `Failed to Log in ${error.response?.data?.message || error.message}`,
+                message: `Failed to Log in ${error.response?.data?.message || error.response.data || error.message}`,
                 severity: "error",
                 autoHideDuration: 3000,
             });
