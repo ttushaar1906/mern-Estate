@@ -57,4 +57,5 @@ export interface PropertyInt {
   rules: rulesRegulation[];
   isSold: Boolean;
   _id: string;
+  keywords? : any
 }

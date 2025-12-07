@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Features, PropertyInt, PropertyType } from "../interfaces/PropertyInt";
 import Notification from "./Notification";
 import { useMutation } from "@tanstack/react-query";
-import { createPropertyFn } from "../controllers/Property/createProperty";
+import { createPropertyFn, generateDescriptionFn } from "../controllers/Property/createProperty";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { State, City, IState, ICity } from 'country-state-city';
@@ -15,6 +15,7 @@ import Balcony from "../images/balcony.png"
 import sqFT from "../images/sqft.png"
 import Temple from "../images/temple.png"
 import Garden from "../images/garden.png"
+
 export default function AddPropertyForm() {
 
   type BooleanFeatureKey = Extract<{
@@ -123,7 +124,7 @@ export default function AddPropertyForm() {
     }
     ],
     _id: "",
-    isSold:false
+    isSold: false
   });
 
   const [snackBar, setSnackBar] = useState<SnackBarState>({
@@ -179,7 +180,7 @@ export default function AddPropertyForm() {
         },
         rules: [],
         _id: "",
-        isSold:false,
+        isSold: false,
       })
 
       setTimeout(() => {
@@ -349,6 +350,60 @@ export default function AddPropertyForm() {
     });
   };
 
+  const {
+    mutate: generateDescription,
+    isPending: isGenerating, // same as isLoading
+    // error: genError,
+  } = useMutation({
+    mutationFn: generateDescriptionFn,
+
+    onSuccess: (res: any) => {
+      // Backend returns -> { description: "..." }
+      setFormData((prev) => ({
+        ...prev,
+        propertyDesc: res.description,
+      }));
+
+      setSnackBar({
+        open: true,
+        message: "Description generated!",
+        severity: "success",
+        autoHideDuration: 2000,
+      });
+    },
+
+    onError: (error: any) => {
+      setSnackBar({
+        open: true,
+        message: `${error?.response?.data?.message || "Failed to generate description"}`,
+        severity: "error",
+        autoHideDuration: 3000,
+      });
+    },
+  });
+
+  const handleGenerateAI = () => {
+    if (!formData.propertyName){
+       return setSnackBar({
+        open: true,
+        message: `Please enter property name`,
+        severity: "error",
+        autoHideDuration: 3000,
+      });
+    }
+      // return alert("Please enter property name first!");
+
+    const prompt = `
+      Generate a real estate property description.
+      Property name: ${formData.propertyName}
+      Keywords: ${formData.keywords || "None"}
+      Make it attractive, simple and professional.
+      Limit to 120-150 words.
+    `;
+
+    generateDescription(prompt);
+  };
+
   return (
     <section className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-slate-50 to-white min-h-screen">
       <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
@@ -445,11 +500,42 @@ export default function AddPropertyForm() {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="inline-block text-sm font-medium text-slate-700 mb-2">
+                  Keywords for generating description(optional)
+                </label>
+                <input
+                  type="text"
+                  placeholder="Example: 2BHK, Pune, pet friendly, metro nearby"
+                  className="addPropertyStyle"
+                  name="keywords"
+                  value={formData.keywords}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* AI Generate Button */}
+              <div className="md:col-span-2">
+                <button
+                  type="button"
+                  className="w-[50%] mx-auto mb-8 buttonStyle  font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                  onClick={handleGenerateAI}
+                  disabled={isGenerating}
+                >
+                  {isGenerating ? (
+                    <div className='buttonStyle w-[75%] text-center text-white'>
+                      <CircularProgress size={10} color="inherit" />
+                    </div>
+                  ) : (<>
+                    Generate with Description AI ✨ 
+                  </>
+                  )}
+                </button>
+                {/* Description */}
+                <label className="inline-block text-sm font-medium text-slate-700 mb-2">
                   Property Description
                 </label>
+
                 <textarea
-                  // rows="4"
                   placeholder="Describe your property..."
                   className="addPropertyStyle resize-none"
                   value={formData.propertyDesc}

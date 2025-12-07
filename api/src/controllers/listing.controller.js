@@ -5,6 +5,8 @@ import { apiErrorHandler } from "../utils/error.js";
 import { cloudinaryUpload } from "../utils/cloudinary.js";
 import { v2 as cloudinary } from 'cloudinary'; // assuming you're using this
 import client from "../utils/redis.js";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 
 export const createListing = asyncHandler(async (req, res) => {
   const { propertyName, propertyDesc, price, discountedPrice, RegisteredBy, images } = req.body
@@ -124,7 +126,7 @@ export const viewOwnerProperty = asyncHandler(async (req, res) => {
     return res.status(200).json(JSON.parse(cachedData));
   }
 
-  const propertyResponse = await Listing.find({ RegisteredBy: userName },{propertyName:1,address:1,images:{ $slice: 1 }})
+  const propertyResponse = await Listing.find({ RegisteredBy: userName }, { propertyName: 1, address: 1, images: { $slice: 1 } })
 
   if (!propertyResponse || propertyResponse.length === 0) return res.status(400).json({ statusCode: 400, message: "No Property Registered by the owner" })
 
@@ -189,7 +191,6 @@ export const toggleSold = asyncHandler(async (req, res) => {
   return res.status(200).json(new apiResponse(200, result, "Status Changed"))
 
 })
-
 
 export const updateProperty = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -256,3 +257,74 @@ export const updateProperty = asyncHandler(async (req, res) => {
   });
 });
 
+
+// ALLOWED KEYWORDS for validation
+// const allowedKeywords = [
+//   "bhk", "sqft", "flat", "villa", "property", "apartment", "rent", "sale",
+//   "plot", "house", "real estate", "locality", "location", "amenities"
+// ];
+
+export const generateDescription = async (req, res) => {
+  try {
+    const { prompt } = req.body;
+
+    if (!prompt || prompt.trim() === "") {
+      return res.status(400).json({
+        success: false,
+        message: "Prompt cannot be empty."
+      });
+    }
+
+    // --------- Frontend-Side Validation (Server-Side Version) ---------
+    // const lower = prompt.toLowerCase();
+    // const isValid = allowedKeywords.some((key) => lower.includes(key));
+
+    // if (!isValid) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Only real estate related prompts are allowed."
+    //   });
+    // }
+
+    // --------- Initialize Gemini ---------
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);   // ai
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });  // which model
+
+    // --------- System + User Prompt Combined ---------
+    const systemPrompt = `
+You are a professional real estate description generator.
+You MUST follow these rules:
+
+1. ONLY generate property-related descriptions.
+2. If user asks anything unrelated (coding, cricket, jokes, etc),
+   reply ONLY with: 
+   "I can only help with real estate property descriptions."
+3. Do NOT invent details. Use ONLY what the user provides.
+4. Write in a clean, attractive, easy-to-read style.
+5. Length should be around 80–150 words unless user specifies otherwise.
+`;
+
+    const finalPrompt = `${systemPrompt} User Prompt:"${prompt}"`;
+
+    // --------- AI Request ---------
+    const result = await model.generateContent(finalPrompt);
+    // console.log(`this is result `);
+    // console.log(result);
+
+    const aiText = result.response.text();
+    // console.log(`this is ai text`);
+    // console.log(aiText);
+
+    res.json({
+      success: true,
+      description: aiText
+    });
+
+  } catch (err) {
+    console.log("AI Error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Generation failed. Try again."
+    });
+  }
+};

@@ -1,5 +1,5 @@
 import express from 'express'
-import { createListing, deletePropety, getlisting, toggleSold, updateProperty, viewListing, viewOwnerProperty } from '../controllers/listing.controller.js';
+import { createListing, deletePropety, generateDescription, getlisting, toggleSold, updateProperty, viewListing, viewOwnerProperty } from '../controllers/listing.controller.js';
 import { verifyJWT } from '../middleware/verifyJWT.middleware.js';
 import { upload } from '../middleware/multer.middleware.js';
 import { limiter } from '../utils/rateLimiting.js';
@@ -13,4 +13,5 @@ router.get('/viewOwnersProperty', verifyJWT, viewOwnerProperty)
 router.delete('/deletePropety/:id', verifyJWT, deletePropety)
 router.patch('/updateProperty/:id', verifyJWT, upload.array("images", 4), updateProperty)
 router.patch('/changeStatus/:id', verifyJWT, limiter, toggleSold)
+router.post("/generateDescription", verifyJWT, generateDescription)
 export default router;

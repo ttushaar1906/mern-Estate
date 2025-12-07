@@ -1,5 +1,9 @@
 import axios from "axios";
-import { createProperty, updateProperty } from "../../apis/properiesAPI";
+import {
+  createProperty,
+  generateDescription,
+  updateProperty,
+} from "../../apis/properiesAPI";
 import { PropertyInt } from "../../interfaces/PropertyInt";
 
 export const createPropertyFn = async (propertyData: PropertyInt) => {
@@ -70,5 +74,12 @@ export const updatePropertyFn = async (
     },
   });
 
+  return response.data;
+};
+
+export const generateDescriptionFn = async (prompt: String) => {
+  const response = await axios.post(generateDescription, {prompt}, {
+    withCredentials: true,
+  });
   return response.data;
 };

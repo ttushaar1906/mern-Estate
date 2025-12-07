@@ -10,3 +10,4 @@ export const getProperty = (id: string) => `${dbHost}/getListing/${id}`;
 export const deleteProperty = (id: string) => `${dbHost}/deletePropety/${id}`;
 export const toggleSold = (id: string) => `${dbHost}/changeStatus/${id}`;
 export const updateProperty = (id:string)=> `${dbHost}/updateProperty/${id}`;
+export const generateDescription = `${dbHost}/generateDescription`
