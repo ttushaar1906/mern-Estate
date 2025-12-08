@@ -94,7 +94,6 @@ export const getlisting = asyncHandler(async (req, res) => {
 
   const result = await Listing.find(finalFilter).skip(skip).limit(Number(limit)).select({
     rules: 0,
-    features: 0,
     isSold: 0,
     RegisteredBy: 0,
     createdAt: 0,
@@ -111,7 +110,7 @@ export const getlisting = asyncHandler(async (req, res) => {
   };
 
   // Store in cache for 5 minutes
-  await client.set(cacheKey, JSON.stringify(responseData), { EX: 300 });
+  // await client.set(cacheKey, JSON.stringify(responseData), { EX: 300 });
   // console.log(`🗄️ Cached key: ${cacheKey}`);
   return res.status(200).json(responseData);
 });

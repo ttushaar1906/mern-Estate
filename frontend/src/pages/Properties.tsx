@@ -17,9 +17,9 @@ export default function Properties() {
   const [searchInput, setSearchInput] = useState(""); // for real-time input
   const [searchQuery, setSearchQuery] = useState(""); // used in query
   const [currentPage, setCurrentPage] = useState(1);
-  const [petFriendly, setPetFriendly] = useState<"" | true | false>("");
+  const [petFriendly, setPetFriendly] = useState<String | Boolean>("");
   const [sortOrder, setSortOrder] = useState<"default" | "priceDesc">("default");
-  const [parking, setParking] = useState<"" | true | false>("")
+  const [parking, setParking] = useState<String | Boolean>("")
   const debouncedSetSearchQuery = useMemo(
     () => debounce((val: string) => {
       setSearchQuery(val)
@@ -27,7 +27,7 @@ export default function Properties() {
     }, 500),
     []
   );
-  
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ["properties", currentPage, searchQuery],
     queryFn: () => getPropertiesFn(currentPage, searchQuery),
@@ -38,7 +38,12 @@ export default function Properties() {
 
   // apply frontend filters
   const filteredProperties = rawProperties
-    .filter((property: PropertyInt) => !petFriendly || property.features.petFriendly)
+    .filter((property: PropertyInt) => {
+      const isPetOk = !petFriendly || property.features?.petFriendly === true;
+      const isParkingOk = !parking || property.features?.parking === true;
+      return isPetOk && isParkingOk;
+    })
+
     .sort((a: PropertyInt, b: PropertyInt) => {
       if (sortOrder === "priceDesc") return b.price - a.price;
       return 0;
