@@ -74,6 +74,10 @@ const listingSchema = new mongoose.Schema({
     isSold: {
         type: Boolean,
         default: false
+    },
+    embedding: {
+        type: [Number],
+        required: false,
     }
 
     // userRef: {

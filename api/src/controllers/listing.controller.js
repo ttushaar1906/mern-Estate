@@ -6,7 +6,15 @@ import { cloudinaryUpload } from "../utils/cloudinary.js";
 import { v2 as cloudinary } from 'cloudinary'; // assuming you're using this
 import client from "../utils/redis.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { deletePattern } from "../utils/deleteCache.js";
 
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const embeddingModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
+
+async function generateEmbedding(text) {
+  const result = await embeddingModel.embedContent(text);
+  return result.embedding.values;
+}
 
 export const createListing = asyncHandler(async (req, res) => {
   const { propertyName, propertyDesc, price, discountedPrice, RegisteredBy, images } = req.body
@@ -36,6 +44,9 @@ export const createListing = asyncHandler(async (req, res) => {
 
   // 1. Handle multiple image uploads
   const coverImageFiles = req.files?.coverImages || [];
+  if (!Array.isArray(coverImageFiles)) {
+    coverImageFiles = [coverImageFiles];  // convert single file to array
+  }
   const coverImageUrls = [];
 
   for (let file of coverImageFiles) {
@@ -46,6 +57,21 @@ export const createListing = asyncHandler(async (req, res) => {
   }
   const { userName } = req.user
 
+  let bhk = ""
+  if (features.noOfRooms === 1) {
+    bhk = "1 BHK"
+  } else if (features.noOfRooms === 2) {
+    bhk = "2 BHK"
+  } else if (features.noOfRooms === 3) {
+    bhk = "3 BHK"
+  } else {
+    bhk = ""
+  }
+  const combinedText = `${propertyName}. ${propertyDesc}, ${bhk}, ${features.parking} ,${price}, ${discountedPrice}, ${features.sqFt} , ${features.petFriendly} ${features.temple} ${features.forSell} ,${features.playGround}`;
+
+  // 2. Generate embedding
+  const embedding = await generateEmbedding(combinedText);
+
   const response = await Listing.create({
     propertyName,
     propertyDesc,
@@ -55,8 +81,11 @@ export const createListing = asyncHandler(async (req, res) => {
     features,
     rules,
     RegisteredBy: userName || "Unknown",
-    images: coverImageUrls
+    images: coverImageUrls,
+    embedding
   })
+
+  await deletePattern("propertyList:*");
   return res.status(200).json(new apiResponse(200, response, "Property Registered Successfully !"))
 })
 
@@ -110,7 +139,7 @@ export const getlisting = asyncHandler(async (req, res) => {
   };
 
   // Store in cache for 5 minutes
-  // await client.set(cacheKey, JSON.stringify(responseData), { EX: 300 });
+  await client.set(cacheKey, JSON.stringify(responseData), { EX: 300 });
   // console.log(`🗄️ Cached key: ${cacheKey}`);
   return res.status(200).json(responseData);
 });
@@ -155,6 +184,8 @@ export const deletePropety = asyncHandler(async (req, res) => {
     }
   }
   await currentListing.deleteOne()
+  await deletePattern("ownerProperty:*");
+
   return res.status(200).json({ statusCode: 200, message: "Listing Deleted Successfully !!" })
 
 })

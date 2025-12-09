@@ -17,7 +17,7 @@ const user = useSelector((state: any) => state.user.currentUser);
 
 
   return (
-    <div className="bg-gray-800 text-white">
+    <div className="bg-gray-800 text-white sticky top-0 z-50">
       <div className="h-14 flex items-center justify-between px-4 relative">
         <div className="h-full">
           <img src={Logo} alt="Logo" className="h-full object-cover block" />
